@@ -123,7 +123,7 @@
                                 {{-- @livewire('order-comments', ['order_id' => $order->id]) --}}
                             </div>
 
-                            @if ($order->invoices->count() == 0)
+                            {{-- @if ($order->invoices->count() == 0)
                                 <div class="col-md-12">
                                     @livewire('invoice-form', ['order_id' => $order->id])
                                 </div>
@@ -133,7 +133,7 @@
                                     <h1 class=" text-center text-success">
                                         {{ __('messages.invoice_created_successfully') }}</h1>
                                 </div>
-                            @endif
+                            @endif --}}
 
                         </div>
                     </div>
