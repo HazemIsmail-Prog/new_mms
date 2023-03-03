@@ -29,15 +29,14 @@ class Invoice extends Model
 
     public function getPaymentStatusAttribute()
     {
-        if($this->doesNtHave('payments')){
+        if ($this->doesNtHave('payments')) {
             return 'Pending';
-        }else{
-            if ($this->invoice_details()->sum('price') == $this->payments()->sum('amount')){
+        } else {
+            if ($this->invoice_details()->sum('price') == $this->payments()->sum('amount')) {
                 return 'Paid';
-            }else{
+            } else {
                 return 'Partialy Paid';
             }
         }
-
     }
 }

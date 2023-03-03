@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 
 class MessageFactory extends Factory
 {
@@ -15,7 +14,7 @@ class MessageFactory extends Factory
     public function definition()
     {
         $sender = $this->faker->randomElement([1, 2, 3, 4]);
-        switch ($sender){
+        switch ($sender) {
             case 1:
                 $receiver = $this->faker->randomElement([2, 3, 4]);
                 break;

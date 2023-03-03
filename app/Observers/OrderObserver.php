@@ -13,12 +13,11 @@ class OrderObserver
     /**
      * Handle the Order "created" event.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
     public function created(Order $order)
     {
-        if($order->status_id != 1){
+        if ($order->status_id != 1) {
             //only for db seeder to create first then change status to 2
             OrderStatus::create([
                 'order_id' => $order->id,
@@ -28,10 +27,10 @@ class OrderObserver
             ]);
         }
         OrderStatus::create([
-            'order_id'=> $order->id,
-            'status_id'=> $order->status_id,
-            'technician_id'=> $order->technician_id,
-            'user_id'=> auth()->id() ?? 1,
+            'order_id' => $order->id,
+            'status_id' => $order->status_id,
+            'technician_id' => $order->technician_id,
+            'user_id' => auth()->id() ?? 1,
         ]);
         event(new OrderCreatedEvent($order->department_id));
     }
@@ -39,15 +38,14 @@ class OrderObserver
     /**
      * Handle the Order "updated" event.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
     public function updated(Order $order)
     {
-        $latest_status_id = OrderStatus::where('order_id',$order->id)->orderByDesc('id')->first()->status_id;
-        $latest_technician_id = OrderStatus::where('order_id',$order->id)->orderByDesc('id')->first()->technician_id;
+        $latest_status_id = OrderStatus::where('order_id', $order->id)->orderByDesc('id')->first()->status_id;
+        $latest_technician_id = OrderStatus::where('order_id', $order->id)->orderByDesc('id')->first()->technician_id;
 
-        if($order->status_id != $latest_status_id || $order->technician_id != $latest_technician_id){
+        if ($order->status_id != $latest_status_id || $order->technician_id != $latest_technician_id) {
             OrderStatus::create([
                 'order_id' => $order->id,
                 'status_id' => $order->status_id,
@@ -96,7 +94,6 @@ class OrderObserver
     /**
      * Handle the Order "deleted" event.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
     public function deleted(Order $order)
@@ -107,7 +104,6 @@ class OrderObserver
     /**
      * Handle the Order "restored" event.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
     public function restored(Order $order)
@@ -118,7 +114,6 @@ class OrderObserver
     /**
      * Handle the Order "force deleted" event.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
     public function forceDeleted(Order $order)

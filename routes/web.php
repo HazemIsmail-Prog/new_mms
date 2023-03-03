@@ -22,7 +22,7 @@ use App\Http\Livewire\OrderShow;
 use App\Http\Livewire\TechnicianPage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use \Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 // LaravelLocalization Middleware & Prefix
 Route::group([
@@ -33,7 +33,6 @@ Route::group([
         'localeViewPath',
     ],
 ], function () {
-
     // Auth Routes
     Auth::routes();
 
@@ -59,10 +58,9 @@ Route::group([
             Route::get('/customers/form/{customer_id?}', CustomerForm::class)->name('customers.form');
             Route::get('/customers', CustomerIndex::class)->name('customers.index'); //livewire
             Route::get('/orders/{customer_id}/form/{order_id?}', OrderForm::class)->name('orders.form');
-            Route::get('/orders/{order}',OrderShow::class)->name('orders.show'); //livewire
-            Route::get('/orders', [OrderController::class,'index'])->name('orders.index');
+            Route::get('/orders/{order}', OrderShow::class)->name('orders.show'); //livewire
+            Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
             Route::get('/invoices', InvoiceIndex::class)->name('invoices.index'); //livewire
-
 
             //Dispaching
             Route::get('/dis_panel/{id}', DistPanel::class)->name('dist_panel.index');
@@ -71,7 +69,6 @@ Route::group([
             Route::get('/reports/monthly_orders_statistics', OrdersStatusCounter::class)->name('reports.monthly_orders_statistics'); //livewire
             Route::get('/reports/department_technician_statistics', DepartmentTechnicianCounter::class)->name('reports.department_technician_statistics'); //livewire
             Route::get('/reports/technician_timing', TechnicianTiming::class)->name('reports.technician_timing'); //livewire
-
         });
 
         // Super Admin Routes
@@ -81,8 +78,3 @@ Route::group([
         });
     });
 });
-
-
-
-
-

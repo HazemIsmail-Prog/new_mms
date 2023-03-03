@@ -6,7 +6,6 @@ use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Phone;
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CustomerSeeder extends Seeder
@@ -18,7 +17,6 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
-
         // Customer::factory(100)
         // ->create()
         // ->each(function($customer){
@@ -30,7 +28,7 @@ class CustomerSeeder extends Seeder
         ->has(Address::factory(1))
         ->create();
 
-                // \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
         // $customers = array(
         //     array('id' => '1','name' => '???','notes' => NULL,'cid' => '100000000001','active' => '1','created_by' => '18','updated_by' => '18','created_at' => '2021-08-09 11:00:00','updated_at' => '2021-08-09 11:00:00','deleted_at' => NULL),

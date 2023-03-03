@@ -10,7 +10,8 @@ class OrderStatus extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $with = ['status','creator', 'technician'];
+
+    protected $with = ['status', 'creator', 'technician'];
 
     public function status()
     {
@@ -19,12 +20,11 @@ class OrderStatus extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function technician()
     {
         return $this->belongsTo(User::class, 'technician_id');
     }
-    
 }

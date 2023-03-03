@@ -16,7 +16,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'orderNumber' => str_pad($this->id, 8, "0", STR_PAD_LEFT),
+            'orderNumber' => str_pad($this->id, 8, '0', STR_PAD_LEFT),
             'customerName' => $this->customer->name,
             'phoneNumber' => $this->phone->number,
             'address' => $this->address->full_address(),

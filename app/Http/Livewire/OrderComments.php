@@ -3,22 +3,21 @@
 namespace App\Http\Livewire;
 
 use App\Events\CommentAddedEvent;
-use App\Events\OrderCreatedEvent;
-use App\Events\OrderUpdatedPerOrderEvent;
 use App\Models\Order;
 use Livewire\Component;
 
 class OrderComments extends Component
 {
-
     public $order_id;
+
     public $order;
+
     public $comments;
+
     public $comment;
 
     public function mount()
     {
-
         $this->refresh();
     }
 
@@ -38,8 +37,6 @@ class OrderComments extends Component
         ]);
         $this->refresh();
         event(new CommentAddedEvent($this->order_id));
-
-
     }
 
     public function render()

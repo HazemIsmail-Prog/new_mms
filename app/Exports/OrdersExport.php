@@ -2,32 +2,32 @@
 
 namespace App\Exports;
 
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Illuminate\Contracts\View\View;
-
+use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class OrdersExport implements FromView, WithTitle, ShouldAutoSize, WithStyles
 {
     protected $blade_file_name;
+
     protected $title;
+
     protected $data;
 
-    function __construct($blade_file_name, $title, $data)
+    public function __construct($blade_file_name, $title, $data)
     {
         $this->blade_file_name = $blade_file_name;
         $this->title = $title;
         $this->data = $data;
     }
 
-
     public function view(): View
     {
         return view($this->blade_file_name, [
-            'data' => $this->data
+            'data' => $this->data,
         ]);
     }
 
@@ -38,13 +38,14 @@ class OrdersExport implements FromView, WithTitle, ShouldAutoSize, WithStyles
 
     public function styles(Worksheet $sheet)
     {
-        if(app()->getLocale() == 'ar'){
+        if (app()->getLocale() == 'ar') {
             $sheet->setRightToLeft(true);
         }
         $sheet->setAutoFilter('A1:N1');
+
         return [
             // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
+            1 => ['font' => ['bold' => true]],
 
             // Styling a specific cell by coordinate.
             // 'B2' => ['font' => ['italic' => true]],

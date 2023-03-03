@@ -10,8 +10,11 @@ use Livewire\Component;
 class OrdersStatusCounter extends Component
 {
     public $statuses;
+
     public $counters;
+
     public $month;
+
     public $year;
 
     public function mount()
@@ -21,6 +24,7 @@ class OrdersStatusCounter extends Component
         $this->year = now()->format('Y');
         $this->getCounters();
     }
+
     public function getCounters()
     {
         $this->counters = OrderStatus::query()
@@ -37,10 +41,12 @@ class OrdersStatusCounter extends Component
             ->orderByDesc('date')
             ->get();
     }
+
     public function updated()
     {
         $this->getCounters();
     }
+
     public function render()
     {
         return view('livewire.dashboard.orders-status-counter')->layout('layouts.slot');

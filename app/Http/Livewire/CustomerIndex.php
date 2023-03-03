@@ -10,8 +10,8 @@ use Livewire\WithPagination;
 class CustomerIndex extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
 
+    protected $paginationTheme = 'bootstrap';
 
     public $search =
     [
@@ -21,13 +21,13 @@ class CustomerIndex extends Component
         'block' => '',
         'street' => '',
     ];
+
     public $areas;
     // public $customers;
 
     public function mount()
     {
         $this->areas = Area::all();
-
     }
 
     public function updatingSearch()
@@ -42,11 +42,11 @@ class CustomerIndex extends Component
             // For Search #########################################################
 
             ->when($this->search['name'], function ($q) {
-                $q->where('name', 'like', '%' . $this->search['name'] . '%');
+                $q->where('name', 'like', '%'.$this->search['name'].'%');
             })
             ->when($this->search['phone'], function ($q) {
                 $q->whereHas('phones', function ($q2) {
-                    $q2->where('number', 'like', '%' . $this->search['phone'] . '%');
+                    $q2->where('number', 'like', '%'.$this->search['phone'].'%');
                 });
             })
             ->when($this->search['area_id'], function ($q) {
@@ -71,6 +71,7 @@ class CustomerIndex extends Component
             ->withCount('orders')
             ->orderByDesc('id')
             ->paginate(10);
-        return view('livewire.customer-index',compact('customers'))->layout('layouts.slot');
+
+        return view('livewire.customer-index', compact('customers'))->layout('layouts.slot');
     }
 }

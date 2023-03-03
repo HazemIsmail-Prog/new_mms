@@ -28,13 +28,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         if (Schema::hasTable('permissions')) {
-            $permissions = Permission::pluck('id','name');
+            $permissions = Permission::pluck('id', 'name');
             foreach ($permissions as $Permission_name => $permission_id) {
                 Gate::define($Permission_name, function ($user) use ($permission_id) {
                     return $user->hasPermission($permission_id);
                 });
             }
         }
-
     }
 }

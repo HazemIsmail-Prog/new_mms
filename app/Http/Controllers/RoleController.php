@@ -13,39 +13,34 @@ class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
-    public function index() :View
+    public function index(): View
     {
         $roles = Role::paginate(10);
-        return view('pages.roles.index',compact('roles'));
+
+        return view('pages.roles.index', compact('roles'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return View
      */
-    public function create() :View
+    public function create(): View
     {
         $permissions = Permission::orderBy('id')->get()->groupBy('section_name_en');
-        return view('pages.roles.create',compact('permissions'));
+
+        return view('pages.roles.create', compact('permissions'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return RedirectResponse
      */
-    public function store(Request $request) :RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name_ar' => ['required', 'unique:roles,name_ar'],
             'name_en' => ['required', 'unique:roles,name_en'],
             'permissions' => ['required'],
-        ],[
+        ], [
             'name_ar.required' => __('messages.name_required'),
             'name_en.required' => __('messages.name_required'),
             'name_ar.unique' => __('messages.name_used'),
@@ -59,6 +54,7 @@ class RoleController extends Controller
 
         $role = Role::create($data);
         $role->permissions()->sync($request->permissions);
+
         return redirect(route('roles.index'))->with('success', __('messages.added_successfully'));
     }
 
@@ -75,31 +71,24 @@ class RoleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param Role $role
-     * @return View
      */
-    public function edit(Role $role):View
+    public function edit(Role $role): View
     {
         $permissions = Permission::orderBy('id')->get()->groupBy('section_name_en');
         // dd($permissions);
-        return view('pages.roles.edit',compact('role','permissions'));
+        return view('pages.roles.edit', compact('role', 'permissions'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Role $role
-     * @return RedirectResponse
      */
-    public function update(Request $request, Role $role) :RedirectResponse
+    public function update(Request $request, Role $role): RedirectResponse
     {
         $request->validate([
             'name_ar' => ['required'],
             'name_en' => ['required'],
             'permissions' => ['required'],
-        ],[
+        ], [
             'name_ar.required' => __('messages.name_required'),
             'name_en.required' => __('messages.name_required'),
             'name_ar.unique' => __('messages.name_used'),
@@ -113,6 +102,7 @@ class RoleController extends Controller
 
         $role->update($data);
         $role->permissions()->sync($request->permissions);
+
         return redirect(route('roles.index'))->with('success', __('messages.updated_successfully'));
     }
 

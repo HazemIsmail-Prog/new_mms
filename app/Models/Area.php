@@ -10,20 +10,20 @@ use Illuminate\Support\Facades\App;
 class Area extends Model
 {
     use HasFactory,SoftDeletes;
+
     protected $guarded = [];
 
     public function orders()
     {
-        return $this->hasManyThrough(Order::class,Address::class);
+        return $this->hasManyThrough(Order::class, Address::class);
     }
 
-    public function getNameAttribute($value) {
-        if (App::getLocale() == 'ar'){
+    public function getNameAttribute($value)
+    {
+        if (App::getLocale() == 'ar') {
             return $this->name_ar ?? $this->name_en;
-        }else{
+        } else {
             return $this->name_en ?? $this->name_ar;
         }
     }
 }
-
-

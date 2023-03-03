@@ -8,6 +8,7 @@ use Livewire\Component;
 class OrderShow extends Component
 {
     public $order;
+
     public function mount(Order $order)
     {
         $this->order = $order;

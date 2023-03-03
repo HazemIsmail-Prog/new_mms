@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\OrderCreatedEvent;
 use App\Models\Department;
 use App\Models\Order;
 use Livewire\Component;
@@ -10,11 +9,14 @@ use Livewire\Component;
 class DistPanel extends Component
 {
     public $orders;
-    public $technicians;
-    public $department_id;
-    public $department;
-    public $todays_orders_only = false;
 
+    public $technicians;
+
+    public $department_id;
+
+    public $department;
+
+    public $todays_orders_only = false;
 
     public function render()
     {
@@ -36,9 +38,9 @@ class DistPanel extends Component
     }
 
     public function refresh_data()
-    {        
+    {
         $this->technicians = $this->department->technicians()
-            ->withCount(['orders_technician as todays_completed_orders_count'=>function($q){
+            ->withCount(['orders_technician as todays_completed_orders_count' => function ($q) {
                 $q->whereDate('completed_at', today()->format('Y-m-d'));
                 $q->where('status_id', 4);
             }])
@@ -47,20 +49,20 @@ class DistPanel extends Component
 
         $this->orders = $this->department->orders()
             ->withCount(
-                ['phone as phone_number'=>function($q){
+                ['phone as phone_number' => function ($q) {
                     $q->select(['number']);
-            }])
-            ->withCount(['customer as customer_name'=>function($q){
+                }])
+            ->withCount(['customer as customer_name' => function ($q) {
                 $q->select(['name']);
             }])
-            ->withCount(['creator as creator_name'=>function($q){
-                $q->select(['name_' .app()->getLocale()]);
+            ->withCount(['creator as creator_name' => function ($q) {
+                $q->select(['name_'.app()->getLocale()]);
             }])
-            ->withCount(['status as status_color'=>function($q){
+            ->withCount(['status as status_color' => function ($q) {
                 $q->select(['color']);
             }])
-            ->with([ 'address'])
-            ->whereNotIn('status_id', [4,6])
+            ->with(['address'])
+            ->whereNotIn('status_id', [4, 6])
             ->when($this->todays_orders_only, function ($q) {
                 $q->whereDate('created_at', today()->format('Y-m-d'));
             })

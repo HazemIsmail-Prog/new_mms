@@ -75,9 +75,10 @@ class Order extends Model
 
     public function getArriveToCompleteAttribute()
     {
-        if(isset($this->latest_arrived->created_at)){
+        if (isset($this->latest_arrived->created_at)) {
             return $this->completed_at->diff($this->latest_arrived->created_at)->format('%H:%I');
         }
+
         return '-';
     }
 
@@ -104,12 +105,12 @@ class Order extends Model
             })
             ->when($request->name, function ($q) use ($request) {
                 $q->whereHas('customer', function ($q2) use ($request) {
-                    $q2->where('name', 'like', '%' . $request->name . '%');
+                    $q2->where('name', 'like', '%'.$request->name.'%');
                 });
             })
             ->when($request->phone, function ($q) use ($request) {
                 $q->whereHas('phone', function ($q2) use ($request) {
-                    $q2->where('number', 'like', '%' . $request->phone . '%');
+                    $q2->where('number', 'like', '%'.$request->phone.'%');
                 });
             })
             ->when($request->area_id, function ($q) use ($request) {

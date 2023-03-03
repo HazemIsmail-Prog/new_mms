@@ -11,7 +11,8 @@ class AreaController extends Controller
 {
     public function index(): View
     {
-        $areas = Area::orderBy('name_' . app()->getLocale())->paginate(10);
+        $areas = Area::orderBy('name_'.app()->getLocale())->paginate(10);
+
         return view('pages.areas.index', compact('areas'));
     }
 
@@ -38,6 +39,7 @@ class AreaController extends Controller
         ];
 
         $area = Area::create($data);
+
         return redirect(route('areas.index'))->with('success', __('messages.added_successfully'));
     }
 
@@ -64,6 +66,7 @@ class AreaController extends Controller
         ];
 
         $area->update($data);
+
         return redirect(route('areas.index'))->with('success', __('messages.updated_successfully'));
     }
 

@@ -9,8 +9,8 @@ use Livewire\WithPagination;
 class InvoiceIndex extends Component
 {
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
 
+    protected $paginationTheme = 'bootstrap';
 
     public $search =
     [
@@ -29,7 +29,7 @@ class InvoiceIndex extends Component
     public function render()
     {
         $invoices = Invoice::query()
-        ->with(['order.customer','order.phone','invoice_details','payments'])
+        ->with(['order.customer', 'order.phone', 'invoice_details', 'payments'])
 
             // For Search #########################################################
 
@@ -63,6 +63,7 @@ class InvoiceIndex extends Component
             // ->withCount('orders')
             // ->orderByDesc('id')
             ->paginate(10);
+
         return view('livewire.invoice-index', compact('invoices'))->layout('layouts.slot');
     }
 }

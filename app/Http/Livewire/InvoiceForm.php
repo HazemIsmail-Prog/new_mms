@@ -12,9 +12,13 @@ use Livewire\Component;
 class InvoiceForm extends Component
 {
     public $order_id;
+
     public $order;
+
     public $selected_services = [];
+
     public $services;
+
     public $grand_total = 0;
 
     public function mount()
@@ -41,15 +45,15 @@ class InvoiceForm extends Component
 
     public function updatedSelectedServices($val, $key)
     {
-        $index = explode(".", $key)[0];
-        $field = explode(".", $key)[1];
+        $index = explode('.', $key)[0];
+        $field = explode('.', $key)[1];
 
         $this->selected_services[$index]['service_total'] = 0;
-        if (!$val == "") {
+        if (! $val == '') {
             $this->selected_services[$index]['service_total'] = @$this->selected_services[$index]['quantity'] * @$this->selected_services[$index]['price'];
         }
 
-        if ($field == 'service_id' && !$val) {
+        if ($field == 'service_id' && ! $val) {
             unset($this->selected_services[$index]);
         }
 
@@ -88,6 +92,7 @@ class InvoiceForm extends Component
 
         // event(new OrderUpdatedPerOrderEvent($this->order_id));
     }
+
     public function render()
     {
         return view('livewire.invoice-form');

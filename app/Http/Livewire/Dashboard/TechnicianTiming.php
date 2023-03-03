@@ -8,18 +8,21 @@ use Livewire\Component;
 
 class TechnicianTiming extends Component
 {
-
     public $orders;
+
     public $technicians;
+
     public $technician;
+
     public $month;
+
     public $year;
 
     public function mount()
     {
         $this->month = now()->format('m');
         $this->year = now()->format('Y');
-        $this->technicians = User::where('title_id',11)->get();
+        $this->technicians = User::where('title_id', 11)->get();
         $this->getOrders();
     }
 
@@ -31,7 +34,7 @@ class TechnicianTiming extends Component
             ->whereNotNull('completed_at')
             ->whereMonth('completed_at', $this->month)
             ->whereYear('completed_at', $this->year)
-            ->where('technician_id',$this->technician)
+            ->where('technician_id', $this->technician)
             ->get();
     }
 

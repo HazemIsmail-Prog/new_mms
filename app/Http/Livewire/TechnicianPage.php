@@ -7,19 +7,18 @@ use Livewire\Component;
 
 class TechnicianPage extends Component
 {
-
     public $order;
 
     public function render()
     {
         return view('livewire.technician-page')->layout('layouts.tech');
     }
-    
+
     public function refresh_data()
     {
         $this->order = Order::query()
         ->where('technician_id', auth()->id())
-        ->whereIn('status_id',[2,3,7])
+        ->whereIn('status_id', [2, 3, 7])
         ->orderBy('index')
         ->first();
         $this->render();

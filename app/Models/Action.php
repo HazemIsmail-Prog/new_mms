@@ -11,6 +11,7 @@ class Action extends Model
     use HasFactory,SoftDeletes;
 
     protected $guarded = [];
+
     protected $with = ['user'];
 
     public function user()

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +12,6 @@ use Korridor\LaravelHasManyMerged\HasManyMergedRelation;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable,SoftDeletes,HasManyMergedRelation;
-
 
     /**
      * The attributes that are mass assignable.
@@ -53,12 +51,12 @@ class User extends Authenticatable
 
     public function orders_technician()
     {
-        return $this->hasMany(Order::class,'technician_id');
+        return $this->hasMany(Order::class, 'technician_id');
     }
 
     public function orders_creator()
     {
-        return $this->hasMany(Order::class,'created_by');
+        return $this->hasMany(Order::class, 'created_by');
     }
 
     public function roles()
@@ -68,36 +66,35 @@ class User extends Authenticatable
 
      public function permissions()
      {
-           $permissionList = [];
+         $permissionList = [];
 
-           foreach($this->roles as $role)
-           {
-               foreach($role->permissions as $permission)
-               {
-                   if(!in_array($permission->id, $permissionList))
-                   {
-                       $permissionList[] = $permission->id;
-                   }
-               }
-           }
-           return $permissionList;
+         foreach ($this->roles as $role) {
+             foreach ($role->permissions as $permission) {
+                 if (! in_array($permission->id, $permissionList)) {
+                     $permissionList[] = $permission->id;
+                 }
+             }
+         }
+
+         return $permissionList;
      }
 
     public function hasPermission($permission)
     {
-        if ($this->permissions()){
-            if(in_array($permission,$this->permissions()))
-            {
+        if ($this->permissions()) {
+            if (in_array($permission, $this->permissions())) {
                 return true;
             }
         }
+
         return false;
     }
 
-    public function getNameAttribute($value) {
-        if (App::getLocale() == 'ar'){
+    public function getNameAttribute($value)
+    {
+        if (App::getLocale() == 'ar') {
             return $this->name_ar ?? $this->name_en;
-        }else{
+        } else {
             return $this->name_en ?? $this->name_ar;
         }
     }
@@ -106,5 +103,4 @@ class User extends Authenticatable
     {
         return $this->hasManyMerged(Message::class, ['sender_user_id', 'receiver_user_id']);
     }
-
 }

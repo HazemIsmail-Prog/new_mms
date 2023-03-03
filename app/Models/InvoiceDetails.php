@@ -10,5 +10,4 @@ class InvoiceDetails extends Model
     use HasFactory;
 
     protected $guarded = [];
-
 }

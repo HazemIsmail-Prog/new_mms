@@ -15,7 +15,7 @@ class Department extends Model
 
     public function technicians()
     {
-        return $this->belongsToMany(User::class)->whereIn('title_id',[10,11]);
+        return $this->belongsToMany(User::class)->whereIn('title_id', [10, 11]);
     }
 
     public function orders()
@@ -23,12 +23,12 @@ class Department extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function getNameAttribute($value) {
-        if (App::getLocale() == 'ar'){
+    public function getNameAttribute($value)
+    {
+        if (App::getLocale() == 'ar') {
             return $this->name_ar ?? $this->name_en;
-        }else{
+        } else {
             return $this->name_en ?? $this->name_ar;
         }
     }
-
 }

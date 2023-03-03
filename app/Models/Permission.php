@@ -19,9 +19,9 @@ class Permission extends Model
 
     public function getDescriptionAttribute()
     {
-        if (App::getLocale() == 'ar'){
+        if (App::getLocale() == 'ar') {
             return $this->desc_ar ?? $this->desc_en;
-        }else{
+        } else {
             return $this->desc_en ?? $this->desc_ar;
         }
     }
@@ -29,9 +29,9 @@ class Permission extends Model
     public function getSectionNameAttribute()
     {
         $section_name_en = ucwords(str_replace('_', ' ', $this->section_name_en));
-        if (App::getLocale() == 'ar'){
+        if (App::getLocale() == 'ar') {
             return $this->section_name_ar ?? $section_name_en;
-        }else{
+        } else {
             return $this->section_name_en ? $section_name_en : $this->section_name_ar;
         }
     }

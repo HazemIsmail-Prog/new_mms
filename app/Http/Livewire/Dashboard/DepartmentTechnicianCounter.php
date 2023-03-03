@@ -9,8 +9,11 @@ use Livewire\Component;
 class DepartmentTechnicianCounter extends Component
 {
     public $statuses;
+
     public $departments;
+
     public $month;
+
     public $year;
 
     public function mount()

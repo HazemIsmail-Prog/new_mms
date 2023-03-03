@@ -22,19 +22,21 @@ class AuthController extends Controller
         ];
 
         if (auth()->attempt($credentials)) {
-            $user = User::where('username',$request->username)->first();
+            $user = User::where('username', $request->username)->first();
+
             return new UserResource($user);
         }
 
         return response([
             'error' => true,
             'message' => 'Invalid Credentials!',
-        ],401);
+        ], 401);
     }
 
     public function test()
     {
         $users = User::all();
+
         return response([
             'data' => UserResource::collection($users),
             'error' => 0,

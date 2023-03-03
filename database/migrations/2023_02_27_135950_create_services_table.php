@@ -21,7 +21,7 @@ class CreateServicesTable extends Migration
             $table->float('min_price');
             $table->float('max_price');
             $table->foreignId('department_id')->constrained('departments');
-            
+
             $table->timestamps();
         });
     }

@@ -18,9 +18,9 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'area_id' => rand(Area::min('id'),Area::max('id')),
-            'block' => rand(1,7),
-            'street' => rand(1,10),
+            'area_id' => rand(Area::min('id'), Area::max('id')),
+            'block' => rand(1, 7),
+            'street' => rand(1, 10),
         ];
     }
 }

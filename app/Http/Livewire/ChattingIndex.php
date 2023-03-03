@@ -10,11 +10,14 @@ use Livewire\Component;
 class ChattingIndex extends Component
 {
     public $users;
-    public $message;
-    public $messages = [];
-    public $selected_user;
-    public $total_unread_messages;
 
+    public $message;
+
+    public $messages = [];
+
+    public $selected_user;
+
+    public $total_unread_messages;
 
     public function render()
     {
@@ -39,7 +42,7 @@ class ChattingIndex extends Component
             ->get();
 
         // Get Total Count of Unread Messages
-        $this->total_unread_messages = Message::where('read',0)->where('receiver_user_id',auth()->id())->count();
+        $this->total_unread_messages = Message::where('read', 0)->where('receiver_user_id', auth()->id())->count();
 
         // Get Current Selected User Messages if the chat is open
         // Should be after above to counts so the user can notice that there are new messages
@@ -55,12 +58,11 @@ class ChattingIndex extends Component
             // Scroll to bottom after getting messages
             $this->dispatchBrowserEvent('scrollToBottom', ['user_id' => $this->selected_user]);
         }
-            
     }
 
     public function sendMessageTo($receiver_id)
     {
-        if($this->message && $this->message != ''){
+        if ($this->message && $this->message != '') {
             Message::create([
                 'sender_user_id' => auth()->id(),
                 'receiver_user_id' => $receiver_id,
@@ -72,17 +74,14 @@ class ChattingIndex extends Component
             $this->dispatchBrowserEvent('scrollToBottom', ['user_id' => $this->selected_user]);
         }
     }
-    
+
     public function setSelectedUser($user_id)
     {
         // Set Selected User to Null When Close User's Chat Screen
-        if($this->selected_user == $user_id)
-        {
+        if ($this->selected_user == $user_id) {
             $this->selected_user = null;
             $this->referehData();
-        } 
-        else
-        {
+        } else {
             $this->selected_user = $user_id;
             $this->markAsRead($user_id);
             event(new MessageSentToEvent($user_id));

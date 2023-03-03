@@ -12,34 +12,26 @@ class StatusesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
-    public function index() :View
+    public function index(): View
     {
         $statuses = Status::all();
-        return view('pages.statuses.index',compact('statuses'));
+
+        return view('pages.statuses.index', compact('statuses'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  Status $status
-     * @return View
      */
-    public function edit(Status $status) :View
+    public function edit(Status $status): View
     {
-        return view('pages.statuses.edit',compact('status'));
+        return view('pages.statuses.edit', compact('status'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Status $status
-     * @return RedirectResponse
      */
-    public function update(Request $request, Status $status) :RedirectResponse
+    public function update(Request $request, Status $status): RedirectResponse
     {
         $request->validate([
             'name_ar' => [
@@ -50,7 +42,7 @@ class StatusesController extends Controller
                 'required',
                 Rule::unique('statuses')->ignore($status),
             ],
-        ],[
+        ], [
             'name_messages.required' => __('messages.name_ar_required'),
             'name_en.required' => __('messages.name_en_required'),
             'name_messages.unique' => __('messages.name_ar_used'),
@@ -64,7 +56,7 @@ class StatusesController extends Controller
         ];
 
         $status->update($data);
+
         return redirect(route('statuses.index'))->with('success', __('messages.updated_successfully'));
     }
-
 }
