@@ -3,7 +3,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>@lang('messages.customers')</div>
+                    <div>{{ __('messages.customers') }}</div>
+                    <div>{{ __('messages.results_number') }} = {{ $customers->total() }}</div>
                     @can('customers_create')
                         <div><a class="btn btn-info" href="{{ route('customers.form') }}">@lang('messages.add_customer')</a></div>
                     @endcan
