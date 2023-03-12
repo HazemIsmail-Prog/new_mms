@@ -1,5 +1,5 @@
 <div class="card shadow">
-    <div class="card-header">{{ __('messages.order_comments') }} - {{ $order->id }}</div>
+    <div class="card-header">{{ __('messages.order_comments') }}</div>
     <div class="card-body">
         <table class="table table-borderless table-striped">
             <tbody>
@@ -25,35 +25,3 @@
         </div>
     </div>
 </div>
-
-
-@if (Route::is('orders.show'))
-    @push('scripts')
-        <script>
-            Pusher.logToConsole = true;
-            var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-                cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
-            });
-            var channel = pusher.subscribe("CommentAddedChannel{{ $order->id }}");
-            var callback = (eventName, data) => {
-                @this.refresh();
-            };
-            channel.bind_global(callback);
-        </script>
-    @endpush
-
-    
-{{-- To Enable inline scripts for nested livewire component --}}
-@else 
-    <script>
-        Pusher.logToConsole = true;
-        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-            cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
-        });
-        var channel = pusher.subscribe("CommentAddedChannel{{ $order->id }}");
-        var callback = (eventName, data) => {
-            @this.refresh();
-        };
-        channel.bind_global(callback);
-    </script>
-@endif

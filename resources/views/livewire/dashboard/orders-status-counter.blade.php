@@ -34,9 +34,9 @@
                     <tr class=" bg-light">
                         <th class=" text-center align-middle">{{ __('messages.date') }}</th>
                         @foreach ($statuses as $status)
-                            <th class=" text-center align-middle">{{ $status->name }}</th>
+                            <th width="8%" class=" text-center align-middle">{{ $status->name }}</th>
                         @endforeach
-                        <th class=" text-center align-middle">{{ __('messages.total') }}</th>
+                        <th width="8%" class=" text-center align-middle">{{ __('messages.total') }}</th>
                     </tr>
                 </thead>
                 <tbody wire:poll.60000ms="getCounters">

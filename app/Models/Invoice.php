@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $guarded = [];
-    // protected $appends = ['payment_status'];
+    protected $appends = ['payment_status'];
 
     public function invoice_details()
     {
@@ -27,15 +27,29 @@ class Invoice extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function getAmountAttribute()
+    {
+        $amount = 0;
+        foreach($this->invoice_details as $row){
+            $amount += $row->quantity * $row->price;
+        }
+        return $amount;
+    }
+
+    public function getRemainingAmountAttribute()
+    {
+        return $this->amount - $this->payments()->sum('amount');
+    }
+
     public function getPaymentStatusAttribute()
     {
-        if ($this->doesNtHave('payments')) {
-            return 'Pending';
+        if ($this->payments->count() == 0) {
+            return 'pending';
         } else {
             if ($this->invoice_details()->sum('price') == $this->payments()->sum('amount')) {
-                return 'Paid';
+                return 'paid';
             } else {
-                return 'Partialy Paid';
+                return 'partially_paid';
             }
         }
     }

@@ -29,5 +29,5 @@
 </div>
 
 @section('title')
-<title>@lang('messages.dashboard')</title>
+    <title>@lang('messages.dashboard')</title>
 @endsection

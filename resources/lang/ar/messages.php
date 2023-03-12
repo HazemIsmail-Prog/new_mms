@@ -236,6 +236,20 @@ return [
     'receiveToComplete' => 'من الاستلام الى التنفيذ',
     'arriveToComplete' => 'من الوصول الى التنفيذ',
     'technician_timing' => 'توقيتات تنفيذ الطلبات حسب الفني',
+    'remaining_amount' => 'المتبقي',
+    'no_invoices_found' => 'لا يوجد فواتير',
+    'delete_invoice_confirmation' => 'سيتم حذف الفاتورة الحالية. هل انت متأكد؟',
+    'payments' => 'المدفوعات',
+    'no_payments_found' => 'لا يوجد مدفوعات',
+    'create_payment' => 'انشاء دفعة',
+    'payment_method' => 'طريقة الدفع',
+    'cash' => 'كاش',
+    'knet' => 'كي نت',
+    'delete_payment_confirmation' => 'سيتم حذف الدفعة الحالية. هل انت متأكد؟',
+    'new_order_created' => 'تم انشاء طلب جديد',
+    'you_have_new_order_no' => 'لديك طلب جديد برقم',
+    'order' => 'طلب',
+    
 
     //copy from here to english
     'roles_required' => 'يرجى اختيار الدور',

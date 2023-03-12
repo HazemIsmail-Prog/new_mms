@@ -2,23 +2,17 @@
 
 namespace App\Observers;
 
-use App\Events\OrderCreatedEvent;
-use App\Events\OrderUpdatedPerOrderEvent;
+use App\Events\OrderEvent;
+use App\Events\RefreshTechnicianPageEvent;
 use App\Models\Order;
 use App\Models\OrderStatus;
-use App\Models\User;
 
 class OrderObserver
 {
-    /**
-     * Handle the Order "created" event.
-     *
-     * @return void
-     */
     public function created(Order $order)
     {
+        //only for db seeder to create first then change status to 2
         if ($order->status_id != 1) {
-            //only for db seeder to create first then change status to 2
             OrderStatus::create([
                 'order_id' => $order->id,
                 'status_id' => 1,
@@ -26,26 +20,21 @@ class OrderObserver
                 'user_id' => auth()->id() ?? 1,
             ]);
         }
+
+        // to add order_status record with status id 1 when creating new order
         OrderStatus::create([
             'order_id' => $order->id,
             'status_id' => $order->status_id,
             'technician_id' => $order->technician_id,
             'user_id' => auth()->id() ?? 1,
         ]);
-        event(new OrderCreatedEvent($order->department_id));
+        event(new OrderEvent($order->department_id,$order->id,'order_created'));
     }
 
-    /**
-     * Handle the Order "updated" event.
-     *
-     * @return void
-     */
     public function updated(Order $order)
     {
-        $latest_status_id = OrderStatus::where('order_id', $order->id)->orderByDesc('id')->first()->status_id;
-        $latest_technician_id = OrderStatus::where('order_id', $order->id)->orderByDesc('id')->first()->technician_id;
-
-        if ($order->status_id != $latest_status_id || $order->technician_id != $latest_technician_id) {
+        // to add order_status record only if status id changed or technecian id changed
+        if ($order->isDirty('status_id') || $order->isDirty('technician_id')) {
             OrderStatus::create([
                 'order_id' => $order->id,
                 'status_id' => $order->status_id,
@@ -55,8 +44,22 @@ class OrderObserver
                 'updated_at' => now(),
             ]);
         }
-        event(new OrderCreatedEvent($order->department_id));
-        event(new OrderUpdatedPerOrderEvent($order->id));
+
+        event(new OrderEvent($order->department_id, $order->id, 'order_updated'));
+
+        // to send event to technician page only for the first order
+        if($order->index == 0){
+            $new_technician_id = $order->technician_id;
+            $old_technician_id = $order->getOriginal('technician_id');
+
+            // to send only one event if the technician not changed
+            if($new_technician_id == $old_technician_id){
+                event(new RefreshTechnicianPageEvent($new_technician_id));
+            }else{
+                event(new RefreshTechnicianPageEvent($new_technician_id));
+                event(new RefreshTechnicianPageEvent($old_technician_id));
+            }
+        }
         // if($order->index == 0){
         //     $this->toFirebase($order->technician_id, $order->id,$order->creator->name_en);
         // }
@@ -90,34 +93,4 @@ class OrderObserver
     //         curl_exec($ch);
     //     }
     // }
-
-    /**
-     * Handle the Order "deleted" event.
-     *
-     * @return void
-     */
-    public function deleted(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Handle the Order "restored" event.
-     *
-     * @return void
-     */
-    public function restored(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Handle the Order "force deleted" event.
-     *
-     * @return void
-     */
-    public function forceDeleted(Order $order)
-    {
-        //
-    }
 }

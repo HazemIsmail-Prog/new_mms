@@ -16,6 +16,7 @@ use App\Http\Livewire\Dashboard\OrdersStatusCounter;
 use App\Http\Livewire\Dashboard\TechnicianTiming;
 use App\Http\Livewire\DashboardIndex;
 use App\Http\Livewire\DistPanel;
+use App\Http\Livewire\InvoiceForm;
 use App\Http\Livewire\InvoiceIndex;
 use App\Http\Livewire\OrderForm;
 use App\Http\Livewire\OrderShow;

@@ -9,6 +9,8 @@ class OrderShow extends Component
 {
     public $order;
 
+    protected $listeners = ['order_updated' => 'render'];
+
     public function mount(Order $order)
     {
         $this->order = $order;

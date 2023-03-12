@@ -236,5 +236,23 @@ return [
     'receiveToComplete' => 'Receive to Complete',
     'arriveToComplete' => 'Arrive to Complete',
     'technician_timing' => 'Orders Compeletion Timming Per Technician',
+    'remaining_amount' => 'Remaining',
+    'no_invoices_found' => 'No Invoices',
+    'delete_invoice_confirmation' => 'This will delete current invoice. ARE YOU SURE?',
+    'payments' => 'Payments',
+    'no_payments_found' => 'No payments found',
+    'create_payment' => 'Create Payment',
+    'payment_method' => 'Payment Method',
+    'cash' => 'Cash',
+    'knet' => 'K-Net',
+    'delete_payment_confirmation' => 'This will delete current payment. ARE YOU SURE?',
+    'new_order_created' => 'New Order Created',
+    'you_have_new_order_no' => 'You have new order No.',
+    'order' => 'Order(s)',
+
+
+
+
+
 
 ];

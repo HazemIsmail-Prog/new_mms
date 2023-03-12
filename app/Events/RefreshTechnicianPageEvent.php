@@ -8,19 +8,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreatedEvent implements ShouldBroadcast
+class RefreshTechnicianPageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $department_id;
+    public $technician_id;
 
-    public function __construct($department_id)
+    public function __construct($technician_id)
     {
-        $this->department_id = $department_id;
+        $this->technician_id = $technician_id;
     }
 
     public function broadcastOn()
     {
-        return new Channel('OrderCreatedChannel'.$this->department_id);
+        return new Channel('RefreshTechnicianPageChannel' . $this->technician_id);
     }
 }

@@ -9,19 +9,10 @@ use Livewire\Component;
 class DistPanel extends Component
 {
     public $orders;
-
     public $technicians;
-
     public $department_id;
-
     public $department;
-
     public $todays_orders_only = false;
-
-    public function render()
-    {
-        return view('livewire.dist-panel')->layout('layouts.slot');
-    }
 
     public function mount($id)
     {
@@ -51,12 +42,13 @@ class DistPanel extends Component
             ->withCount(
                 ['phone as phone_number' => function ($q) {
                     $q->select(['number']);
-                }])
+                }]
+            )
             ->withCount(['customer as customer_name' => function ($q) {
                 $q->select(['name']);
             }])
             ->withCount(['creator as creator_name' => function ($q) {
-                $q->select(['name_'.app()->getLocale()]);
+                $q->select(['name_' . app()->getLocale()]);
             }])
             ->withCount(['status as status_color' => function ($q) {
                 $q->select(['color']);
@@ -75,12 +67,12 @@ class DistPanel extends Component
         $order = Order::find($order_id);
 
         switch ($tech_id) {
-            case 0: //unassgined box
+            case 0: //dragged to unassgined box
                 $order->technician_id = null;
                 $order->status_id = 1;
                 break;
 
-            case 'hold': // hold box
+            case 'hold': //dragged to on hold box
                 $order->technician_id = null;
                 $order->status_id = 5;
                 break;
@@ -91,7 +83,7 @@ class DistPanel extends Component
                 $order->cancelled_at = now();
                 break;
 
-            default:
+            default: // dragged to technician box
                 $order->technician_id = $tech_id;
                 $order->status_id = 2;
         }
@@ -102,9 +94,14 @@ class DistPanel extends Component
             $currentOrderId = $position[0];
             $currentOrderIndex = $position[1];
             $currentOrder = Order::find($currentOrderId);
-            $currentOrder->update(['index' => $currentOrderIndex]);
+            $currentOrder->index = $currentOrderIndex;
+            $currentOrder->save();
         }
-
         $this->refresh_data();
+    }
+
+    public function render()
+    {
+        return view('livewire.dist-panel')->layout('layouts.slot');
     }
 }

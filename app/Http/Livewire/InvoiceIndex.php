@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Invoice;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,14 +12,16 @@ class InvoiceIndex extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['order_updated' => '$refresh'];
+
 
     public $search =
     [
-        'name' => '',
+        'invoice_number' => '',
+        'order_number' => '',
+        'customer_name' => '',
         'phone' => '',
-        'area_id' => '',
-        'block' => '',
-        'street' => '',
+        'payment_status' => '',
     ];
 
     public function updatingSearch()
@@ -29,39 +32,36 @@ class InvoiceIndex extends Component
     public function render()
     {
         $invoices = Invoice::query()
-        ->with(['order.customer', 'order.phone', 'invoice_details', 'payments'])
+            ->with(['order.customer', 'order.phone', 'invoice_details', 'payments'])
 
             // For Search #########################################################
 
-            // ->when($this->search['name'], function ($q) {
-            //     $q->where('name', 'like', '%' . $this->search['name'] . '%');
-            // })
-            // ->when($this->search['phone'], function ($q) {
-            //     $q->whereHas('phones', function ($q2) {
-            //         $q2->where('number', 'like', '%' . $this->search['phone'] . '%');
-            //     });
-            // })
-            // ->when($this->search['area_id'], function ($q) {
-            //     $q->whereHas('addresses', function ($q2) {
-            //         $q2->where('area_id', $this->search['area_id']);
-            //     });
-            // })
-            // ->when($this->search['block'], function ($q) {
-            //     $q->whereHas('addresses', function ($q2) {
-            //         $q2->where('block', 'like', $this->search['block']);
-            //     });
-            // })
-            // ->when($this->search['street'], function ($q) {
-            //     $q->whereHas('addresses', function ($q2) {
-            //         $q2->where('street', 'like', $this->search['street']);
-            //     });
-            // })
+            ->when($this->search['invoice_number'], function ($q) {
+                $q->where('id', $this->search['invoice_number']);
+            })
+            ->when($this->search['order_number'], function ($q) {
+                $q->where('order_id', $this->search['order_number']);
+            })
+            ->when($this->search['customer_name'], function ($q) {
+                $q->whereHas('order', function ($q) {
+                    $q->whereHas('customer', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search['customer_name'] . '%');
+                    });
+                });
+            })
+            ->when($this->search['phone'], function ($q) {
+                $q->whereHas('order', function ($q) {
+                    $q->whereHas('phone', function ($q2) {
+                        $q2->where('number', 'like', '%' . $this->search['phone'] . '%');
+                    });
+                });
+            })
+            ->when($this->search['payment_status'], function ($q) {
+                $q->where('payment_status',$this->search['payment_status']);
+            })
 
             //#####################################################################
 
-            // ->with(['phones', 'addresses'])
-            // ->withCount('orders')
-            // ->orderByDesc('id')
             ->paginate(10);
 
         return view('livewire.invoice-index', compact('invoices'))->layout('layouts.slot');

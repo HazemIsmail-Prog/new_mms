@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>{{ $department->name }}</div>
+                    <div>{{ $department->name }} - {{ $orders->count() }} {{ __('messages.order') }}</div>
                     {{-- Loading Spinner --}}
                     <div wire:loading>
                         @include('components.spinner')
@@ -25,7 +25,7 @@
                         <div class="card-header text-center">{{ __('messages.unassigned') }}</div>
                         <div class="card-body p-0">
                             <div id="tech0" class="box unassigned_box d-flex align-items-start p-2 m-0">
-                                @foreach ($orders->whereNull('technician_id')->whereNotIn('status_id', 5) as $order)
+                                @foreach ($orders->whereNull('technician_id')->whereNotIn('status_id', 5)->sortByDesc('id') as $order)
                                     @include('components.order')
                                 @endforeach
                             </div>
@@ -125,11 +125,23 @@
             var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
                 cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
             });
-            var channel = pusher.subscribe("OrderCreatedChannel{{ $department_id }}");
-            var callback = (eventName, data) => {
-                @this.refresh_data();
-            };
-            channel.bind_global(callback);
+            // var channel = pusher.subscribe("OrderCreatedChannel{{ $department_id }}");
+            var channel = pusher.subscribe("OrderChannel");
+            channel.bind("App\\Events\\OrderEvent", (data) => {
+                if (data.department_id == "{{ $department_id }}") {
+                    switch (data.action) {
+                        case 'order_created':
+                            @this.refresh_data();
+                            let title = "{{ __('messages.new_order_created') }}";
+                            let body = "{{ __('messages.you_have_new_order_no') }} " + data.order_id;
+                            var notification = new Notification(title, {body});
+                            break;
+                        case 'order_updated':
+                            @this.refresh_data();
+                            break;
+                    }
+                }
+            });
 
             function loadDataFromDragulaJs() {
                 const boxNodes = document.querySelectorAll('.box');

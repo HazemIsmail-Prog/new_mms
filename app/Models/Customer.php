@@ -26,4 +26,14 @@ class Customer extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function invoices()
+    {
+        return $this->hasManyThrough(Invoice::class,Order::class);
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->invoices->sum('remaining_amount');
+    }
 }

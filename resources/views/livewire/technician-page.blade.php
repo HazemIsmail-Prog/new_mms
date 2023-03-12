@@ -77,15 +77,15 @@
                         <td colspan="2" class=" text-center">
                             @switch($order->status_id)
                                 @case(2)
-                                    <button onclick="confirmAccept()" class="btn btn-warning">@lang('messages.accept')</button>
+                                    <button wire:loading.attr="disabled" onclick="confirmAccept()" class="btn btn-warning">@lang('messages.accept')</button>
                                 @break
 
                                 @case(3)
-                                    <button onclick="confirmArrived()" class="btn btn-info">@lang('messages.arrived')</button>
+                                    <button wire:loading.attr="disabled" onclick="confirmArrived()" class="btn btn-info">@lang('messages.arrived')</button>
                                 @break
 
                                 @case(7)
-                                    <button onclick="confirmComplete()" class="btn btn-success">@lang('messages.done')</button>
+                                    <button wire:loading.attr="disabled" onclick="confirmComplete()" class="btn btn-success">@lang('messages.done')</button>
                                 @break
                             @endswitch
                         </td>
@@ -93,7 +93,11 @@
                 </table>
             </div>
         </div>
-        @livewire('order-comments', ['order_id' => $order->id], key('order-comments-' .now(). $order->id))
+        @livewire('order-comments', ['order_id' => $order->id], key('order-comments-' . now() . $order->id))
+
+        @if (in_array($order->status_id, [4, 7]))
+            @livewire('order-invoices', ['order_id' => $order->id], key('order-invoices-' . $order->id))
+        @endif
     @else
         <div class="text-center">
             @lang('messages.no_orders')
@@ -105,15 +109,14 @@
 
 @push('scripts')
     <script>
-        Pusher.logToConsole = true;
+        // Pusher.logToConsole = true;
         var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
             cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
         });
-        var channel = pusher.subscribe("OrderCreatedChannel{{ auth()->user()->departments->first()->id }}");
-        var callback = (eventName, data) => {
-            @this.refresh_data();
-        };
-        channel.bind_global(callback);
+        var channel = pusher.subscribe("RefreshTechnicianPageChannel{{ auth()->id() }}");
+        channel.bind("App\\Events\\RefreshTechnicianPageEvent", (data) => {
+            livewire.emit('order_updated');
+        });
 
         function confirmAccept() {
             if (confirm("Are you sure to execute this action?")) {

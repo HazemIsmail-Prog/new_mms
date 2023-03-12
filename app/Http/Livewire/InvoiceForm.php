@@ -21,9 +21,17 @@ class InvoiceForm extends Component
 
     public $grand_total = 0;
 
+
+
     public function mount()
     {
         $this->refresh();
+    }
+
+    public function close_invoice_form()
+    {
+        $this->reset('selected_services');
+        $this->emitTo('order-invoices', 'order_updated');
     }
 
     public function refresh()
@@ -84,13 +92,13 @@ class InvoiceForm extends Component
             }
 
             DB::commit();
-            $this->refresh();
+
+            $this->emit('order_updated');
+
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
         }
-
-        // event(new OrderUpdatedPerOrderEvent($this->order_id));
     }
 
     public function render()

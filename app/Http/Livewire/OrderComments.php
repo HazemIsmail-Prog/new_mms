@@ -2,19 +2,18 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\CommentAddedEvent;
 use App\Models\Order;
 use Livewire\Component;
 
 class OrderComments extends Component
 {
     public $order_id;
-
     public $order;
-
     public $comments;
-
     public $comment;
+
+    protected $listeners = ['order_updated' => 'refresh'];
+
 
     public function mount()
     {
@@ -24,10 +23,9 @@ class OrderComments extends Component
     public function refresh()
     {
         $this->order = Order::find($this->order_id);
-        $this->comment = '';
         $this->comments = $this->order->comments->load('user');
     }
-
+    
     public function send()
     {
         $this->validate(['comment' => 'required']);
@@ -35,8 +33,9 @@ class OrderComments extends Component
             'comment' => $this->comment,
             'user_id' => auth()->id(),
         ]);
+        $this->comment = '';
         $this->refresh();
-        event(new CommentAddedEvent($this->order_id));
+
     }
 
     public function render()

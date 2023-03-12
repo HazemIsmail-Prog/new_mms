@@ -10,4 +10,14 @@ class InvoiceDetails extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->quantity * $this->price;
+    }
 }

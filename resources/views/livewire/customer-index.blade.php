@@ -28,6 +28,7 @@
                                     <th class="text-center">{{ __('messages.tel') }}</th>
                                     <th class="text-center">{{ __('messages.address') }}</th>
                                     <th class="text-center">{{ __('messages.orders') }}</th>
+                                    <th class="text-center">{{ __('messages.remaining_amount') }}</th>
                                     <th class="text-center">{{ __('messages.actions') }}</th>
                                 </tr>
                             </thead>
@@ -53,6 +54,7 @@
                                             wire:model="search.street" class="form-control" value="{{ request('street') }}"
                                             placeholder="{{ __('messages.street') }}">
                                     </td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -90,6 +92,7 @@
                                                 @endcan
                                             @endif
                                         </td>
+                                        <td>{{ $customer->balance == 0 ? '-' : number_format($customer->balance,3) }}</td>
                                         <td class="text-center" nowrap>
                                             @can('orders_create')
                                                 <a class="text-success btn btn-sm"

@@ -67,7 +67,7 @@ class CustomerIndex extends Component
 
             //#####################################################################
 
-            ->with(['phones', 'addresses'])
+            ->with(['phones', 'addresses','invoices.invoice_details'])
             ->withCount('orders')
             ->orderByDesc('id')
             ->paginate(10);

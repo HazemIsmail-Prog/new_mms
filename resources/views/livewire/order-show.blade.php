@@ -119,21 +119,13 @@
 
                             <div class="col-md-4">
                                 @livewire('order-comments', ['order_id' => $order->id], key('order-comments-' . $order->id))
-
-                                {{-- @livewire('order-comments', ['order_id' => $order->id]) --}}
                             </div>
 
-                            {{-- @if ($order->invoices->count() == 0)
+                            @if (in_array($order->status_id, [4, 7]))
                                 <div class="col-md-12">
-                                    @livewire('invoice-form', ['order_id' => $order->id])
+                                    @livewire('order-invoices', ['order_id' => $order->id], key('order-invoices-' . $order->id))
                                 </div>
-                            @else
-                                <div class=" col-md-12">
-
-                                    <h1 class=" text-center text-success">
-                                        {{ __('messages.invoice_created_successfully') }}</h1>
-                                </div>
-                            @endif --}}
+                            @endif
 
                         </div>
                     </div>
@@ -143,18 +135,17 @@
     </div>
 
     @push('scripts')
-        <script src="{{ asset('js/app.js') }}"></script>
         <script>
             Pusher.logToConsole = true;
             var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
                 cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
             });
-            var channel = pusher.subscribe("OrderUpdatedPerOrderChannel{{ $order->id }}");
-            var callback = (eventName, data) => {
-                @this.render();
-
-            };
-            channel.bind_global(callback);
+            var channel = pusher.subscribe("OrderChannel");
+            channel.bind("App\\Events\\OrderEvent", (data) => {
+                if (data.order_id == "{{ $order->id }}") {
+                    livewire.emit('order_updated');
+                }
+            });
         </script>
     @endpush
 
