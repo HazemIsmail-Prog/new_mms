@@ -10,13 +10,9 @@ use Livewire\Component;
 class ChattingIndex extends Component
 {
     public $users;
-
     public $message;
-
     public $messages = [];
-
     public $selected_user;
-
     public $total_unread_messages;
 
     public function render()

@@ -9,9 +9,7 @@ use Livewire\Component;
 class InvoicePayments extends Component
 {
     public $invoice_id;
-
     public $invoice;
-
     public $show_payment_form;
 
     protected $listeners = [

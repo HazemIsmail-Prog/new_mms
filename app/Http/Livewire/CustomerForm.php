@@ -12,21 +12,13 @@ use Livewire\Component;
 class CustomerForm extends Component
 {
     public $action;
-
     public $customer;
-
     public $phones = [];
-
     public $addresses = [];
-
     public $name;
-
     public $cid;
-
     public $notes;
-
     public $areas;
-
     public $active = true;
 
     protected $listeners = [

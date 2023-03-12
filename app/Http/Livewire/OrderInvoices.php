@@ -9,22 +9,12 @@ use Livewire\Component;
 class OrderInvoices extends Component
 {
     public $invoices = [];
-
     public $order_id;
-
     public $order;
-
     public $show_invoice_form;
-
     public $show_payment_form;
 
-    protected $listeners = [
-        // 'invoice_created'=>'refresh',
-        // 'payment_created'=>'refresh',
-        'order_updated'=>'refresh',
-    ];
-
-
+    protected $listeners = ['order_updated'=>'refresh'];
 
     public function mount()
     {

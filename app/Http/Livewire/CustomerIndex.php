@@ -40,34 +40,24 @@ class CustomerIndex extends Component
         $customers = Customer::query()
 
             // For Search #########################################################
-
             ->when($this->search['name'], function ($q) {
-                $q->where('name', 'like', '%'.$this->search['name'].'%');
+                $q->where('name', 'like', '%' . $this->search['name'] . '%');
             })
             ->when($this->search['phone'], function ($q) {
-                $q->whereHas('phones', function ($q2) {
-                    $q2->where('number', 'like', '%'.$this->search['phone'].'%');
-                });
+                $q->whereRelation('phones', 'number', 'like', '%' . $this->search['phone'] . '%');
             })
             ->when($this->search['area_id'], function ($q) {
-                $q->whereHas('addresses', function ($q2) {
-                    $q2->where('area_id', $this->search['area_id']);
-                });
+                $q->whereRelation('addresses', 'area_id', '=', $this->search['area_id']);
             })
             ->when($this->search['block'], function ($q) {
-                $q->whereHas('addresses', function ($q2) {
-                    $q2->where('block', 'like', $this->search['block']);
-                });
+                $q->whereRelation('addresses', 'block', '=', $this->search['block']);
             })
             ->when($this->search['street'], function ($q) {
-                $q->whereHas('addresses', function ($q2) {
-                    $q2->where('street', 'like', $this->search['street']);
-                });
+                $q->whereRelation('addresses', 'street', '=', $this->search['street']);
             })
-
             //#####################################################################
 
-            ->with(['phones', 'addresses','invoices.invoice_details'])
+            ->with(['phones', 'addresses', 'invoices.invoice_details'])
             ->withCount('orders')
             ->orderByDesc('id')
             ->paginate(10);

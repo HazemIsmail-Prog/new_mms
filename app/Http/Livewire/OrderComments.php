@@ -14,7 +14,6 @@ class OrderComments extends Component
 
     protected $listeners = ['order_updated' => 'refresh'];
 
-
     public function mount()
     {
         $this->refresh();
@@ -35,7 +34,6 @@ class OrderComments extends Component
         ]);
         $this->comment = '';
         $this->refresh();
-
     }
 
     public function render()

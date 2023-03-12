@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\OrderUpdatedPerOrderEvent;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Service;
@@ -12,16 +11,10 @@ use Livewire\Component;
 class InvoiceForm extends Component
 {
     public $order_id;
-
     public $order;
-
     public $selected_services = [];
-
     public $services;
-
     public $grand_total = 0;
-
-
 
     public function mount()
     {

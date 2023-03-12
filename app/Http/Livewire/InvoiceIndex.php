@@ -35,7 +35,6 @@ class InvoiceIndex extends Component
             ->with(['order.customer', 'order.phone', 'invoice_details', 'payments'])
 
             // For Search #########################################################
-
             ->when($this->search['invoice_number'], function ($q) {
                 $q->where('id', $this->search['invoice_number']);
             })
@@ -43,23 +42,14 @@ class InvoiceIndex extends Component
                 $q->where('order_id', $this->search['order_number']);
             })
             ->when($this->search['customer_name'], function ($q) {
-                $q->whereHas('order', function ($q) {
-                    $q->whereHas('customer', function ($q) {
-                        $q->where('name', 'like', '%' . $this->search['customer_name'] . '%');
-                    });
-                });
+                $q->whereRelation('order.customer','name', 'like', '%' . $this->search['customer_name'] . '%');
             })
             ->when($this->search['phone'], function ($q) {
-                $q->whereHas('order', function ($q) {
-                    $q->whereHas('phone', function ($q2) {
-                        $q2->where('number', 'like', '%' . $this->search['phone'] . '%');
-                    });
-                });
+                $q->whereRelation('order.phone', 'number', 'like', '%' . $this->search['phone'] . '%');
             })
             ->when($this->search['payment_status'], function ($q) {
                 $q->where('payment_status',$this->search['payment_status']);
             })
-
             //#####################################################################
 
             ->paginate(10);

@@ -9,11 +9,8 @@ use Livewire\Component;
 class PaymentForm extends Component
 {
     public $invoice_id;
-
     public $invoice;
-
     public $amount;
-    
     public $method;
 
     public function close_payment_form()
@@ -33,14 +30,13 @@ class PaymentForm extends Component
         $this->method = '';
     }
 
-
-
     public function save_payment()
     {
         $this->validate([
             'amount' => 'required',
             'method' => 'required',
         ]);
+        
         Payment::create([
             'invoice_id' => $this->invoice_id,
             'user_id' => auth()->id(),
@@ -49,7 +45,6 @@ class PaymentForm extends Component
         ]);
 
         $this->emit('order_updated');
-
 
         $this->close_payment_form();
     }

@@ -10,31 +10,16 @@ use Livewire\Component;
 class OrderForm extends Component
 {
     public $customer;
-
     public $phone_id;
-
     public $address_id;
-
     public $department_id;
-
     public $departments;
-
     public $estimated_start_date;
-
     public $order_description;
-
     public $orderNotes;
-
     public $dup_orders_count;
-
     public $order;
-
     public $order_id;
-
-    public function render()
-    {
-        return view('livewire.order-form')->layout('layouts.slot');
-    }
 
     public function mount($customer_id, $order_id = null)
     {
@@ -136,5 +121,10 @@ class OrderForm extends Component
 
             return redirect()->route('orders.index');
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.order-form')->layout('layouts.slot');
     }
 }
