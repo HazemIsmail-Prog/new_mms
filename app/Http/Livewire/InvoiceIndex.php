@@ -54,6 +54,6 @@ class InvoiceIndex extends Component
 
             ->paginate(10);
 
-        return view('livewire.invoice-index', compact('invoices'))->layout('layouts.slot');
+        return view('livewire.invoice-index', compact('invoices'));
     }
 }

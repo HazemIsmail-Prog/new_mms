@@ -37,7 +37,7 @@ class CustomerForm extends Component
 
     public function render()
     {
-        return view('livewire.customer-form')->layout('layouts.slot');
+        return view('livewire.customer-form');
     }
 
     public function mount($customer_id = null)

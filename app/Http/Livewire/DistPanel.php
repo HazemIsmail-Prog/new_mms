@@ -102,6 +102,6 @@ class DistPanel extends Component
 
     public function render()
     {
-        return view('livewire.dist-panel')->layout('layouts.slot');
+        return view('livewire.dist-panel');
     }
 }

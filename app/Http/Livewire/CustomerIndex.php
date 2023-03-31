@@ -62,6 +62,6 @@ class CustomerIndex extends Component
             ->orderByDesc('id')
             ->paginate(10);
 
-        return view('livewire.customer-index', compact('customers'))->layout('layouts.slot');
+        return view('livewire.customer-index', compact('customers'));
     }
 }

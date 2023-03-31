@@ -125,6 +125,6 @@ class OrderForm extends Component
 
     public function render()
     {
-        return view('livewire.order-form')->layout('layouts.slot');
+        return view('livewire.order-form');
     }
 }
