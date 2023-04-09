@@ -249,6 +249,14 @@ return [
     'new_order_created' => 'New Order Created',
     'you_have_new_order_no' => 'You have new order No.',
     'order' => 'Order(s)',
+    'change_order_status' => 'Change Order Status',
+    'admin' => 'Administrator',
+    'edit_order_status' => 'Edit Order Status',
+    'add_row' => 'Add Row',
+
+
+
+
 
 
 

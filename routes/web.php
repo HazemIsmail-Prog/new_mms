@@ -20,6 +20,7 @@ use App\Http\Livewire\InvoiceForm;
 use App\Http\Livewire\InvoiceIndex;
 use App\Http\Livewire\OrderForm;
 use App\Http\Livewire\OrderShow;
+use App\Http\Livewire\OrderStatusForm;
 use App\Http\Livewire\TechnicianPage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -76,6 +77,7 @@ Route::group([
         Route::group(['middleware' => 'super_admin'], function () {
             Route::get('/artisan', [SuperAdminController::class, 'index'])->name('artisan.index');
             Route::post('/run', [SuperAdminController::class, 'artisan_run'])->name('artisan.run');
+            Route::get('/change_order_status', OrderStatusForm::class)->name('change_order_status'); //livewire
         });
     });
 });

@@ -157,18 +157,8 @@
         ];
     @endphp
 
-    <ul class="c-sidebar-nav">
 
-        @if (auth()->id() == 1)  
-            <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="{{route('artisan.index')}}">
-                    <svg class="c-sidebar-nav-icon">
-                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-browser')}}"></use>
-                    </svg>
-                    @lang('messages.artisan_commands')
-                </a>
-            </li>
-        @endif
+    <ul class="c-sidebar-nav">
 
         @foreach ($nav_menu_items as $item)
 
@@ -192,6 +182,30 @@
             @endswitch
 
         @endforeach
+
+        {{-- Super Admin Section --}}
+        @if (auth()->id() == 1)  
+            <li class="c-sidebar-nav-title text-info">{{ __('messages.admin') }}</li>
+
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link" href="{{route('artisan.index')}}">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-browser')}}"></use>
+                    </svg>
+                    @lang('messages.artisan_commands')
+                </a>
+            </li>
+
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link" href="{{route('change_order_status')}}">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-browser')}}"></use>
+                    </svg>
+                    @lang('messages.change_order_status')
+                </a>
+            </li>
+        @endif
+
     </ul>
 
     <button 

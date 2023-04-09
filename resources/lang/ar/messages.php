@@ -249,6 +249,12 @@ return [
     'new_order_created' => 'تم انشاء طلب جديد',
     'you_have_new_order_no' => 'لديك طلب جديد برقم',
     'order' => 'طلب',
+    'change_order_status' => 'نغيير حالة طلب',
+    'admin' => 'مسؤول النظام',
+    'edit_order_status' => 'تعديل حالات طلب',
+    'add_row' => 'اضافة صف',
+
+
     
 
     //copy from here to english
