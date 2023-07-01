@@ -14,11 +14,9 @@
                 </div>
                 <div class="card-body">
                     {{-- Show Today's Orders Only Filter --}}
-                    <div class="form-check mb-2">
-                        <input wire:model="todays_orders_only" class="form-check-input" type="checkbox" name="active"
-                            id="todays_orders_only">
-                        <label class="form-check-label"
-                            for="todays_orders_only">{{ __('messages.todays_orders_only') }}</label>
+                    <div class="form-group col-md-12 col-lg-2 p-0">
+                        <label for="start_created_at">{{ __('messages.created_at') }}</label>
+                        <input wire:model="date_filter" type="date" id="date_filter" class="form-control">
                     </div>
                     {{-- Unassigned Orders Card --}}
                     <div class="card">
@@ -134,7 +132,9 @@
                             @this.refresh_data();
                             let title = "{{ __('messages.new_order_created') }}";
                             let body = "{{ __('messages.you_have_new_order_no') }} " + data.order_id;
-                            var notification = new Notification(title, {body});
+                            var notification = new Notification(title, {
+                                body
+                            });
                             break;
                         case 'order_updated':
                             @this.refresh_data();

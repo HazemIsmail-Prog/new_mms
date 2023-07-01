@@ -12,7 +12,7 @@ class DistPanel extends Component
     public $technicians;
     public $department_id;
     public $department;
-    public $todays_orders_only = false;
+    public $date_filter;
 
     public function mount($id)
     {
@@ -23,7 +23,7 @@ class DistPanel extends Component
 
     public function updated($key)
     {
-        if (in_array($key, ['todays_orders_only'])) {
+        if (in_array($key, ['date_filter'])) {
             $this->refresh_data();
         }
     }
@@ -55,8 +55,8 @@ class DistPanel extends Component
             }])
             ->with(['address'])
             ->whereNotIn('status_id', [4, 6])
-            ->when($this->todays_orders_only, function ($q) {
-                $q->whereDate('created_at', today()->format('Y-m-d'));
+            ->when($this->date_filter, function ($q) {
+                $q->whereDate('created_at', $this->date_filter);
             })
             ->orderBy('index')
             ->get();
