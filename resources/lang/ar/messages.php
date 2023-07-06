@@ -255,6 +255,7 @@ return [
     'add_row' => 'اضافة صف',
     'roles_required' => 'يرجى اختيار الدور',
     'shifts' => 'الشفتات',
+    'shift' => 'الشفت',
     'start_time' => 'وقت البداية',
     'end_time' => 'وقت النهاية',
     'add_shift' => 'اضافة شفت',

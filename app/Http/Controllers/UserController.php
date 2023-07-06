@@ -24,6 +24,8 @@ class UserController extends Controller
             $q->where('id', '!=', 1);
         })
         ->with('departments', 'title', 'roles','shift')
+        ->orderBy('title_id')
+        ->orderBy('shift_id')
         ->paginate(1000);
 
         return view('pages.users.index', compact('users'));

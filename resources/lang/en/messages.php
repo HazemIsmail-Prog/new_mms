@@ -255,6 +255,7 @@ return [
     'add_row' => 'Add Row',
     'roles_required' => 'Role Required',
     'shifts' => 'Shifts',
+    'shift' => 'Shift',
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     'add_shift' => 'Add Shift',
