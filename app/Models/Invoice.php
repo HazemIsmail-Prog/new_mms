@@ -46,7 +46,7 @@ class Invoice extends Model
         if ($this->payments->count() == 0) {
             return 'pending';
         } else {
-            if ($this->invoice_details()->sum('price') == $this->payments()->sum('amount')) {
+            if ($this->remaining_amount == 0) {
                 return 'paid';
             } else {
                 return 'partially_paid';
