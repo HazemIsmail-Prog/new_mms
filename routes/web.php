@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\StatusesController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TitleController;
@@ -51,6 +52,7 @@ Route::group([
             Route::resource('/departments', DepartmentController::class);
             Route::resource('/services', ServiceController::class);
             Route::resource('/titles', TitleController::class);
+            Route::resource('/shifts', ShiftController::class);
             Route::get('/replicate_user/{user}', [UserController::class, 'replicateRecord'])->name('users.replicate');
             Route::resource('/users', UserController::class);
             Route::resource('/statuses', StatusesController::class);

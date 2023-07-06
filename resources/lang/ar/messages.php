@@ -253,12 +253,15 @@ return [
     'admin' => 'مسؤول النظام',
     'edit_order_status' => 'تعديل حالات طلب',
     'add_row' => 'اضافة صف',
-
-
-    
-
-    //copy from here to english
     'roles_required' => 'يرجى اختيار الدور',
+    'shifts' => 'الشفتات',
+    'start_time' => 'وقت البداية',
+    'end_time' => 'وقت النهاية',
+    'add_shift' => 'اضافة شفت',
+    'edit_shift' => 'تعديل شفت',
+    'undefined_shift' => 'شفت غير محدد',
+    'from' => 'من',
+    'to' => 'الى',
     '' => '',
     '' => '',
     '' => '',

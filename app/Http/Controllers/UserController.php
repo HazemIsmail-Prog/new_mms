@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Role;
+use App\Models\Shift;
 use App\Models\Title;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +23,7 @@ class UserController extends Controller
         ->when(auth()->id() != 1, function ($q) {
             $q->where('id', '!=', 1);
         })
-        ->with('departments', 'title', 'roles')
+        ->with('departments', 'title', 'roles','shift')
         ->paginate(1000);
 
         return view('pages.users.index', compact('users'));
@@ -36,8 +37,9 @@ class UserController extends Controller
         $departments = Department::all();
         $roles = Role::all();
         $titles = Title::all();
+        $shifts = Shift::all();
 
-        return view('pages.users.create', compact('departments', 'titles', 'roles'));
+        return view('pages.users.create', compact('departments', 'titles', 'roles','shifts'));
     }
 
     /**
@@ -52,6 +54,7 @@ class UserController extends Controller
             'email' => ['nullable', 'email'],
             'password' => ['required', 'min:5'],
             'title_id' => ['required'],
+            'shift_id' => ['nullable'],
             'departments' => ['required'],
             'roles' => ['required'],
         ], [
@@ -63,6 +66,7 @@ class UserController extends Controller
             'password.required' => __('messages.password_required'),
             'password.min' => __('messages.password_min_5'),
             'title_id.required' => __('messages.title_required'),
+            'shift_id.required' => __('messages.shift_required'),
             'departments.required' => __('messages.department_required'),
             'roles.required' => __('messages.roles_required'),
         ]);
@@ -74,6 +78,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'title_id' => $request->title_id,
+            'shift_id' => $request->shift_id,
             'active' => $request->active ? 1 : 0,
             'api_token' => bin2hex(openssl_random_pseudo_bytes(30)),
         ];
@@ -104,8 +109,9 @@ class UserController extends Controller
         $departments = Department::all();
         $roles = Role::all();
         $titles = Title::all();
+        $shifts = Shift::all();
 
-        return view('pages.users.edit', compact('user', 'titles', 'departments', 'roles'));
+        return view('pages.users.edit', compact('user', 'titles', 'departments', 'roles','shifts'));
     }
 
     /**
@@ -120,6 +126,7 @@ class UserController extends Controller
             'email' => ['nullable', 'email'],
             'password' => ['nullable', 'min:5'],
             'title_id' => ['required'],
+            'shift_id' => ['nullable'],
             'departments' => ['required'],
             'roles' => ['required'],
         ], [
@@ -131,6 +138,7 @@ class UserController extends Controller
             'password.required' => __('messages.password_required'),
             'password.min' => __('messages.password_min_5'),
             'title_id.required' => __('messages.title_required'),
+            'shift_id.required' => __('messages.shift_required'),
             'departments.required' => __('messages.department_required'),
             'roles.required' => __('messages.roles_required'),
         ]);
@@ -141,6 +149,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'title_id' => $request->title_id,
+            'shift_id' => $request->shift_id,
             'active' => $request->active ? 1 : 0,
         ];
 
@@ -170,7 +179,8 @@ class UserController extends Controller
         $departments = Department::all();
         $roles = Role::all();
         $titles = Title::all();
+        $shifts = Shift::all();
 
-        return view('pages.users.replicate', compact('user', 'titles', 'departments', 'roles'));
+        return view('pages.users.replicate', compact('user', 'titles', 'departments', 'roles','shifts'));
     }
 }

@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsTo(Title::class);
     }
 
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
     public function orders_technician()
     {
         return $this->hasMany(Order::class, 'technician_id');

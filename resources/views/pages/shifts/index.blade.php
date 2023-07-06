@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-<title>@lang('messages.users')</title>
+<title>@lang('messages.shifts')</title>
 @endsection
 
 @section('content')
@@ -10,10 +10,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>@lang('messages.users')</div>
-                        @can('users_create')
+                        <div>@lang('messages.shifts')</div>
+                        @can('shifts_create')
                             <div><a class="btn btn-info"
-                                    href="{{route('users.create')}}">@lang('messages.add_user')</a></div>
+                                    href="{{route('shifts.create')}}">@lang('messages.add_shift')</a></div>
                         @endcan
                     </div>
 
@@ -32,51 +32,29 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th>@lang('messages.name')</th>
-                                    <th class="text-center">@lang('messages.username')</th>
-                                    <th class="text-center">@lang('messages.title')</th>
-                                    <th class="text-center">@lang('messages.department')</th>
-                                    <th class="text-center">@lang('messages.roles')</th>
-                                    <th class="text-center">@lang('messages.shift')</th>
-                                    <th class="text-center">@lang('messages.status')</th>
+                                    <th class="text-center">@lang('messages.start_time')</th>
+                                    <th class="text-center">@lang('messages.end_time')</th>
                                     <th class="text-center">@lang('messages.actions')</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                @forelse($users as $user)
+                                @forelse($shifts as $title)
                                     <tr>
-                                        <td>{{$user->name}}</td>
-                                        <td class="text-center">{{$user->username}}</td>
-                                        <td class="text-center">{{$user->title->name}}</td>
-                                        <td class="text-center">{{$user->departments->pluck('name')->implode(' - ')}}</td>
-                                        <td class="text-center">{{$user->roles->pluck('name')->implode(' - ')}}</td>
-                                        <td class="text-center">{{@$user->shift->name}}</td>
-                                        <td class="text-center">
-                                        <span
-                                            class="badge badge-pill {{$user->active == 1 ? 'badge-success' : 'badge-danger' }}">
-                                            {{$user->active == 1 ? __('messages.active') : __('messages.inactive') }}
-                                        </span>
-
-                                        </td>
+                                        <td>{{$title->name}}</td>
+                                        <td class="text-center">{{$title->start_time}}</td>
+                                        <td class="text-center">{{$title->end_time}}</td>
                                         <td class="text-center" nowrap>
-                                            @can('users_edit')
-                                                <a class="text-info btn btn-sm" href="{{route('users.edit',$user)}}">
+                                            @can('shifts_edit')
+                                                <a class="text-info btn btn-sm" href="{{route('shifts.edit',$title)}}">
                                                     <svg style="width: 15px;height: 15px">
                                                         <use
                                                             xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}"></use>
                                                     </svg>
                                                 </a>
                                             @endcan
-                                            @can('users_create')
-                                                <a class="text-success btn btn-sm" href="{{route('users.replicate',$user)}}">
-                                                    <svg style="width: 15px;height: 15px">
-                                                        <use
-                                                            xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-copy')}}"></use>
-                                                    </svg>
-                                                </a>
-                                            @endcan
-                                            @can('users_delete')
-                                                <form class="d-inline" action="{{route('users.destroy',$user)}}"
+                                            @can('shifts_delete')
+                                                <form class="d-inline" action="{{route('shifts.destroy',$title)}}"
                                                       method="post">
                                                     @csrf
                                                     @method('DELETE')
@@ -93,17 +71,10 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7">No results</td>
+                                        <td class="text-center" colspan="4">No results</td>
                                     </tr>
                                 @endforelse
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="7">
-                                        {{$users->links()}}
-                                    </td>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

@@ -330,20 +330,57 @@ class PermissionSeeder extends Seeder
                 'desc_en' => 'Reports Menu',
             ],
 
+            //shifts
+
+            [
+                'name' => 'shifts_menu',
+                'section_name_ar' => 'الشيفتات',
+                'section_name_en' => 'shifts',
+                'desc_ar' => 'عرض قائمة الشيفتات',
+                'desc_en' => 'Shifts Menu',
+            ],
+            [
+                'name' => 'shifts_create',
+                'section_name_ar' => 'الشيفتات',
+                'section_name_en' => 'shifts',
+                'desc_ar' => 'انشاء الشيفتات',
+                'desc_en' => 'Shifts Create',
+            ],
+            [
+                'name' => 'shifts_edit',
+                'section_name_ar' => 'الشيفتات',
+                'section_name_en' => 'shifts',
+                'desc_ar' => 'تعديل الشيفتات',
+                'desc_en' => 'Shifts Edit',
+            ],
+            [
+                'name' => 'shifts_delete',
+                'section_name_ar' => 'الشيفتات',
+                'section_name_en' => 'shifts',
+                'desc_ar' => 'حذف الشيفتات',
+                'desc_en' => 'Shifts Delete',
+            ],
+
         ];
 
-        DB::table('permission_role')->delete();
-        DB::table('permissions')->delete();
-        Permission::insert($permissions);
-
-        // Attach All Created Permissions to the Super Admin Role
-        $permissions = Permission::all();
         foreach ($permissions as $permission) {
-            Role::find(1)->permissions()->attach($permission->id);
+            Permission::updateOrCreate(
+                [
+                    'name' => $permission['name'],
+                ],
+                [
+                    'section_name_ar' => $permission['section_name_ar'],
+                    'section_name_en' => $permission['section_name_en'],
+                    'desc_ar' => $permission['desc_ar'],
+                    'desc_en' => $permission['desc_en'],
+
+                ]
+            );
         }
-        // Role::find(2)->permissions()->attach([1,35]);
-        // Role::find(3)->permissions()->attach([1,2,21,22,23,24,25,26,27,28,29,30,31,32,33,35]);
-        // Role::find(4)->permissions()->attach([1,25,26,27,30,31,33,35]);
-        // Role::find(5)->permissions()->attach([1,25,26,30,33,34,35]);
+        Role::find(1)->permissions()->attach(Permission::pluck('id'));
+        
+        //Run the following code to seed only permissions seeder
+        //php artisan db:seed --class=PermissionSeeder
+
     }
 }

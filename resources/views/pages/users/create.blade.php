@@ -62,6 +62,18 @@
                                 </select>
                                 @error('title_id')<span class="small text-danger">{{ $message }}</span>@enderror
                             </div>
+                            <div class="form-group">
+                                <label for="shift_id">@lang('messages.shift')</label>
+                                <select name="shift_id"
+                                        class="form-control @error('shift_id') is-invalid @enderror">
+                                    <option value="">---</option>
+                                    @foreach($shifts as $shift)
+                                        <option
+                                            value="{{$shift->id}}" {{old('shift_id') == $shift->id ? 'selected' : ''}}>{{$shift->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('shift_id')<span class="small text-danger">{{ $message }}</span>@enderror
+                            </div>
                             <div class="card">
                                 <div class="card-header">{{__('messages.roles')}}</div>
                                 <div class="card-body">

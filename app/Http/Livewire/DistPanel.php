@@ -36,6 +36,7 @@ class DistPanel extends Component
                 $q->where('status_id', 4);
             }])
             ->whereActive(1)
+            ->with('shift')
             ->get();
 
         $this->orders = $this->department->orders()

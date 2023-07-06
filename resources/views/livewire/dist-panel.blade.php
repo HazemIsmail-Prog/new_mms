@@ -45,31 +45,51 @@
                                 </div>
                             </div>
                         </div>
-                        @foreach ($technicians as $technician)
-                            {{-- Technician Box --}}
-                            <div class="card" style="min-width: 266px">
-                                <div class="card-header">
-                                    <div class=" d-flex align-items-center justify-content-between m-0">
-                                        <div>
-                                            <div>{{ $technician->name }}</div>
-                                            <div class=" small">@lang('messages.todays_completed') =
-                                                {{ $technician->todays_completed_orders_count }}</div>
-                                        </div>
-                                        <a href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}"
-                                            target="__blank"
-                                            class=" btn btn-info btn-sm">{{ __('messages.view_tech_orders') }}</a>
+
+                        <div class=" d-flex">
+                            @foreach ($technicians->sortBy('shift.start_time')->groupBy('shift_id') as $shift_technicians)
+                                <div class="d-flex flex-column">
+                                    <div class="card-header">
+                                        @if ($shift_technicians->first()->shift_id)
+                                            {{ $shift_technicians->first()->shift->name }}
+                                            {{ __('messages.from') }}
+                                            {{ date('h:i', strtotime($shift_technicians->first()->shift->start_time)) }}
+                                            {{ __('messages.to') }}
+                                            {{ date('h:i', strtotime($shift_technicians->first()->shift->end_time)) }}
+                                        @else
+                                            {{ __('messages.undefined_shift') }}
+                                        @endif
                                     </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="tech{{ $technician->id }}"
-                                        class="box tech_box d-flex flex-column p-2 m-0 align-items-center">
-                                        @foreach ($orders->where('technician_id', $technician->id) as $order)
-                                            @include('components.order')
+                                    <div class="d-flex align-items-start">
+                                        @foreach ($shift_technicians as $technician)
+                                            {{-- Technician Box --}}
+                                            <div class="card" style="min-width: 266px">
+                                                <div class="card-header">
+                                                    <div class=" d-flex align-items-center justify-content-between m-0">
+                                                        <div>
+                                                            <div>{{ $technician->name }}</div>
+                                                            <div class=" small">@lang('messages.todays_completed') =
+                                                                {{ $technician->todays_completed_orders_count }}</div>
+                                                        </div>
+                                                        <a href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}"
+                                                            target="__blank"
+                                                            class=" btn btn-info btn-sm">{{ __('messages.view_tech_orders') }}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <div id="tech{{ $technician->id }}"
+                                                        class="box tech_box d-flex flex-column p-2 m-0 align-items-center">
+                                                        @foreach ($orders->where('technician_id', $technician->id) as $order)
+                                                            @include('components.order')
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

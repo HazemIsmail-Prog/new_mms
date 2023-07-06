@@ -59,6 +59,13 @@
                         'display_name'      => __('messages.titles'),
                     ],
                     [
+                        'permission_name'   => 'shifts_menu',
+                        'type'              => 'nav_menu_item',
+                        'route'             => route('shifts.index'),
+                        'icon'              => asset('vendors/@coreui/icons/svg/free.svg#cil-fork'),
+                        'display_name'      => __('messages.shifts'),
+                    ],
+                    [
                         'permission_name'   => 'users_menu',
                         'type'              => 'nav_menu_item',
                         'route'             => route('users.index'),
