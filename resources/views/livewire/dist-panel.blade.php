@@ -46,7 +46,7 @@
                             </div>
                         </div>
 
-                        <div class=" d-flex">
+                        <div class=" d-flex" style="overflow: auto">
                             @foreach ($technicians->sortBy('shift.start_time')->groupBy('shift_id') as $shift_technicians)
                                 <div class="d-flex flex-column overflow-x-auto">
                                     <div class="card-header">
