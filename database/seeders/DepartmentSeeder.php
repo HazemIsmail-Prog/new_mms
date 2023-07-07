@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DepartmentSeeder extends Seeder
@@ -15,11 +16,64 @@ class DepartmentSeeder extends Seeder
     public function run()
     {
         $departments = [
-            ['id' => '1', 'name_ar' => 'الادارة', 'name_en' => 'Management', 'active' => '1', 'is_service' => '0', 'created_at' => '2021-05-20 23:14:27', 'updated_at' => '2021-05-21 07:18:28', 'deleted_at' => null],
-            ['id' => '2', 'name_ar' => 'تكييف', 'name_en' => 'Air Conditioning', 'active' => '1', 'is_service' => '1', 'created_at' => '2021-05-20 23:27:50', 'updated_at' => '2021-06-18 18:05:22', 'deleted_at' => null],
-            // array('id' => '3', 'name_ar' => 'كهرباء', 'name_en' => 'Electricity', 'active' => '1', 'is_service' => '1', 'created_at' => '2021-05-20 23:22:11', 'updated_at' => '2021-06-18 18:05:10', 'deleted_at' => NULL),
-            // array('id' => '4', 'name_ar' => 'صحي', 'name_en' => 'Plumbing', 'active' => '1', 'is_service' => '1', 'created_at' => '2021-05-20 23:22:39', 'updated_at' => '2021-06-18 18:05:16', 'deleted_at' => NULL),
+            [
+                'name_ar' => 'الادارة', 
+                'name_en' => 'Management', 
+                'active' => 1, 
+                'is_service' => 0, 
+            ],
+            [
+                'name_ar' => 'تكييف وثلاجات', 
+                'name_en' => 'Structure',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'صحي', 
+                'name_en' => 'Structure',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'كهرباء', 
+                'name_en' => 'Structure',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'الومنيوم ونجارة', 
+                'name_en' => 'Aluminum & Carpentry',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'كاميرات', 
+                'name_en' => 'Cameras',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'ستالايت', 
+                'name_en' => 'Satellite',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'صبغ', 
+                'name_en' => 'Painting',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
+            [
+                'name_ar' => 'انشائي', 
+                'name_en' => 'Structure',
+                'active' => 1,
+                'is_service' => 1, 
+            ],
         ];
         Department::insert($departments);
+
+        User::find(1)->departments()->attach(Department::pluck('id'));
+
     }
 }

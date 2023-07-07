@@ -20,8 +20,9 @@ class RoleSeeder extends Seeder
             ['id' => '3', 'name_ar' => 'مسؤول كول سنتر', 'name_en' => 'Call Center Supervisor', 'created_at' => '2021-09-03 18:39:29', 'updated_at' => '2021-09-03 18:39:29'],
             ['id' => '4', 'name_ar' => 'كول سنتر', 'name_en' => 'Call Center', 'created_at' => '2021-09-03 18:40:01', 'updated_at' => '2021-09-03 18:40:01'],
             ['id' => '5', 'name_ar' => 'موزع', 'name_en' => 'Dispacher', 'created_at' => '2021-09-03 18:40:46', 'updated_at' => '2021-09-03 18:40:46'],
-            ['id' => '6', 'name_ar' => 'مراقب', 'name_en' => 'Foreman', 'created_at' => '2021-09-03 19:00:07', 'updated_at' => '2021-09-03 19:00:07'],
-            ['id' => '7', 'name_ar' => 'فني', 'name_en' => 'Technician', 'created_at' => '2021-09-03 19:00:27', 'updated_at' => '2021-09-03 19:00:27'],
+            ['id' => '6', 'name_ar' => 'محاسب', 'name_en' => 'Accountant', 'created_at' => '2021-09-03 18:40:46', 'updated_at' => '2021-09-03 18:40:46'],
+            ['id' => '7', 'name_ar' => 'كاشير', 'name_en' => 'Cashier', 'created_at' => '2021-09-03 18:40:46', 'updated_at' => '2021-09-03 18:40:46'],
+            ['id' => '8', 'name_ar' => 'فني', 'name_en' => 'Technician', 'created_at' => '2021-09-03 18:40:46', 'updated_at' => '2021-09-03 18:40:46'],
         ];
         Role::insert($roles);
     }

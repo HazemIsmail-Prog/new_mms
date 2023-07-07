@@ -17,22 +17,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             PermissionSeeder::class,
-            DepartmentSeeder::class,
-            ServiceSeeder::class,
+            PermissionRoleSeeder::class,
+            // ServiceSeeder::class,
             TitleSeeder::class,
             UserSeeder::class,
-            // DepartmentUserSeeder::class,
+            DepartmentSeeder::class,
             StatusSeeder::class,
             AreaSeeder::class,
             CustomerSeeder::class,
             // OrderSeeder::class,
             // MessageSeeder::class,
         ]);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

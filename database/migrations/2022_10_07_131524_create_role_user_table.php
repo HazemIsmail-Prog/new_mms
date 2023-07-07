@@ -17,7 +17,6 @@ class CreateRoleUserTable extends Migration
             $table->foreignId('role_id')->constrained('roles');
             $table->foreignId('user_id')->constrained('users');
             $table->primary(['role_id', 'user_id']);
-            $table->timestamps();
         });
     }
 

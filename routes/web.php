@@ -54,7 +54,9 @@ Route::group([
             Route::resource('/titles', TitleController::class);
             Route::resource('/shifts', ShiftController::class);
             Route::get('/replicate_user/{user}', [UserController::class, 'replicateRecord'])->name('users.replicate');
-            Route::resource('/users', UserController::class);
+            Route::post('/users/import', [UserController::class, 'import'])->name('users.import');
+            Route::get('/users/login_as/{user}', [UserController::class, 'login_as'])->name('users.login_as');
+            Route::resource('/users', UserController::class)->middleware('can:users_menu');
             Route::resource('/statuses', StatusesController::class);
             Route::resource('/areas', AreaController::class);
 

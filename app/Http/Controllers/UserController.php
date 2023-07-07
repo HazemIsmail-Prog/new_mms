@@ -11,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -184,5 +186,17 @@ class UserController extends Controller
         $shifts = Shift::all();
 
         return view('pages.users.replicate', compact('user', 'titles', 'departments', 'roles','shifts'));
+    }
+    
+    public function import(Request $request)
+    {
+        Excel::import(new UsersImport, request()->file('file'));
+        return redirect()->route('users.index')->with('success', __('messages.imported_successfully'));
+    }
+
+    public function login_as(User $user)
+    {
+        auth()->loginUsingId($user->id, true);
+        return redirect()->route('home');
     }
 }

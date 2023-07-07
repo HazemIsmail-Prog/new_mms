@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     {{-- Technicians --}}
-                    <div class="d-flex align-items-start justify-content-start tech_list" style="overflow: auto">
+                    <div class="d-flex align-items-start justify-content-start tech_list">
                         {{-- On Hold Orders Box --}}
                         <div class="card" style="min-width: 266px">
                             <div class="card-header text-center d-flex justify-content-between m-0"
@@ -48,7 +48,7 @@
 
                         <div class=" d-flex">
                             @foreach ($technicians->sortBy('shift.start_time')->groupBy('shift_id') as $shift_technicians)
-                                <div class="d-flex flex-column">
+                                <div class="d-flex flex-column overflow-x-auto">
                                     <div class="card-header">
                                         @if ($shift_technicians->first()->shift_id)
                                             {{ $shift_technicians->first()->shift->name }}
