@@ -42,10 +42,12 @@
                         <td>{{ $department->completed_orders_count }}</td>
                     </tr>
                     @foreach ($department->technicians as $technician)
-                        <tr class=" text-center">
-                            <td>{{ $technician->name }}</td>
-                            <td>{{ $technician->completed_orders_count }}</td>
-                        </tr>
+                        @if ($technician->completed_orders_count > 0)
+                            <tr class=" text-center">
+                                <td>{{ $technician->name }}</td>
+                                <td>{{ $technician->completed_orders_count }}</td>
+                            </tr>
+                        @endif
                     @endforeach
                 @endforeach
             </tbody>

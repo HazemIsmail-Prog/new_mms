@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DepartmentSeeder::class,
             StatusSeeder::class,
-            AreaSeeder::class,
-            CustomerSeeder::class,
+            // AreaSeeder::class,
+            // CustomerSeeder::class,
             // OrderSeeder::class,
             // MessageSeeder::class,
         ]);
