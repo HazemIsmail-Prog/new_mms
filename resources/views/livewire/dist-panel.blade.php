@@ -48,8 +48,13 @@
 
                         <div class=" d-flex" style="overflow: auto">
                             @foreach ($technicians->sortBy('shift.start_time')->groupBy('shift_id') as $shift_technicians)
-                                <div class="d-flex flex-column overflow-x-auto">
-                                    <div class="card-header">
+                                {{-- Shift Box --}}
+                                <div x-data="{ show_shift: true }" class="d-flex flex-column overflow-x-auto mb-0"
+                                    style="gap: 0;">
+                                    <div
+                                        class="card-header d-flex mb-0  align-items-center"
+                                        :class="show_shift ? 'justify-content-between' : 'flex-column-reverse justify-content-end'"
+                                        :style="show_shift ? '  min-width: 266px;' : 'width: 50px;height:366px;'">
                                         @if ($shift_technicians->first()->shift_id)
                                             {{ $shift_technicians->first()->shift->name }}
                                             {{ __('messages.from') }}
@@ -59,24 +64,48 @@
                                         @else
                                             {{ __('messages.undefined_shift') }}
                                         @endif
+                                        <svg @click="show_shift=!show_shift" style="width: 15px;height: 15px">
+                                            <use x-show="show_shift" 
+                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-minus') }}">
+                                            </use>
+                                            <use x-show="!show_shift" 
+                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus') }}">
+                                            </use>
+                                        </svg>
                                     </div>
-                                    <div class="d-flex align-items-start">
+                                    <div  class="d-flex align-items-start" style="gap: 1px;">
                                         @foreach ($shift_technicians as $technician)
                                             {{-- Technician Box --}}
-                                            <div class="card" style="min-width: 266px">
-                                                <div class="card-header">
-                                                    <div class=" d-flex align-items-center justify-content-between m-0">
-                                                        <div>
+                                            <div x-show="show_shift"  x-data="{ show: true }" class="card mb-0"
+                                                >
+                                                <div class="card-header" :style="show ? 'width: 266px;' : 'width: 50px;height:319px;'">
+                                                    <div class=" d-flex align-items-center justify-content-between m-0"
+                                                        :class="show ? '' : 'flex-column-reverse'">
+                                                        <div class=" d-flex flex-column mb-0" style="gap: 0">
                                                             <a class=" text-white text-decoration-none" target="__blank"
-                                                                href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}">{{ $technician->name }}</a>
-                                                            <a class="d-block small text-white text-decoration-none" target="__blank" href="{{ route('orders.index', ['technician_id' => [$technician->id] , 'status_id' => [4],'start_completed_at' => date('Y-m-d'),'end_completed_at'=>date('Y-m-d')]) }}" class=" small">@lang('messages.todays_completed') =
-                                                                {{ $technician->todays_completed_orders_count }}</a>
-                                                            {{-- <div class=" small">@lang('messages.todays_completed') =
-                                                                {{ $technician->todays_completed_orders_count }}</div> --}}
+                                                                href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}">
+                                                                {{ $technician->name }}
+                                                            </a>
+                                                            <div x-show="show">
+                                                                <a class="small text-white text-decoration-none"
+                                                                    target="__blank"
+                                                                    href="{{ route('orders.index', ['technician_id' => [$technician->id], 'status_id' => [4], 'start_completed_at' => date('Y-m-d'), 'end_completed_at' => date('Y-m-d')]) }}">
+                                                                    @lang('messages.todays_completed') =
+                                                                    {{ $technician->todays_completed_orders_count }}
+                                                                </a>
+                                                            </div>
                                                         </div>
+                                                        <svg @click="show=!show" style="width: 15px;height: 15px">
+                                                            <use x-show="show" 
+                                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-minus') }}">
+                                                            </use>
+                                                            <use x-show="!show" 
+                                                                xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-plus') }}">
+                                                            </use>
+                                                        </svg>
                                                     </div>
                                                 </div>
-                                                <div class="card-body p-0">
+                                                <div class="card-body p-0" x-show="show">
                                                     <div id="tech{{ $technician->id }}"
                                                         class="box tech_box d-flex flex-column p-2 m-0 align-items-center">
                                                         @foreach ($orders->where('technician_id', $technician->id) as $order)
