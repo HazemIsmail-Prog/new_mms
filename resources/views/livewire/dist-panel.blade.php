@@ -67,13 +67,13 @@
                                                 <div class="card-header">
                                                     <div class=" d-flex align-items-center justify-content-between m-0">
                                                         <div>
-                                                            <div>{{ $technician->name }}</div>
-                                                            <div class=" small">@lang('messages.todays_completed') =
-                                                                {{ $technician->todays_completed_orders_count }}</div>
+                                                            <a class=" text-white text-decoration-none" target="__blank"
+                                                                href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}">{{ $technician->name }}</a>
+                                                            <a class="d-block small text-white text-decoration-none" target="__blank" href="{{ route('orders.index', ['technician_id' => [$technician->id] , 'status_id' => [4],'start_completed_at' => date('Y-m-d'),'end_completed_at'=>date('Y-m-d')]) }}" class=" small">@lang('messages.todays_completed') =
+                                                                {{ $technician->todays_completed_orders_count }}</a>
+                                                            {{-- <div class=" small">@lang('messages.todays_completed') =
+                                                                {{ $technician->todays_completed_orders_count }}</div> --}}
                                                         </div>
-                                                        <a href="{{ route('orders.index', ['technician_id' => [$technician->id]]) }}"
-                                                            target="__blank"
-                                                            class=" btn btn-info btn-sm">{{ __('messages.view_tech_orders') }}</a>
                                                     </div>
                                                 </div>
                                                 <div class="card-body p-0">
