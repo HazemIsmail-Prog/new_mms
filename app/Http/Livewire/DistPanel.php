@@ -35,6 +35,9 @@ class DistPanel extends Component
                 $q->whereDate('completed_at', today()->format('Y-m-d'));
                 $q->where('status_id', 4);
             }])
+            ->when(auth()->user()->shift_id,function($q){
+                $q->where('shift_id',auth()->user()->shift_id);
+            })
             ->whereActive(1)
             ->with('shift')
             ->get();
