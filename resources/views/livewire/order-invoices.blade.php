@@ -12,7 +12,8 @@
                             <div>{{ __('messages.invoice_number') }} : {{ $invoice->id }}</div>
                             @if ($invoice->payments->count() == 0)
                                 <div>
-                                    <form method="POST" class="w-100 m-0" wire:submit.prevent="delete_invoice({{ $invoice->id }})">
+                                    <form method="POST" class="w-100 m-0"
+                                        wire:submit.prevent="delete_invoice({{ $invoice->id }})">
                                         <button type="submit" class=" m-0 btn btn-sm btn-outline-danger"
                                             onclick="return confirm('{{ __('messages.delete_invoice_confirmation') }}')">
                                             <svg style="width: 15px;height: 15px">
@@ -29,26 +30,47 @@
                             <table class=" table table-borderless m-0 font-sm">
                                 <tbody>
                                     <tr class=" border-bottom">
-                                        <th>{{ __('messages.services') }}</th>
+                                        <th></th>
                                         <th class=" text-center">{{ __('messages.quantity') }}</th>
                                         <th style="text-align: right;">{{ __('messages.unit_price') }}</th>
                                         <th style="text-align: right;">{{ __('messages.total') }}</th>
                                     </tr>
-                                    @foreach ($invoice->invoice_details as $row)
-                                        <tr>
-                                            <td class=" font-xs">{{ $row->service->name }}</td>
-                                            <td class=" text-center font-xs">{{ $row->quantity }}</td>
-                                            <td class=" font-xs" style="text-align: right;">
-                                                {{ number_format($row->price, 3) }}</td>
-                                            <td class="font-xs" style="text-align: right;">
-                                                {{ number_format($row->total, 3) }}</td>
+                                    @if ($invoice->invoice_details->where('service.type', 'service')->count() > 0)
+                                        <tr class=" border-bottom">
+                                            <th>{{ __('messages.services') }}</th>
                                         </tr>
-                                    @endforeach
+                                        @foreach ($invoice->invoice_details->where('service.type', 'service') as $row)
+                                            <tr>
+                                                <td class=" font-xs">{{ $row->service->name }}</td>
+                                                <td class=" text-center font-xs">{{ $row->quantity }}</td>
+                                                <td class=" font-xs" style="text-align: right;">
+                                                    {{ number_format($row->price, 3) }}</td>
+                                                <td class="font-xs" style="text-align: right;">
+                                                    {{ number_format($row->total, 3) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                    @if ($invoice->invoice_details->where('service.type', 'part')->count() > 0)
+                                        <tr class=" border-bottom">
+                                            <th>{{ __('messages.parts') }}</th>
+                                        </tr>
+                                        @foreach ($invoice->invoice_details->where('service.type', 'part') as $row)
+                                            <tr>
+                                                <td class=" font-xs">{{ $row->service->name }}</td>
+                                                <td class=" text-center font-xs">{{ $row->quantity }}</td>
+                                                <td class=" font-xs" style="text-align: right;">
+                                                    {{ number_format($row->price, 3) }}</td>
+                                                <td class="font-xs" style="text-align: right;">
+                                                    {{ number_format($row->total, 3) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     <tr class=" border-top">
                                         <th>{{ __('messages.total') }}</th>
                                         <th></th>
                                         <th></th>
-                                        <th style="text-align: right;">{{ number_format($invoice->amount, 3) }}</th>
+                                        <th style="text-align: right;">{{ number_format($invoice->amount, 3) }}
+                                        </th>
                                     </tr>
                                     <tr>
                                         <th>{{ __('messages.paid_amount') }}</th>
@@ -89,7 +111,7 @@
             @if ($show_invoice_form)
                 @livewire('invoice-form', ['order_id' => $order->id], key('invoice-form-' . $order->id))
             @endif
-            
+
         </div>
     </div>
 </div>

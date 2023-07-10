@@ -14,11 +14,15 @@ class InvoiceForm extends Component
     public $order;
     public $selected_services = [];
     public $services;
+    public $search = '';
     public $grand_total = 0;
 
     public function mount()
     {
+        $this->order = Order::find($this->order_id);
         $this->refresh();
+        $this->selected_services = [];
+
     }
 
     public function close_invoice_form()
@@ -27,11 +31,19 @@ class InvoiceForm extends Component
         $this->emitTo('order-invoices', 'order_updated');
     }
 
+    public function updatedSearch(){
+        $this->refresh();
+    }
+
     public function refresh()
     {
-        $this->order = Order::find($this->order_id);
-        $this->services = Service::where('department_id', $this->order->department_id)->get();
-        $this->selected_services = [];
+        $this->services = Service::query()
+            ->where('department_id', $this->order->department_id)
+            ->when($this->search, function($q){
+                $q->where('name_en','like','%' . $this->search . '%');
+                $q->orWhere('name_ar','like','%' . $this->search . '%');
+            })
+            ->get();
     }
 
     public function rules()
