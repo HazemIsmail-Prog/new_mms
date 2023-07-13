@@ -99,6 +99,7 @@ class CustomerForm extends Component
 
             'addresses.*.area_id' => 'required',
             'addresses.*.block' => 'required',
+            'addresses.*.street' => 'required',
         ];
     }
 
