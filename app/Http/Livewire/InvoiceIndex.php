@@ -15,10 +15,12 @@ class InvoiceIndex extends Component
     protected $listeners = ['order_updated' => '$refresh'];
 
 
+    protected $invoices;
     public $search =
     [
         'invoice_number' => '',
         'order_number' => '',
+        'invoice_date' => '',
         'customer_name' => '',
         'phone' => '',
         'payment_status' => '',
@@ -29,10 +31,10 @@ class InvoiceIndex extends Component
         $this->resetPage();
     }
 
-    public function render()
+    public function getData()
     {
-        $invoices = Invoice::query()
-            ->with(['order.customer', 'order.phone', 'invoice_details', 'payments'])
+        $this->invoices = Invoice::query()
+            ->with(['order.customer', 'order.phone', 'invoice_details.service', 'payments'])
 
             // For Search #########################################################
             ->when($this->search['invoice_number'], function ($q) {
@@ -40,6 +42,9 @@ class InvoiceIndex extends Component
             })
             ->when($this->search['order_number'], function ($q) {
                 $q->where('order_id', $this->search['order_number']);
+            })
+            ->when($this->search['invoice_date'], function ($q) {
+                $q->whereDate('created_at', $this->search['invoice_date']);
             })
             ->when($this->search['customer_name'], function ($q) {
                 $q->whereRelation('order.customer','name', 'like', '%' . $this->search['customer_name'] . '%');
@@ -51,8 +56,13 @@ class InvoiceIndex extends Component
                 $q->where('payment_status',$this->search['payment_status']);
             })
             //#####################################################################
+;
+    }
 
-            ->paginate(10);
+    public function render()
+    {
+        $this->getData();
+        $invoices = $this->invoices->paginate(10);
 
         return view('livewire.invoice-index', compact('invoices'));
     }

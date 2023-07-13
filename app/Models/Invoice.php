@@ -53,4 +53,13 @@ class Invoice extends Model
             }
         }
     }
+
+    public function getServicesAmountAttribute()
+    {
+        return $this->invoice_details->where('service.type','service')->sum('total');;
+    }
+    public function getPartsAmountAttribute()
+    {
+        return $this->invoice_details->where('service.type','part')->sum('total');;
+    }
 }
