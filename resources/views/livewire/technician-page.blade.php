@@ -77,15 +77,22 @@
                         <td colspan="2" class=" text-center">
                             @switch($order->status_id)
                                 @case(2)
-                                    <button wire:loading.attr="disabled" onclick="confirmAccept()" class="btn btn-warning">@lang('messages.accept')</button>
+                                    <button wire:loading.attr="disabled" onclick="confirmAccept()"
+                                        class="btn btn-warning">@lang('messages.accept')</button>
                                 @break
 
                                 @case(3)
-                                    <button wire:loading.attr="disabled" onclick="confirmArrived()" class="btn btn-info">@lang('messages.arrived')</button>
+                                    <button wire:loading.attr="disabled" onclick="confirmArrived()"
+                                        class="btn btn-info">@lang('messages.arrived')</button>
                                 @break
 
                                 @case(7)
-                                    <button wire:loading.attr="disabled" onclick="confirmComplete()" class="btn btn-success">@lang('messages.done')</button>
+                                    <button 
+                                        {{ $order->invoices->count() == 0 ? 'disabled' : '' }}
+                                        wire:loading.attr="disabled"
+                                        onclick="confirmComplete()" 
+                                        class="btn btn-success"
+                                    >@lang('messages.done')</button>
                                 @break
                             @endswitch
                         </td>

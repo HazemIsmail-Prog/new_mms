@@ -22,6 +22,7 @@ class TechnicianPage extends Component
             ->where('technician_id', auth()->id())
             ->whereIn('status_id', [2, 3, 7])
             ->orderBy('index')
+            ->with('invoices.payments')
             ->first();
     }
 
