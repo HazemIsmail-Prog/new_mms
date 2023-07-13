@@ -10,7 +10,7 @@
                         <div class="card-header bg-light d-flex justify-content-between align-items-center"
                             style="color:black">
                             <div>{{ __('messages.invoice_number') }} : {{ $invoice->id }}</div>
-                            @if ($invoice->payments->count() == 0)
+                            @if ($invoice->payments->count() == 0  && auth()->id() == 1)
                                 <div>
                                     <form method="POST" class="w-100 m-0"
                                         wire:submit.prevent="delete_invoice({{ $invoice->id }})">

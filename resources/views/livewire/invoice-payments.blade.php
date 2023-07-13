@@ -14,6 +14,7 @@
                     <div>{{ $payment->created_at->format('d-m-Y') }}</div>
                     <div>{{ $payment->created_at->format('H:i') }}</div>
                 </div>
+                @if (auth()->id()==1)
                 <div class="align-self-center p-3">
                     <form class="w-100 m-0" wire:submit.prevent="delete_payment({{ $payment->id }})">
                         <button type="submit" class=" m-0 btn btn-sm btn-block btn-outline-danger"
@@ -25,6 +26,7 @@
                         </button>
                     </form>
                 </div>
+                @endif
             </div>
         </div>
     @empty
