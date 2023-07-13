@@ -100,6 +100,9 @@ class Order extends Model
     public function scopeFilterWhenRequest($query, $request)
     {
         return $query
+            ->when($request->order_number, function ($q) use ($request) {
+                $q->where('id', $request->order_number);
+            })
             ->when($request->customer_id, function ($q) use ($request) {
                 $q->where('customer_id', $request->customer_id);
             })

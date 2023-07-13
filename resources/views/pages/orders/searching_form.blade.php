@@ -18,36 +18,42 @@
                         <div class="form-group w-100">
                             <label for="phone">{{ __('messages.customer_phone') }}</label>
                             <input autocomplete="off" list="autocompleteOff" type="number"
-                                name="phone" id="phone" class="form-control"
-                                value="{{ request('phone') }}">
+                            name="phone" id="phone" class="form-control"
+                            value="{{ request('phone') }}">
                         </div>
                         <div class="form-group w-100">
                             <label for="area_id">{{ __('messages.area') }}</label>
                             <select class="form-control select2" multiple style="width: 100%" name="area_id[]" id="area_id">
                                 <option disabled value="">---</option>
                                 @foreach ($areas->sortBy->name as $area)
-                                    <option 
-                                        {{ request('area_id') ? (in_array($area->id, request('area_id')) ? 'selected' : '') : '' }}
-                                        value="{{ $area->id }}">{{ $area->name }}</option>
+                                <option 
+                                {{ request('area_id') ? (in_array($area->id, request('area_id')) ? 'selected' : '') : '' }}
+                                value="{{ $area->id }}">{{ $area->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group w-100">
                             <label for="block">{{ __('messages.block') }}</label>
                             <input autocomplete="off" list="autocompleteOff" type="text"
-                                name="block" id="block" class="form-control"
-                                value="{{ request('block') }}">
+                            name="block" id="block" class="form-control"
+                            value="{{ request('block') }}">
                         </div>
                         <div class="form-group w-100">
                             <label for="street">{{ __('messages.street') }}</label>
                             <input autocomplete="off" list="autocompleteOff" type="text"
-                                name="street" id="street" class="form-control"
-                                value="{{ request('street') }}">
+                            name="street" id="street" class="form-control"
+                            value="{{ request('street') }}">
                         </div>
                     </div>
-
+                    
                     <div class="d-flex flex-wrap flex-xxl-nowrap">
-
+                        
+                        <div class="form-group w-100">
+                            <label for="order_number">{{ __('messages.order_number') }}</label>
+                            <input autocomplete="off" list="autocompleteOff" type="number"
+                                name="order_number" id="order_number" class="form-control"
+                                value="{{ request('order_number') }}">
+                        </div>
                         <div class="form-group w-100">
                             <label for="creator_id">{{ __('messages.creator') }}</label>
                             <select class="form-control select2" multiple style="width: 100%" name="creator_id[]" id="creator_id">
