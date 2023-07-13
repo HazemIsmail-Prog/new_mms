@@ -57,7 +57,7 @@ class UserController extends Controller
             'name_en' => ['required'],
             'username' => ['required', 'unique:users'],
             'email' => ['nullable', 'email'],
-            'password' => ['required', 'min:5'],
+            'password' => ['required'],
             'title_id' => ['required'],
             'shift_id' => ['nullable'],
             'departments' => ['required'],
@@ -85,7 +85,7 @@ class UserController extends Controller
             'title_id' => $request->title_id,
             'shift_id' => $request->shift_id,
             'active' => $request->active ? 1 : 0,
-            'api_token' => bin2hex(openssl_random_pseudo_bytes(30)),
+            // 'api_token' => bin2hex(openssl_random_pseudo_bytes(30)),
         ];
 
         $user = User::create($data);
@@ -129,7 +129,7 @@ class UserController extends Controller
             'name_en' => ['required'],
             'username' => ['required', 'unique:users,username,'.$user->id],
             'email' => ['nullable', 'email'],
-            'password' => ['nullable', 'min:5'],
+            'password' => ['nullable'],
             'title_id' => ['required'],
             'shift_id' => ['nullable'],
             'departments' => ['required'],
