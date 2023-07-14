@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>{{ __('messages.invoice_number') }}</th>
                                     <th>{{ __('messages.order_number') }}</th>
-                                    <th>{{ __('messages.invoice_date') }}</th>
+                                    <th>{{ __('messages.date') }}</th>
                                     <th>{{ __('messages.department') }}</th>
                                     <th>{{ __('messages.technician') }}</th>
                                     <th>{{ __('messages.customer_name') }}</th>
