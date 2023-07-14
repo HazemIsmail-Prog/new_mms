@@ -15,6 +15,8 @@
                         </div>
                     @endif
 
+                    <button wire:click="export">Excel</button>
+
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-outline mb-0">
                             <thead>

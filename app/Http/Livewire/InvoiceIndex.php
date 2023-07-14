@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\InvoicesExport;
 use App\Models\Department;
 use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class InvoiceIndex extends Component
 {
@@ -33,6 +36,12 @@ class InvoiceIndex extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function export()
+    {
+        $this->getData();
+        return Excel::download(new InvoicesExport('pages.invoices.excel', 'Invoices', $this->invoices->get()), 'Invoices.xlsx');  //Excel
     }
 
     public function getData()
@@ -72,7 +81,7 @@ class InvoiceIndex extends Component
     public function render()
     {
         $this->getData();
-        $invoices = $this->invoices->paginate(1);
+        $invoices = $this->invoices->paginate(100);
         $departments = Department::where('is_service',true)->get();
         $technicians = User::whereIn('title_id',[10,11])->get();
 
