@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Department;
 use App\Models\Invoice;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,6 +23,8 @@ class InvoiceIndex extends Component
         'invoice_number' => '',
         'order_number' => '',
         'invoice_date' => '',
+        'department_id' => '',
+        'technician_id' => '',
         'customer_name' => '',
         'phone' => '',
         'payment_status' => '',
@@ -46,6 +50,12 @@ class InvoiceIndex extends Component
             ->when($this->search['invoice_date'], function ($q) {
                 $q->whereDate('created_at', $this->search['invoice_date']);
             })
+            ->when($this->search['department_id'], function ($q) {
+                $q->whereRelation('order','department_id', $this->search['department_id']);
+            })
+            ->when($this->search['technician_id'], function ($q) {
+                $q->whereRelation('order','technician_id', $this->search['technician_id']);
+            })
             ->when($this->search['customer_name'], function ($q) {
                 $q->whereRelation('order.customer','name', 'like', '%' . $this->search['customer_name'] . '%');
             })
@@ -62,8 +72,10 @@ class InvoiceIndex extends Component
     public function render()
     {
         $this->getData();
-        $invoices = $this->invoices->paginate(10);
+        $invoices = $this->invoices->paginate(1);
+        $departments = Department::where('is_service',true)->get();
+        $technicians = User::whereIn('title_id',[10,11])->get();
 
-        return view('livewire.invoice-index', compact('invoices'));
+        return view('livewire.invoice-index', compact('invoices','departments','technicians'));
     }
 }

@@ -47,8 +47,22 @@
                                     <td><input autocomplete="off" list="autocompleteOff" type="date"
                                             wire:model="search.invoice_date" class="form-control form-control-sm"
                                             value="{{ request('invoice_date') }}"></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>
+                                        <select wire:model="search.department_id" class="form-control form-control-sm">
+                                            <option value="">---</option>
+                                            @foreach ($departments->sortBy('name') as $department)
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select wire:model="search.technician_id" class="form-control form-control-sm">
+                                            <option value="">---</option>
+                                            @foreach ($technicians->sortBy('name') as $technician)
+                                                <option value="{{ $technician->id }}">{{ $technician->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td><input autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.customer_name" class="form-control form-control-sm"
                                             value="{{ request('customer_name') }}">
@@ -89,14 +103,17 @@
                                         <td>{{ $invoice->order->technician->name }}</td>
                                         <td>{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
-                                        <td>{{ number_format($invoice->amount,3) }}</td>
-                                        <td>{{ number_format($invoice->services_amount,3) }}</td>
-                                        <td>{{ number_format($invoice->parts_amount,3) }}</td>
-                                        <td>{{ number_format($invoice->payments->where('method','cash')->sum('amount'),3) }}</td>
-                                        <td>{{ number_format($invoice->payments->where('method','knet')->sum('amount'),3) }}</td>
-                                        <td>{{ number_format($invoice->payments->sum('amount'),3) }}</td>
-                                        <td>{{ $invoice->remaining_amount == 0 ? '-' : number_format($invoice->remaining_amount,3) }}</td>
-                                        <td class=" text-center">{{ __('messages.'.$invoice->payment_status) }}</td>
+                                        <td>{{ number_format($invoice->amount, 3) }}</td>
+                                        <td>{{ number_format($invoice->services_amount, 3) }}</td>
+                                        <td>{{ number_format($invoice->parts_amount, 3) }}</td>
+                                        <td>{{ number_format($invoice->payments->where('method', 'cash')->sum('amount'), 3) }}
+                                        </td>
+                                        <td>{{ number_format($invoice->payments->where('method', 'knet')->sum('amount'), 3) }}
+                                        </td>
+                                        <td>{{ number_format($invoice->payments->sum('amount'), 3) }}</td>
+                                        <td>{{ $invoice->remaining_amount == 0 ? '-' : number_format($invoice->remaining_amount, 3) }}
+                                        </td>
+                                        <td class=" text-center">{{ __('messages.' . $invoice->payment_status) }}</td>
                                     </tr>
                                 @empty
                                     <tr>
