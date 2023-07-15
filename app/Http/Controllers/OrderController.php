@@ -23,7 +23,7 @@ class OrderController extends Controller
         $statuses = Status::all();
         $orders = Order::query()
                                     ->filterWhenRequest($request)
-                                    ->with(['address', 'department', 'technician', 'creator', 'status', 'customer', 'phone'])
+                                    ->with(['address', 'department', 'technician', 'creator', 'status', 'customer', 'phone', 'invoices.invoice_details', 'invoices.payments'])
                                     ->latest('created_at');
 
         if ($request->action == 'excel') {

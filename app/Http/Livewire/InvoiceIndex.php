@@ -47,6 +47,7 @@ class InvoiceIndex extends Component
     public function getData()
     {
         $this->invoices = Invoice::query()
+            ->orderByDesc('id')
             ->with(['order.customer', 'order.phone', 'invoice_details.service', 'payments', 'order.department', 'order.technician'])
             ->whereRelation('order', 'status_id', 4)
 

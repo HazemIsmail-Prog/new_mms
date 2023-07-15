@@ -37,6 +37,7 @@
                                     <th class="text-center">@lang('messages.technician')</th>
                                     <th class="text-center">@lang('messages.completed_date')</th>
                                     <th class="text-center">@lang('messages.customer')</th>
+                                    <th class="text-center">@lang('messages.remaining_amount')</th>
                                     <th class="text-center">@lang('messages.actions')</th>
                                 </tr>
                             </thead>
@@ -80,6 +81,10 @@
                                             <span>{{ $order->address->full_address() }}</span>
                                         </td>
 
+                                        <td>
+                                            {{ $order->invoices->sum('remaining_amount') == 0 ? '' : number_format($order->invoices->sum('remaining_amount'),3) }}
+                                        </td>
+
                                         <td class="text-center" nowrap>
                                             @can('orders_show')
                                                 <button class="text-info btn btn-sm" target="popup"
@@ -106,13 +111,13 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="9">{{ __('messages.no_orders') }}</td>
+                                        <td class="text-center" colspan="10">{{ __('messages.no_orders') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="9">
+                                    <td colspan="10">
                                         {{ $orders->withQueryString()->links() }}
                                     </td>
                                 </tr>
