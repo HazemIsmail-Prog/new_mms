@@ -11,16 +11,6 @@ use Illuminate\View\View;
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
-    {
-        $services = Service::with(['department'])->paginate(10);
-
-        return view('pages.services.index', compact('services'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(): View
@@ -41,6 +31,7 @@ class ServiceController extends Controller
             'min_price' => ['required', 'numeric', 'min:0'],
             'max_price' => ['required', 'numeric', 'min:0'],
             'department_id' => ['required'],
+            'type' => ['required'],
         ], [
             'name_ar.required' => __('messages.name_required'),
             'name_en.required' => __('messages.name_required'),
@@ -56,6 +47,7 @@ class ServiceController extends Controller
             'min_price' => $request->min_price,
             'max_price' => $request->max_price,
             'department_id' => $request->department_id,
+            'type' => $request->type,
             'active' => $request->active ? 1 : 0,
         ];
 
@@ -85,6 +77,7 @@ class ServiceController extends Controller
             'min_price' => ['required', 'numeric', 'min:0'],
             'max_price' => ['required', 'numeric', 'min:0'],
             'department_id' => ['required'],
+            'type' => ['required'],
         ], [
             'name_ar.required' => __('messages.name_required'),
             'name_en.required' => __('messages.name_required'),
@@ -100,6 +93,7 @@ class ServiceController extends Controller
             'min_price' => $request->min_price,
             'max_price' => $request->max_price,
             'department_id' => $request->department_id,
+            'type' => $request->type,
             'active' => $request->active ? 1 : 0,
         ];
 
@@ -114,7 +108,6 @@ class ServiceController extends Controller
     public function destroy(Service $service): RedirectResponse
     {
         $service->delete();
-
         return redirect(route('services.index'))->with('success', __('messages.deleted_successfully'));
     }
 }

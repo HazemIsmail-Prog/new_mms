@@ -22,6 +22,7 @@ use App\Http\Livewire\InvoiceIndex;
 use App\Http\Livewire\OrderForm;
 use App\Http\Livewire\OrderShow;
 use App\Http\Livewire\OrderStatusForm;
+use App\Http\Livewire\ServicesIndex;
 use App\Http\Livewire\TechnicianPage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,7 +51,8 @@ Route::group([
             //Settings
             Route::resource('/roles', RoleController::class);
             Route::resource('/departments', DepartmentController::class);
-            Route::resource('/services', ServiceController::class);
+            Route::get('/services', ServicesIndex::class)->name('services.index'); //Livewire
+            Route::resource('/services', ServiceController::class)->only('create','store','edit','update', 'destroy');
             Route::resource('/titles', TitleController::class);
             Route::resource('/shifts', ShiftController::class);
             Route::get('/replicate_user/{user}', [UserController::class, 'replicateRecord'])->name('users.replicate');

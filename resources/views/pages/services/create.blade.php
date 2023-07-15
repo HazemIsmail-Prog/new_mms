@@ -71,6 +71,18 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="type">@lang('messages.type')</label>
+                                <select name="type" id="type"
+                                    class="form-control @error('type') is-invalid @enderror">
+                                    <option value="">---</option>
+                                        <option {{ old('type') == 'service' ? 'selected' : '' }} value="service">{{ __('messages.services') }}</option>
+                                        <option {{ old('type') == 'part' ? 'selected' : '' }} value="part">{{ __('messages.parts') }}</option>
+                                </select>
+                                @error('type')
+                                    <span class="small text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="active">@lang('messages.status')</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="active" checked
