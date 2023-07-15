@@ -12,10 +12,14 @@
                             {{ Session::get('success') }}
                             <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span
                                     aria-hidden="true">×</span></button>
+
+
+
                         </div>
                     @endif
 
-                    <button wire:click="export">Excel</button>
+                    <button wire:click="export" class="btn btn-sm btn-facebook mb-2" >{{ __('messages.export_to_excel') }}</button>
+
 
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-outline mb-0">
@@ -106,13 +110,16 @@
                                         <td>{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
                                         <td>{{ $invoice->amount == 0 ? '' : number_format($invoice->amount, 3) }}</td>
-                                        <td>{{ $invoice->services_amount == 0 ? '' : number_format($invoice->services_amount, 3) }}</td>
-                                        <td>{{ $invoice->parts_amount == 0 ? '' : number_format($invoice->parts_amount, 3) }}</td>
+                                        <td>{{ $invoice->services_amount == 0 ? '' : number_format($invoice->services_amount, 3) }}
+                                        </td>
+                                        <td>{{ $invoice->parts_amount == 0 ? '' : number_format($invoice->parts_amount, 3) }}
+                                        </td>
                                         <td>{{ $invoice->payments->where('method', 'cash')->sum('amount') == 0 ? '' : number_format($invoice->payments->where('method', 'cash')->sum('amount'), 3) }}
                                         </td>
                                         <td>{{ $invoice->payments->where('method', 'knet')->sum('amount') == 0 ? '' : number_format($invoice->payments->where('method', 'knet')->sum('amount'), 3) }}
                                         </td>
-                                        <td>{{ $invoice->payments->sum('amount') == 0 ? '' : number_format($invoice->payments->sum('amount'), 3) }}</td>
+                                        <td>{{ $invoice->payments->sum('amount') == 0 ? '' : number_format($invoice->payments->sum('amount'), 3) }}
+                                        </td>
                                         <td>{{ $invoice->remaining_amount == 0 ? '' : number_format($invoice->remaining_amount, 3) }}
                                         </td>
                                         <td class=" text-center">{{ __('messages.' . $invoice->payment_status) }}</td>

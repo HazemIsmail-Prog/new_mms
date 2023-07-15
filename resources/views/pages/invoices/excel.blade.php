@@ -72,13 +72,13 @@
                 <td>{{ $invoice->order->technician->name }}</td>
                 <td>{{ $invoice->order->customer->name }}</td>
                 <td>{{ $invoice->order->phone->number }}</td>
-                <td>{{ number_format($invoice->amount, 3) }}</td>
-                <td>{{ number_format($invoice->services_amount, 3) }}</td>
-                <td>{{ number_format($invoice->parts_amount, 3) }}</td>
-                <td>{{ number_format($invoice->payments->where('method', 'cash')->sum('amount'), 3) }}</td>
-                <td>{{ number_format($invoice->payments->where('method', 'knet')->sum('amount'), 3) }}</td>
-                <td>{{ number_format($invoice->payments->sum('amount'), 3) }}</td>
-                <td>{{ $invoice->remaining_amount == 0 ? '-' : number_format($invoice->remaining_amount, 3) }}</td>
+                <td>{{ $invoice->amount == 0 ? '' : $invoice->amount }}</td>
+                <td>{{ $invoice->services_amount == 0 ? '' : $invoice->services_amount }}</td>
+                <td>{{ $invoice->parts_amount == 0 ? '' : $invoice->parts_amount }}</td>
+                <td>{{ $invoice->payments->where('method', 'cash')->sum('amount') == 0 ? '' : $invoice->payments->where('method', 'cash')->sum('amount') }}</td>
+                <td>{{ $invoice->payments->where('method', 'knet')->sum('amount') == 0 ? '' : $invoice->payments->where('method', 'knet')->sum('amount') }}</td>
+                <td>{{ $invoice->payments->sum('amount') == 0 ? '' : $invoice->payments->sum('amount') }}</td>
+                <td>{{ $invoice->remaining_amount == 0 ? '' : $invoice->remaining_amount }}</td>
                 <td class=" text-center">{{ __('messages.' . $invoice->payment_status) }}</td>
             </tr>
         @endforeach
