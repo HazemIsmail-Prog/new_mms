@@ -75,9 +75,9 @@
                 <td>{{ $invoice->amount == 0 ? '' : $invoice->amount }}</td>
                 <td>{{ $invoice->services_amount == 0 ? '' : $invoice->services_amount }}</td>
                 <td>{{ $invoice->parts_amount == 0 ? '' : $invoice->parts_amount }}</td>
-                <td>{{ $invoice->payments->where('method', 'cash')->sum('amount') == 0 ? '' : $invoice->payments->where('method', 'cash')->sum('amount') }}</td>
-                <td>{{ $invoice->payments->where('method', 'knet')->sum('amount') == 0 ? '' : $invoice->payments->where('method', 'knet')->sum('amount') }}</td>
-                <td>{{ $invoice->payments->sum('amount') == 0 ? '' : $invoice->payments->sum('amount') }}</td>
+                <td>{{ $invoice->cash_amount == 0 ? '' : $invoice->cash_amount }}</td>
+                <td>{{ $invoice->knet_amount == 0 ? '' : $invoice->knet_amount }}</td>
+                <td>{{ $invoice->total_paid_amount == 0 ? '' : $invoice->total_paid_amount }}</td>
                 <td>{{ $invoice->remaining_amount == 0 ? '' : $invoice->remaining_amount }}</td>
                 <td class=" text-center">{{ __('messages.' . $invoice->payment_status) }}</td>
             </tr>

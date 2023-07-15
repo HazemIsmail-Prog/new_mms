@@ -18,7 +18,8 @@
                         </div>
                     @endif
 
-                    <button wire:click="export" class="btn btn-sm btn-facebook mb-2" >{{ __('messages.export_to_excel') }}</button>
+                    <button wire:click="export"
+                        class="btn btn-sm btn-facebook mb-2">{{ __('messages.export_to_excel') }}</button>
 
 
                     <div class="table-responsive">
@@ -105,8 +106,19 @@
                                             </button>
                                         </td>
                                         <td>{{ $invoice->created_at->format('d-m-Y') }}</td>
-                                        <td>{{ $invoice->order->department->name }}</td>
-                                        <td>{{ $invoice->order->technician->name }}</td>
+                                        <td>
+                                            <div wire:click="$set('search.department_id', '{{ $invoice->order->department_id }}')"
+                                                style="cursor: pointer">
+                                                {{ $invoice->order->department->name }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div wire:click="$set('search.technician_id', '{{ $invoice->order->technician_id }}')"
+                                                style="cursor: pointer">
+                                                {{ $invoice->order->technician->name }}
+                                            </div>
+                                            
+                                        </td>
                                         <td>{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
                                         <td>{{ $invoice->amount == 0 ? '' : number_format($invoice->amount, 3) }}</td>
@@ -114,11 +126,11 @@
                                         </td>
                                         <td>{{ $invoice->parts_amount == 0 ? '' : number_format($invoice->parts_amount, 3) }}
                                         </td>
-                                        <td>{{ $invoice->payments->where('method', 'cash')->sum('amount') == 0 ? '' : number_format($invoice->payments->where('method', 'cash')->sum('amount'), 3) }}
+                                        <td>{{ $invoice->cash_amount == 0 ? '' : number_format($invoice->cash_amount, 3) }}
                                         </td>
-                                        <td>{{ $invoice->payments->where('method', 'knet')->sum('amount') == 0 ? '' : number_format($invoice->payments->where('method', 'knet')->sum('amount'), 3) }}
+                                        <td>{{ $invoice->knet_amount == 0 ? '' : number_format($invoice->knet_amount, 3) }}
                                         </td>
-                                        <td>{{ $invoice->payments->sum('amount') == 0 ? '' : number_format($invoice->payments->sum('amount'), 3) }}
+                                        <td>{{ $invoice->total_paid_amount == 0 ? '' : number_format($invoice->total_paid_amount, 3) }}
                                         </td>
                                         <td>{{ $invoice->remaining_amount == 0 ? '' : number_format($invoice->remaining_amount, 3) }}
                                         </td>
@@ -132,13 +144,31 @@
                                 @endforelse
                             </tbody>
                             <tfoot>
-                                <tr>
-                                    <td colspan="15">
-                                        {{ $invoices->links() }}
-                                    </td>
+                                <tr class="bg-light text-black-50">
+                                    <th colspan="7" class=" text-center">{{ __('messages.total') }}</th>
+                                    <th>{{ number_format($invoices->sum('amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('services_amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('parts_amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('cash_amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('knet_amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('total_paid_amount'), 3) }}</th>
+                                    <th>{{ number_format($invoices->sum('remaining_amount'), 3) }}</th>
+                                    <th colspan="2"></th>
                                 </tr>
                             </tfoot>
+
+
                         </table>
+                        <div class=" d-flex justify-content-between align-items-center mt-2">
+                            <div>{{ $invoices->links() }}</div>
+                            <select wire:model="pagination">
+                                <option value="10">10</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                            </select>
+
+                        </div>
                     </div>
                 </div>
             </div>

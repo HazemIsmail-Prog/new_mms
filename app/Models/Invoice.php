@@ -36,11 +36,6 @@ class Invoice extends Model
         return $amount;
     }
 
-    public function getRemainingAmountAttribute()
-    {
-        return $this->amount - $this->payments()->sum('amount');
-    }
-
     public function getPaymentStatusAttribute()
     {
         if ($this->payments->count() == 0) {
@@ -61,5 +56,25 @@ class Invoice extends Model
     public function getPartsAmountAttribute()
     {
         return $this->invoice_details->where('service.type','part')->sum('total');;
+    }
+
+    public function getCashAmountAttribute()
+    {
+        return $this-> payments->where('method', 'cash')->sum('amount');
+    }
+
+    public function getKnetAmountAttribute()
+    {
+        return $this-> payments->where('method', 'knet')->sum('amount');
+    }
+
+    public function getTotalPaidAmountAttribute()
+    {
+        return $this-> payments->sum('amount');
+    }
+
+    public function getRemainingAmountAttribute()
+    {
+        return $this->amount - $this->total_paid_amount;
     }
 }
