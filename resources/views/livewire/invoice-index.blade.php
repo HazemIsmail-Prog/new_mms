@@ -161,7 +161,7 @@
                         </table>
                         <div class=" d-flex justify-content-between align-items-center mt-2">
                             <div>{{ $invoices->links() }}</div>
-                            <select wire:model="pagination">
+                            <select class=" form-control" style="width: fit-content;"  wire:model="pagination">
                                 <option value="10">10</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
