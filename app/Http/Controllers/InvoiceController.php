@@ -11,7 +11,7 @@ class InvoiceController extends Controller
     public function pdf(Invoice $invoice)
     {
         $invoice->load('invoice_details.service');
-        $page_title = 'MD_Invoice_No_' . $invoice->id;
+        $page_title = 'MD Invoice No.' . $invoice->id;
         $file_name = $page_title . '.pdf';
         $mpdf = new \Mpdf\Mpdf([
             // 'pagenumPrefix' => 'Page number ',
@@ -30,7 +30,8 @@ class InvoiceController extends Controller
 
         // ini_set("pcre.backtrack_limit", "5000000");
         $mpdf->WriteHTML($body); //should be before output directly
-        $mpdf->Output(storage_path('app/public/invoices/' . $file_name), 'F');
+        $mpdf->Output($file_name, 'I');
+        // $mpdf->Output(storage_path('app/public/invoices/' . $file_name), 'F'); //use this when send to whatsapp
         // 'D': download the PDF file
         // 'I': serves in-line to the browser
         // 'S': returns the PDF document as a string
@@ -38,14 +39,13 @@ class InvoiceController extends Controller
 
 
 
-        $ultramsg_token = "h0721ef250tbrafm"; // Ultramsg.com token
-        $instance_id = "instance54424"; // Ultramsg.com instance id
-        $client = new WhatsAppApi($ultramsg_token, $instance_id);
-        $to = "+96599589018";
-        $filename = $file_name;
-        // $document = asset($file_name);
-        $document = asset('storage/invoices/'.$file_name); 
-        $api = $client->sendDocumentMessage($to, $filename, $document);
-        print_r($api);
+        // $ultramsg_token = "h0721ef250tbrafm"; // Ultramsg.com token
+        // $instance_id = "instance54424"; // Ultramsg.com instance id
+        // $client = new WhatsAppApi($ultramsg_token, $instance_id);
+        // $to = "+96599589018";
+        // $filename = $file_name;
+        // $document = asset('storage/invoices/'.$file_name); 
+        // $api = $client->sendDocumentMessage($to, $filename, $document);
+        // print_r($api);
     }
 }
