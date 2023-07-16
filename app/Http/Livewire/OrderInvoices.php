@@ -14,7 +14,7 @@ class OrderInvoices extends Component
     public $show_invoice_form;
     public $show_payment_form;
 
-    protected $listeners = ['order_updated'=>'refresh'];
+    protected $listeners = ['order_updated' => 'refresh'];
 
     public function mount()
     {
@@ -37,7 +37,11 @@ class OrderInvoices extends Component
     public function refresh()
     {
         $this->order = Order::with('invoices')->find($this->order_id);
-        $this->invoices = $this->order->invoices->load('invoice_details.service')->load('payments');
+        $this->invoices = Invoice::query()
+            ->where('order_id', $this->order->id)
+            ->with('invoice_details.service')
+            ->with('payments')
+            ->get();
         $this->show_invoice_form = false;
         $this->show_payment_form = false;
     }

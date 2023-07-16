@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['payment_status'];
+    // protected $appends = ['payment_status'];
 
     public function invoice_details()
     {
@@ -27,18 +28,23 @@ class Invoice extends Model
         return $this->belongsTo(Order::class);
     }
 
+
+    // this function to prevent eager loading for get attributes
+    public function newQuery($excludeDeleted = true)
+    {
+        return parent::newQuery($excludeDeleted)->with('invoice_details');
+    }
+
     public function getAmountAttribute()
     {
-        $amount = 0;
-        foreach($this->invoice_details as $row){
-            $amount += $row->quantity * $row->price;
-        }
-        return $amount;
+        return $this->invoice_details->sum(function ($detail) {
+            return $detail->quantity * $detail->price;
+        });
     }
 
     public function getPaymentStatusAttribute()
     {
-        if ($this->payments->count() == 0) {
+        if ($this->payments()->count() == 0) {
             return 'pending';
         } else {
             if ($this->remaining_amount == 0) {
@@ -70,7 +76,7 @@ class Invoice extends Model
 
     public function getTotalPaidAmountAttribute()
     {
-        return $this-> payments->sum('amount');
+        return $this-> payments()->sum('amount');
     }
 
     public function getRemainingAmountAttribute()

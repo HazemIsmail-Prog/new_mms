@@ -28,12 +28,12 @@ class InvoicePayments extends Component
         $payment = Payment::find($payment_id);
         $payment->delete();
         $this->emit('payment_created');
-
     }
 
     public function refresh()
     {
-        $this->invoice = Invoice::find($this->invoice_id)->load('payments.user');
+        $this->invoice = Invoice::find($this->invoice_id);
+        if($this->invoice){$this->invoice->load('payments.user');}
         $this->show_payment_form = false;
     }
     public function render()

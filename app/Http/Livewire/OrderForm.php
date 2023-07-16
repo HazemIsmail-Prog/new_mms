@@ -40,7 +40,7 @@ class OrderForm extends Component
             $this->phone_id = $this->order->phone->id;
             $this->address_id = $this->order->address->id;
             $this->department_id = $this->order->department_id;
-            $this->estimated_start_date = $this->order->estimated_start_date;
+            $this->estimated_start_date = $this->order-> estimated_start_date->format('Y-m-d');
             $this->order_description = $this->order->order_description;
             $this->orderNotes = $this->order->notes;
         }

@@ -59,6 +59,7 @@ class DistPanel extends Component
             }])
             ->with(['address'])
             ->whereNotIn('status_id', [4, 6])
+            ->whereDate('estimated_start_date','<=',today())
             ->when($this->date_filter, function ($q) {
                 $q->whereDate('created_at', $this->date_filter);
             })
