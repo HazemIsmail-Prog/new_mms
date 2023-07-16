@@ -20,7 +20,7 @@ class InvoiceController extends Controller
             // 'margin_bottom' => 15,
         ]);
 
-        $mpdf->showImageErrors = true;
+        // $mpdf->showImageErrors = true;
         
         $body = view('pages.invoices.pdf', compact('invoice', 'page_title'));
         $footer = view('pages.invoices.footer');
