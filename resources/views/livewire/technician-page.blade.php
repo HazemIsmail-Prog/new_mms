@@ -88,7 +88,7 @@
 
                                 @case(7)
                                     <button 
-                                        {{ $order->invoices->count() == 0 ? 'disabled' : '' }}
+                                        {{ $order->invoices->count() == 0 && config('global.invoice_required') ? 'disabled' : '' }}
                                         wire:loading.attr="disabled"
                                         onclick="confirmComplete()" 
                                         class="btn btn-success"

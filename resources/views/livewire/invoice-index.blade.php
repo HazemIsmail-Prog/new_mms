@@ -98,7 +98,9 @@
                             <tbody>
                                 @forelse ($invoices as $invoice)
                                     <tr>
-                                        <td>{{ $invoice->id }}</td>
+                                        <td>
+                                            <a target="_blank" class=" text-decoration-none text-reset" href="{{ route('invoice.pdf',$invoice) }}">{{ $invoice->id }}</a>
+                                        </td>
                                         <td>
                                             <button class="btn btn-sm" target="popup"
                                                 onclick="popupWindow('{{ route('orders.show', $invoice->order_id) }}', 'test');">
