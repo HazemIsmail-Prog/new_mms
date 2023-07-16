@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
+use App\UltraMsg\WhatsAppApi;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
     public function pdf(Invoice $invoice)
     {
         $invoice->load('invoice_details.service');
-        $page_title = 'MD Invoice No. ' . $invoice->id;
+        $page_title = 'MD_Invoice_No_' . $invoice->id;
         $file_name = $page_title . '.pdf';
         $mpdf = new \Mpdf\Mpdf([
             // 'pagenumPrefix' => 'Page number ',
@@ -31,7 +30,7 @@ class InvoiceController extends Controller
 
         // ini_set("pcre.backtrack_limit", "5000000");
         $mpdf->WriteHTML($body); //should be before output directly
-        // $attachment = $mpdf->Output($file_name, 'F');
+        $mpdf->Output(storage_path('app/public/invoices/' . $file_name), 'F');
         // 'D': download the PDF file
         // 'I': serves in-line to the browser
         // 'S': returns the PDF document as a string
@@ -39,40 +38,14 @@ class InvoiceController extends Controller
 
 
 
-
-        $params = array(
-            'token' => 'h0721ef250tbrafm',
-            'to' => '%2B96599589018',
-            'filename' => 'hello.pdf',
-            'document' => 'https://file-example.s3-accelerate.amazonaws.com/documents/cv.pdf',
-            'caption' => 'document caption'
-        );
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.ultramsg.com/instance54424/messages/document",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => http_build_query($params),
-            CURLOPT_HTTPHEADER => array(
-                "content-type: application/x-www-form-urlencoded"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            echo $response;
-        }
+        $ultramsg_token = "h0721ef250tbrafm"; // Ultramsg.com token
+        $instance_id = "instance54424"; // Ultramsg.com instance id
+        $client = new WhatsAppApi($ultramsg_token, $instance_id);
+        $to = "+96599589018";
+        $filename = $file_name;
+        // $document = asset($file_name);
+        $document = asset('storage/invoices/'.$file_name); 
+        $api = $client->sendDocumentMessage($to, $filename, $document);
+        print_r($api);
     }
 }
