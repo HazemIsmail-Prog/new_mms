@@ -22,7 +22,7 @@
                         class="btn btn-sm btn-facebook mb-2">{{ __('messages.export_to_excel') }}</button>
 
 
-                    <div class="table-responsive">
+                    <div wire:poll.30s class="table-responsive">
                         <table class="table table-hover table-bordered table-outline mb-0">
                             <thead>
                                 <tr>
