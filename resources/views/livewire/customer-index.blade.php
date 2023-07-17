@@ -34,10 +34,10 @@
                             </thead>
                             <tbody>
                                 <tr class="bg-light">
-                                    <td><input autocomplete="off" list="autocompleteOff" type="text"
+                                    <td><input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.name" class="form-control"
                                             value="{{ request('name') }}"></td>
-                                    <td><input autocomplete="off" list="autocompleteOff" type="number"
+                                    <td><input wire:ignore autocomplete="off" list="autocompleteOff" type="number"
                                             wire:model="search.phone" class="form-control"
                                             value="{{ request('phone') }}"></td>
                                     <td class="custom-control-inline">
@@ -49,10 +49,10 @@
                                                     value="{{ $area->id }}">{{ $area->name }}</option>
                                             @endforeach
                                         </select>
-                                        <input autocomplete="off" list="autocompleteOff" type="text"
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.block" class="form-control mx-1"
                                             value="{{ request('block') }}" placeholder="{{ __('messages.block') }}">
-                                        <input autocomplete="off" list="autocompleteOff" type="text"
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.street" class="form-control"
                                             value="{{ request('street') }}" placeholder="{{ __('messages.street') }}">
                                     </td>
