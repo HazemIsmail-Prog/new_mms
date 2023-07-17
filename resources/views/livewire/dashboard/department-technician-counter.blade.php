@@ -35,7 +35,7 @@
                     <th>{{ __('messages.completed') }}</th>
                 </tr>
             </thead>
-            <tbody wire:poll.60000ms="getCounters">
+            <tbody wire:poll.30s="getCounters">
                 @foreach ($departments as $department)
                     <tr class=" bg-light text-center">
                         <td>{{ $department->name }}</td>

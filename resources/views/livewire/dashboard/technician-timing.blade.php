@@ -50,7 +50,7 @@
                         <th width="10%" class=" text-center align-middle">{{ __('messages.arriveToComplete') }}</th>
                     </tr>
                 </thead>
-                <tbody wire:poll.60000ms="getOrders">
+                <tbody wire:poll.30s="getOrders">
                     @forelse ($orders as $order)
                         <tr>
                             <td nowrap class="text-center">{{ $order->id }}</td>

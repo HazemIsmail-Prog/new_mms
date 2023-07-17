@@ -39,7 +39,7 @@
                         <th width="8%" class=" text-center align-middle">{{ __('messages.total') }}</th>
                     </tr>
                 </thead>
-                <tbody wire:poll.60000ms="getCounters">
+                <tbody wire:poll.30s="getCounters">
                     @forelse ($counters->groupBy('date') as $row)
                         <tr>
                             <th nowrap class=" text-center bg-light">
