@@ -13,6 +13,7 @@ class CustomerIndex extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $pagination = 10;
     public $search =
     [
         'name' => '',
@@ -60,7 +61,7 @@ class CustomerIndex extends Component
             ->with(['phones', 'addresses', 'invoices.invoice_details' , 'invoices.payments'])
             ->withCount('orders')
             ->orderByDesc('id')
-            ->paginate(10);
+            ->paginate($this->pagination);
 
         return view('livewire.customer-index', compact('customers'));
     }

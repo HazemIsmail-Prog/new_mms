@@ -35,9 +35,11 @@
                             <tbody>
                                 <tr class="bg-light">
                                     <td><input autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.name" class="form-control" value="{{ request('name') }}"></td>
+                                            wire:model="search.name" class="form-control"
+                                            value="{{ request('name') }}"></td>
                                     <td><input autocomplete="off" list="autocompleteOff" type="number"
-                                            wire:model="search.phone" class="form-control" value="{{ request('phone') }}"></td>
+                                            wire:model="search.phone" class="form-control"
+                                            value="{{ request('phone') }}"></td>
                                     <td class="custom-control-inline">
                                         <select class="form-control" wire:model="search.area_id" id="area_id">
                                             <option selected value="">{{ __('messages.all_areas') }}
@@ -48,11 +50,11 @@
                                             @endforeach
                                         </select>
                                         <input autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.block" class="form-control mx-1" value="{{ request('block') }}"
-                                            placeholder="{{ __('messages.block') }}">
+                                            wire:model="search.block" class="form-control mx-1"
+                                            value="{{ request('block') }}" placeholder="{{ __('messages.block') }}">
                                         <input autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.street" class="form-control" value="{{ request('street') }}"
-                                            placeholder="{{ __('messages.street') }}">
+                                            wire:model="search.street" class="form-control"
+                                            value="{{ request('street') }}" placeholder="{{ __('messages.street') }}">
                                     </td>
                                     <td></td>
                                     <td></td>
@@ -92,7 +94,8 @@
                                                 @endcan
                                             @endif
                                         </td>
-                                        <td>{{ $customer->balance == 0 ? '-' : number_format($customer->balance,3) }}</td>
+                                        <td>{{ $customer->balance == 0 ? '-' : number_format($customer->balance, 3) }}
+                                        </td>
                                         <td class="text-center" nowrap>
                                             @can('orders_create')
                                                 <a class="text-success btn btn-sm"
@@ -145,14 +148,16 @@
                                     </tr>
                                 @endforelse
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">
-                                        {{ $customers->links() }}
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class=" d-flex justify-content-between align-items-center mt-2">
+                        <div>{{ $customers->links() }}</div>
+                        <select class=" form-control" style="width: fit-content;" wire:model="pagination">
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -161,5 +166,5 @@
 </div>
 
 @section('title')
-<title>@lang('messages.customers')</title>
+    <title>@lang('messages.customers')</title>
 @endsection
