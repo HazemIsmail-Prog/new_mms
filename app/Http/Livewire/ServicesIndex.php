@@ -13,11 +13,17 @@ class ServicesIndex extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $pagination = 10;
     public $filter = [
         'name' => '',
         'department_id' => '',
         'type' => '',
     ];
+
+    public function updatedFilter()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
@@ -36,7 +42,7 @@ class ServicesIndex extends Component
             ->when($this->filter['type'], function ($q) {
                     $q->where('type', $this->filter['type']);
             })
-            ->paginate(10);
+            ->paginate($this->pagination);
         return view('livewire.services-index',compact('services','departments'));
     }
 }

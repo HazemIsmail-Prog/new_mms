@@ -22,6 +22,7 @@ use App\Http\Livewire\DistPanel;
 use App\Http\Livewire\InvoiceIndex;
 use App\Http\Livewire\OrderForm;
 use App\Http\Livewire\OrderShow;
+use App\Http\Livewire\OrdersIndex;
 use App\Http\Livewire\OrderStatusForm;
 use App\Http\Livewire\ServicesIndex;
 use App\Http\Livewire\TechnicianPage;
@@ -68,7 +69,7 @@ Route::group([
             Route::get('/customers', CustomerIndex::class)->name('customers.index'); //livewire
             Route::get('/orders/{customer_id}/form/{order_id?}', OrderForm::class)->name('orders.form');
             Route::get('/orders/{order}', OrderShow::class)->name('orders.show'); //livewire
-            Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+            Route::get('/orders', OrdersIndex::class)->name('orders.index'); //livewire
             Route::get('/invoice/pdf/{invoice}', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
             Route::get('/invoices', InvoiceIndex::class)->name('invoices.index'); //livewire
 

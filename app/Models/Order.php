@@ -97,63 +97,64 @@ class Order extends Model
         return $this->hasMany(Invoice::class);
     }
 
-    public function scopeFilterWhenRequest($query, $request)
+    public function scopeFilterWhenRequest($query, $filter)
     {
         return $query
-            ->when($request->order_number, function ($q) use ($request) {
-                $q->where('id', $request->order_number);
+            ->when($filter['order_number'], function ($q) use ($filter) {
+                $q->where('id', $filter['order_number']);
             })
-            ->when($request->customer_id, function ($q) use ($request) {
-                $q->where('customer_id', $request->customer_id);
+            ->when($filter['customer_id'], function ($q) use ($filter) {
+                $q->where('customer_id', $filter['customer_id']);
             })
-            ->when($request->name, function ($q) use ($request) {
-                $q->whereHas('customer', function ($q2) use ($request) {
-                    $q2->where('name', 'like', '%'.$request->name.'%');
+            ->when($filter['customer_name'], function ($q) use ($filter) {
+                $q->whereHas('customer', function ($q2) use ($filter) {
+                    $q2->where('name', 'like', '%'.$filter['customer_name'].'%');
                 });
             })
-            ->when($request->phone, function ($q) use ($request) {
-                $q->whereHas('phone', function ($q2) use ($request) {
-                    $q2->where('number', 'like', '%'.$request->phone.'%');
+            ->when($filter['customer_phone'], function ($q) use ($filter) {
+                $q->whereHas('phone', function ($q2) use ($filter) {
+                    $q2->where('number', 'like', '%'.$filter['customer_phone'].'%');
                 });
             })
-            ->when($request->area_id, function ($q) use ($request) {
-                $q->whereHas('address', function ($q2) use ($request) {
-                    $q2->whereIn('area_id', $request->area_id);
+            ->when($filter['areas'], function ($q) use ($filter) {
+                $q->whereHas('address', function ($q2) use ($filter) {
+                    $q2->whereIn('area_id', $filter['areas']);
                 });
             })
-            ->when($request->block, function ($q) use ($request) {
-                $q->whereHas('address', function ($q2) use ($request) {
-                    $q2->where('block', 'like', $request->block);
+            ->when($filter['block'], function ($q) use ($filter) {
+                $q->whereHas('address', function ($q2) use ($filter) {
+                    $q2->where('block', 'like', $filter['block']);
                 });
             })
-            ->when($request->street, function ($q) use ($request) {
-                $q->whereHas('address', function ($q2) use ($request) {
-                    $q2->where('street', 'like', $request->street);
+            ->when($filter['street'], function ($q) use ($filter) {
+                $q->whereHas('address', function ($q2) use ($filter) {
+                    $q2->where('street', 'like', $filter['street']);
                 });
             })
-            ->when($request->creator_id, function ($q) use ($request) {
-                $q->whereIn('created_by', $request->creator_id);
+            ->when($filter['creators'], function ($q) use ($filter) {
+                $q->whereIn('created_by', $filter['creators']);
             })
-            ->when($request->status_id, function ($q) use ($request) {
-                $q->whereIn('status_id', $request->status_id);
+            ->when($filter['statuses'], function ($q) use ($filter) {
+                $q->whereIn('status_id', $filter['statuses']);
             })
-            ->when($request->technician_id, function ($q) use ($request) {
-                $q->whereIn('technician_id', $request->technician_id);
+            ->when($filter['technicians'], function ($q) use ($filter) {
+                $q->whereIn('technician_id', $filter['technicians']);
             })
-            ->when($request->department_id, function ($q) use ($request) {
-                $q->whereIn('department_id', $request->department_id);
+            ->when($filter['departments'], function ($q) use ($filter) {
+                $q->whereIn('department_id', $filter['departments']);
             })
-            ->when($request->start_created_at, function ($q) use ($request) {
-                $q->whereDate('created_at', '>=', $request->start_created_at);
+            ->when($filter['start_created_at'], function ($q) use ($filter) {
+                $q->whereDate('created_at', '>=', $filter['start_created_at']);
             })
-            ->when($request->end_created_at, function ($q) use ($request) {
-                $q->whereDate('created_at', '<=', $request->end_created_at);
+            ->when($filter['end_created_at'], function ($q) use ($filter) {
+                $q->whereDate('created_at', '<=', $filter['end_created_at']);
             })
-            ->when($request->start_completed_at, function ($q) use ($request) {
-                $q->whereDate('completed_at', '>=', $request->start_completed_at);
+            ->when($filter['start_completed_at'], function ($q) use ($filter) {
+                $q->whereDate('completed_at', '>=', $filter['start_completed_at']);
             })
-            ->when($request->end_completed_at, function ($q) use ($request) {
-                $q->whereDate('completed_at', '<=', $request->end_completed_at);
-            });
+            ->when($filter['end_completed_at'], function ($q) use ($filter) {
+                $q->whereDate('completed_at', '<=', $filter['end_completed_at']);
+            })
+            ;
     }
 }

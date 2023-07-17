@@ -25,7 +25,6 @@
                     @endif
 
                     <div class="table-responsive">
-
                         <table class="table table-hover table-outline mb-0">
                             <thead class="thead-light">
                                 <tr>
@@ -37,38 +36,37 @@
                                     <th class="text-center">@lang('messages.status')</th>
                                     <th class="text-center">@lang('messages.actions')</th>
                                 </tr>
-                                    <tr>
-                                        <th>
-                                            <input wire:model="filter.name"
-                                                class=" form-control form-control-sm border border-1 border-light rounded-2"
-                                                type="text" name="name" id="name">
-                                        </th>
-                                        <th class="text-center"></th>
-                                        <th class="text-center"></th>
-                                        <th class="text-center">
-                                            <select wire:model="filter.department_id"
-                                                class=" form-control form-control-sm border border-1 border-light rounded-2"
-                                                name="department_id" id="department_id">
-                                                <option value="">---</option>
-                                                @foreach ($departments as $department)
-                                                    <option value="{{ $department->id }}">{{ $department->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </th>
-                                        <th class="text-center">
-                                            <select 
-                                                wire:model="filter.type"
-                                                class=" form-control form-control-sm border border-1 border-light rounded-2"
-                                                name="type" id="type">
-                                                <option value="">---</option>
-                                                <option value="service">{{ __('messages.services') }}</option>
-                                                <option value="part">{{ __('messages.parts') }}</option>
-                                            </select>
-                                        </th>
-                                        <th class="text-center"></th>
-                                        <th class="text-center"></th>
-                                    </tr>
+                                <tr>
+                                    <th>
+                                        <input wire:model="filter.name"
+                                            class=" form-control form-control-sm border border-1 border-light rounded-2"
+                                            type="text" name="name" id="name">
+                                    </th>
+                                    <th class="text-center"></th>
+                                    <th class="text-center"></th>
+                                    <th class="text-center">
+                                        <select wire:model="filter.department_id"
+                                            class=" form-control form-control-sm border border-1 border-light rounded-2"
+                                            name="department_id" id="department_id">
+                                            <option value="">---</option>
+                                            @foreach ($departments as $department)
+                                                <option value="{{ $department->id }}">{{ $department->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th class="text-center">
+                                        <select wire:model="filter.type"
+                                            class=" form-control form-control-sm border border-1 border-light rounded-2"
+                                            name="type" id="type">
+                                            <option value="">---</option>
+                                            <option value="service">{{ __('messages.services') }}</option>
+                                            <option value="part">{{ __('messages.parts') }}</option>
+                                        </select>
+                                    </th>
+                                    <th class="text-center"></th>
+                                    <th class="text-center"></th>
+                                </tr>
                             </thead>
                             <tbody>
 
@@ -120,7 +118,15 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {{ $services->links() }}
+                    </div>
+                    <div class=" d-flex justify-content-between align-items-center mt-2">
+                        <div>{{ $services->links() }}</div>
+                        <select class=" form-control" style="width: fit-content;" wire:model="pagination">
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
                     </div>
                 </div>
             </div>
