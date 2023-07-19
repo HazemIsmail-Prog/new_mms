@@ -41,7 +41,7 @@
                         <td>{{ $department->name }}</td>
                         <td>{{ $department->completed_orders_count }}</td>
                     </tr>
-                    @foreach ($department->technicians as $technician)
+                    @foreach ($department->technicians->sortByDesc('completed_orders_count') as $technician)
                         @if ($technician->completed_orders_count > 0)
                             <tr class=" text-center">
                                 <td>{{ $technician->name }}</td>
