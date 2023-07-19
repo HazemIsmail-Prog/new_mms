@@ -28,23 +28,29 @@ class TechnicianPage extends Component
 
     public function accept_order()
     {
-        $this->order->update(['status_id' => 3]);
+        if ($this->order->technician_id == auth()->id()) {
+            $this->order->update(['status_id' => 3]);
+        }
         $this->refresh();
     }
 
     public function arrived_order()
     {
-        $this->order->update(['status_id' => 7]);
+        if ($this->order->technician_id == auth()->id()) {
+            $this->order->update(['status_id' => 7]);
+        }
         $this->refresh();
     }
 
     public function complete_order()
     {
-        $this->order->update([
-            'status_id' => 4,
-            'completed_at' => now(),
-            'index' => null,
-        ]);
+        if ($this->order->technician_id == auth()->id()) {
+            $this->order->update([
+                'status_id' => 4,
+                'completed_at' => now(),
+                'index' => null,
+            ]);
+        }
         $this->refresh();
     }
 
