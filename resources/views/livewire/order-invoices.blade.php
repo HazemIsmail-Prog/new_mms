@@ -35,7 +35,7 @@
                                         <th style="text-align: right;">{{ __('messages.unit_price') }}</th>
                                         <th style="text-align: right;">{{ __('messages.total') }}</th>
                                     </tr>
-                                    @if ($invoice->invoice_details->where('service.type', 'service')->count() > 0)
+                                    @if ($invoice->invoice_details->load('service')->where('service.type', 'service')->count() > 0)
                                         <tr class=" border-bottom">
                                             <th>{{ __('messages.services') }}</th>
                                         </tr>
@@ -50,7 +50,7 @@
                                             </tr>
                                         @endforeach
                                     @endif
-                                    @if ($invoice->invoice_details->where('service.type', 'part')->count() > 0)
+                                    @if ($invoice->invoice_details->load('service')->where('service.type', 'part')->count() > 0)
                                         <tr class=" border-bottom">
                                             <th>{{ __('messages.parts') }}</th>
                                         </tr>

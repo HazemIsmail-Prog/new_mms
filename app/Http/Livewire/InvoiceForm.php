@@ -16,6 +16,9 @@ class InvoiceForm extends Component
     public $services;
     public $search = '';
     public $grand_total = 0;
+    public $showWarning = false;
+    public $services_count = 0;
+    public $parts_count = 0;
 
     public function mount()
     {
@@ -55,8 +58,19 @@ class InvoiceForm extends Component
             'selected_services.*.service_id' => 'required',
             'selected_services.*.quantity' => 'required',
             'selected_services.*.price' => 'required',
+            'search' => 'prohibited',
+            'showWarning' => 'boolean|not_in:1',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'search.prohibited' => __('messages.clear_search_to_continue'),
+        ];
+    }
+
+
 
     public function updatedSelectedServices($val, $key)
     {
@@ -64,13 +78,17 @@ class InvoiceForm extends Component
         $field = explode('.', $key)[1];
 
         $this->selected_services[$index]['service_total'] = 0;
-        if (!$val == '') {
-            $this->selected_services[$index]['service_total'] = @$this->selected_services[$index]['quantity'] * @$this->selected_services[$index]['price'];
+        if ($field == 'service_id' && !$val == '') {
+            $this->selected_services[$index]['service_type'] = $this->services->where('id', $val)->first()->type;
         }
 
         if ($field == 'service_id' && !$val) {
             unset($this->selected_services[$index]);
         }
+        if (!$val == '') {
+            $this->selected_services[$index]['service_total'] = @$this->selected_services[$index]['quantity'] * @$this->selected_services[$index]['price'];
+        }
+
 
         $this->grand_total = 0;
         foreach ($this->selected_services as $row) {
@@ -78,19 +96,52 @@ class InvoiceForm extends Component
         }
     }
 
+    public function check_before_submit()
+    {
+        $this->services_count = 0;
+        $this->parts_count = 0;
+        foreach ($this->selected_services as $service) {
+            if ($service['service_type'] == 'service') {
+                $this->services_count++;
+            }
+            if ($service['service_type'] == 'part') {
+                $this->parts_count++;
+            }
+        }
+        // dd($this->services_count, $this->parts_count);
+
+        if ($this->services_count == 0 || $this->parts_count == 0) {
+            $this->showWarning = true;
+        } else {
+            $this->showWarning = false;
+        }
+        $this->validate();
+    }
+
+    public function confirm_save()
+    {
+        $this->showWarning = false;
+        $this->validate();
+        $this->create_invoice();
+    }
+
+    public function form_submit()
+    {
+        $this->showWarning = false;
+        $this->validate();
+        $this->check_before_submit();
+        $this->create_invoice();
+    }
+
     public function create_invoice()
     {
-        $this->validate();
-
         DB::beginTransaction();
-
         try {
             $invoice = Invoice::create([
                 'order_id' => $this->order_id,
                 'user_id' => auth()->id(),
                 'payment_status' => $this->grand_total > 0 ? 'pending' : 'free',
             ]);
-
             foreach ($this->selected_services as $row) {
                 $invoice->invoice_details()->create([
                     'service_id' => $row['service_id'],
@@ -98,9 +149,7 @@ class InvoiceForm extends Component
                     'price' => $row['price'],
                 ]);
             }
-
             DB::commit();
-
             $this->emit('order_updated');
         } catch (\Exception $e) {
             DB::rollback();

@@ -2,7 +2,7 @@
 
     <input wire:model="search" type="text" class=" form-control mb-4" placeholder="{{ __('messages.search') }}">
 
-    <form wire:submit.prevent="create_invoice">
+    <form wire:submit.prevent="form_submit" method="POST" action="">
         <h1>{{ __('messages.services') }}</h1>
         <div style="max-height: 400px;overflow-y:auto">
             <table class=" table table-striped border">
@@ -113,10 +113,38 @@
                 </tbody>
             </table>
         </div>
-        <div>
-            <button type="submit" class=" btn btn-sm btn-facebook">{{ __('messages.save') }}</button>
-            <button type="button" wire:click="close_invoice_form"
-                class=" btn btn-sm text-danger">{{ __('messages.cancel') }}</button>
+        <div class=" text-center mt-4">
+            {{-- Warning --}}
+            @if ($showWarning)
+                <div class="alert alert-warning alert-dismissible fade show text-center p-4" role="alert">
+                    @if ($services_count == 0)
+                        <h2>{{ __('messages.no_services_selected') }}</h2>
+                        <h4 class="mb-4">{{ __('messages.are_u_sure') }}</h4>
+                    @endif
+                    @if ($parts_count == 0)
+                        <h2>{{ __('messages.no_parts_selected') }}</h2>
+                        <h4 class="mb-4">{{ __('messages.are_u_sure') }}</h4>
+                    @endif
+                    <div>
+                        <button wire:click="confirm_save" type="button"
+                            class=" btn btn-warning">{{ __('messages.confirm_saving') }}</button>
+                        <button type="button" wire:click="$set('showWarning',false)"
+                            class=" btn text-danger">{{ __('messages.back_to_invoice') }}</button>
+                    </div>
+                </div>
+            @endif
+            {{-- Warning --}}
+            @error('selected_services')
+                <h2 class=" text-danger mb-4">{{ __('messages.selected_services_required') }}</h2>
+            @enderror
+            @error('search')
+                <h2 class=" text-danger mb-4">{{ __('messages.clear_search_to_continue') }}</h2>
+            @enderror
+            @if (!$showWarning)
+                <button type="submit" class=" btn btn-facebook">{{ __('messages.save') }}</button>
+                <button type="button" wire:click="close_invoice_form"
+                    class=" btn text-danger">{{ __('messages.cancel') }}</button>
+            @endif
         </div>
     </form>
 
