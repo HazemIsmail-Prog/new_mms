@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="phone">{{ __('messages.customer_phone') }}</label>
-                                        <input wire:ignore wire:model="filter.customer_phone" type="number"
+                                        <input wire:ignore wire:model.debounce.1000ms="filter.customer_phone" type="number"
                                             id="phone" class="form-control">
                                     </div>
                                     <div wire:ignore class="form-group w-100">

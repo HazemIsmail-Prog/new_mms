@@ -38,7 +38,7 @@
                                             wire:model="search.name" class="form-control"
                                             value="{{ request('name') }}"></td>
                                     <td><input wire:ignore autocomplete="off" list="autocompleteOff" type="number"
-                                            wire:model="search.phone" class="form-control"
+                                            wire:model.debounce.1000ms="search.phone" class="form-control"
                                             value="{{ request('phone') }}"></td>
                                     <td class="custom-control-inline">
                                         <select class="form-control" wire:model="search.area_id" id="area_id">
