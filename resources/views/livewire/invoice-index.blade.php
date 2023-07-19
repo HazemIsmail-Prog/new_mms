@@ -91,6 +91,7 @@
                                             <option value="pending">{{ __('messages.pending') }}</option>
                                             <option value="partially_paid">{{ __('messages.partially_paid') }}</option>
                                             <option value="paid">{{ __('messages.paid') }}</option>
+                                            <option value="free">{{ __('messages.free') }}</option>
                                         </select>
                                     </td>
                                 </tr>

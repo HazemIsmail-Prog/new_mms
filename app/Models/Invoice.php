@@ -45,13 +45,9 @@ class Invoice extends Model
     public function getPaymentStatusAttribute()
     {
         if ($this->payments()->count() == 0) {
-            return 'pending';
+            return $this->amount > 0 ? 'pending' : 'free' ;
         } else {
-            if ($this->remaining_amount == 0) {
-                return 'paid';
-            } else {
-                return 'partially_paid';
-            }
+            return $this->remaining_amount == 0 ? 'paid' : 'partially_paid' ;
         }
     }
 

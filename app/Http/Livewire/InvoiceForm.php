@@ -88,6 +88,7 @@ class InvoiceForm extends Component
             $invoice = Invoice::create([
                 'order_id' => $this->order_id,
                 'user_id' => auth()->id(),
+                'payment_status' => $this->grand_total > 0 ? 'pending' : 'free',
             ]);
 
             foreach ($this->selected_services as $row) {
