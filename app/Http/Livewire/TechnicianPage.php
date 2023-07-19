@@ -28,7 +28,8 @@ class TechnicianPage extends Component
 
     public function accept_order()
     {
-        if ($this->order->technician_id == auth()->id()) {
+        $order = Order::find($this->order->id);
+        if ($order->technician_id == auth()->id()) {
             $this->order->update(['status_id' => 3]);
         }
         $this->refresh();
@@ -36,7 +37,8 @@ class TechnicianPage extends Component
 
     public function arrived_order()
     {
-        if ($this->order->technician_id == auth()->id()) {
+        $order = Order::find($this->order->id);
+        if ($order->technician_id == auth()->id()) {
             $this->order->update(['status_id' => 7]);
         }
         $this->refresh();
@@ -44,7 +46,8 @@ class TechnicianPage extends Component
 
     public function complete_order()
     {
-        if ($this->order->technician_id == auth()->id()) {
+        $order = Order::find($this->order->id);
+        if ($order->technician_id == auth()->id()) {
             $this->order->update([
                 'status_id' => 4,
                 'completed_at' => now(),
