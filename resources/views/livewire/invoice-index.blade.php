@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>@lang('messages.invoices')</div>
+                    <div>@lang('messages.invoices') - {{ $invoices->total() }}</div>
                 </div>
 
                 <div class="card-body">
@@ -26,12 +26,12 @@
                         <table class="table table-hover table-bordered table-outline mb-0">
                             <thead>
                                 <tr>
-                                    <th>{{ __('messages.invoice_number') }}</th>
-                                    <th>{{ __('messages.order_number') }}</th>
-                                    <th>{{ __('messages.date') }}</th>
-                                    <th>{{ __('messages.department') }}</th>
-                                    <th>{{ __('messages.technician') }}</th>
-                                    <th>{{ __('messages.customer_name') }}</th>
+                                    <th class=" text-center">{{ __('messages.invoice_number') }}</th>
+                                    <th class=" text-center">{{ __('messages.order_number') }}</th>
+                                    <th class=" text-center">{{ __('messages.date') }}</th>
+                                    <th class=" text-center">{{ __('messages.department') }}</th>
+                                    <th class=" text-center">{{ __('messages.technician') }}</th>
+                                    <th class=" text-center">{{ __('messages.customer_name') }}</th>
                                     <th class=" text-center">{{ __('messages.customer_phone') }}</th>
                                     <th>{{ __('messages.amount') }}</th>
                                     <th>{{ __('messages.services') }}</th>
@@ -54,7 +54,7 @@
                                     <td><input autocomplete="off" list="autocompleteOff" type="date"
                                             wire:model="search.invoice_date" class="form-control form-control-sm"
                                             value="{{ request('invoice_date') }}"></td>
-                                    <td>
+                                    <td class=" text-center">
                                         <select wire:model="search.department_id" class="form-control form-control-sm">
                                             <option value="">---</option>
                                             @foreach ($departments->sortBy('name') as $department)
@@ -62,7 +62,7 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td>
+                                    <td class=" text-center">
                                         <select wire:model="search.technician_id" class="form-control form-control-sm">
                                             <option value="">---</option>
                                             @foreach ($technicians->sortBy('name') as $technician)
@@ -70,7 +70,7 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input autocomplete="off" list="autocompleteOff" type="text"
+                                    <td class=" text-center"><input autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.customer_name" class="form-control form-control-sm"
                                             value="{{ request('customer_name') }}">
                                     </td>
@@ -99,30 +99,30 @@
                             <tbody>
                                 @forelse ($invoices as $invoice)
                                     <tr>
-                                        <td>
-                                            <a target="_blank" class=" text-decoration-none text-reset" href="{{ route('invoice.detailed_pdf',$invoice) }}">{{ $invoice->id }}</a>
+                                        <td class=" text-center">
+                                            <a target="_blank" class="btn" href="{{ route('invoice.detailed_pdf',$invoice) }}">{{ $invoice->id }}</a>
                                         </td>
-                                        <td>
-                                            <button class="btn btn-sm" target="popup"
+                                        <td class=" text-center">
+                                            <button class="btn" target="popup"
                                                 onclick="popupWindow('{{ route('orders.show', $invoice->order_id) }}', 'test');">
                                                 {{ $invoice->order_id }}
                                             </button>
                                         </td>
-                                        <td>{{ $invoice->created_at->format('d-m-Y') }}</td>
-                                        <td>
+                                        <td class=" text-center">{{ $invoice->created_at->format('d-m-Y') }}</td>
+                                        <td class=" text-center">
                                             <div wire:click="$set('search.department_id', '{{ $invoice->order->department_id }}')"
                                                 style="cursor: pointer">
                                                 {{ $invoice->order->department->name }}
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class=" text-center">
                                             <div wire:click="$set('search.technician_id', '{{ $invoice->order->technician_id }}')"
                                                 style="cursor: pointer">
                                                 {{ $invoice->order->technician->name }}
                                             </div>
                                             
                                         </td>
-                                        <td>{{ $invoice->order->customer->name }}</td>
+                                        <td class=" text-center">{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
                                         <td>{{ $invoice->amount == 0 ? '' : number_format($invoice->amount, 3) }}</td>
                                         <td>{{ $invoice->services_amount == 0 ? '' : number_format($invoice->services_amount, 3) }}
@@ -148,7 +148,9 @@
                             </tbody>
                             <tfoot>
                                 <tr class="bg-light text-black-50">
-                                    <th colspan="7" class=" text-center">{{ __('messages.total') }}</th>
+                                    <th class=" text-center">{{ $invoices->count() }}</th>
+                                    <th class=" text-center">{{ $invoices->groupBy('order_id')->count() }}</th>
+                                    <th colspan="5" class=" text-center">{{ __('messages.total') }}</th>
                                     <th>{{ number_format($invoices->sum('amount'), 3) }}</th>
                                     <th>{{ number_format($invoices->sum('services_amount'), 3) }}</th>
                                     <th>{{ number_format($invoices->sum('parts_amount'), 3) }}</th>
