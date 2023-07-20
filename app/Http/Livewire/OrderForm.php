@@ -76,7 +76,9 @@ class OrderForm extends Component
     {
         if ($key == 'department_id') {
             $this->technician_id = '';
-            $this->technicians = Department::find($val)->technicians;
+            if($val){
+                $this->technicians = Department::find($val)->technicians;
+            }
         }
 
         if (in_array($key, ['department_id', 'estimated_start_date', 'address_id'])) {
