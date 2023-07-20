@@ -6,6 +6,7 @@ use App\Events\OrderEvent;
 use App\Events\RefreshTechnicianPageEvent;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\User;
 
 class OrderObserver
 {
@@ -28,7 +29,7 @@ class OrderObserver
             'technician_id' => $order->technician_id,
             'user_id' => auth()->id() ?? 1,
         ]);
-        event(new OrderEvent($order->department_id,$order->id,'order_created'));
+        event(new OrderEvent($order->department_id, $order->id, 'order_created'));
     }
 
     public function updated(Order $order)
@@ -47,19 +48,38 @@ class OrderObserver
 
         event(new OrderEvent($order->department_id, $order->id, 'order_updated'));
 
-        // to send event to technician page only for the first order
-        if($order->index == 0){
-            $new_technician_id = $order->technician_id;
-            $old_technician_id = $order->getOriginal('technician_id');
+        // if ($order->isDirty('index') || $order->isDirty('technician_id')) {
+        //     $new_technician = User::find($order->technician_id);
+        //     $old_technician = User::find($order->getOriginal('technician_id'));
 
-            // to send only one event if the technician not changed
-            if($new_technician_id == $old_technician_id){
-                event(new RefreshTechnicianPageEvent($new_technician_id));
-            }else{
-                event(new RefreshTechnicianPageEvent($new_technician_id));
-                event(new RefreshTechnicianPageEvent($old_technician_id));
-            }
-        }
+            
+        //     // if ($new_technician->id === $old_technician->id) {
+        //     //     dd($new_technician->id, $old_technician->id);
+        //     //     // event(new RefreshTechnicianPageEvent($new_technician->id));
+        //     //     return;
+        //     // }
+        //     if ($new_technician->current_order_for_technician->id == $order->id) {
+        //         event(new RefreshTechnicianPageEvent($new_technician->id));
+        //     }
+
+        //     if($old_technician){
+
+        //         event(new RefreshTechnicianPageEvent($old_technician->id));
+        //     }
+
+        // }
+
+        // to send event to technician page only for the first order
+        // if($order->index == 0){
+
+        //     // to send only one event if the technician not changed
+        //     if($new_technician_id == $old_technician_id){
+        //         event(new RefreshTechnicianPageEvent($new_technician_id));
+        //     }else{
+        //         event(new RefreshTechnicianPageEvent($new_technician_id));
+        //         event(new RefreshTechnicianPageEvent($old_technician_id));
+        //     }
+        // }
         // if($order->index == 0){
         //     $this->toFirebase($order->technician_id, $order->id,$order->creator->name_en);
         // }

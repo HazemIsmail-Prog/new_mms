@@ -18,12 +18,7 @@ class TechnicianPage extends Component
 
     public function refresh()
     {
-        $this->order = Order::query()
-            ->where('technician_id', auth()->id())
-            ->whereIn('status_id', [2, 3, 7])
-            ->orderBy('index')
-            ->with('invoices.payments')
-            ->first();
+        $this->order = auth()->user()->current_order_for_technician;
     }
 
     public function accept_order()

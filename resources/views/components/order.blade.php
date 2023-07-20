@@ -22,6 +22,21 @@
                 <th>@lang('messages.order_description')</th>
                 <td>{{ $order->order_description ?? '-' }}</td>
             </tr>
+            @if (!in_array($order->status_id, [3, 7]))
+                <tr>
+                    <th>@lang('messages.technician')</th>
+                    <td>
+                        <select wire:loading.attr="disabled"
+                            wire:model="change_order_technician.{{ $order->id }}.technician_id"
+                            class=" form-control form-control-sm">
+                            <option disabled selected value="">---</option>
+                            @foreach ($this->technicians->sortBy('name') as $technician)
+                                <option value="{{ $technician->id }}">{{ $technician->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+            @endif
             {{-- <tr>
                 <th>@lang('messages.notes')</th>
                 <td>{{$order->notes ?? '-'}}</td>
@@ -30,21 +45,20 @@
     </div>
     <div class=" d-flex justify-content-between align-items-center mb-0 p-2"
         style="border-top: 1px solid {{ $order->status_color }}">
-        <button class="btn btn-sm" target="popup"
-            onclick="popupWindow('{{ route('orders.show', $order) }}', 'test');">
+        <button class="btn btn-sm" target="popup" onclick="popupWindow('{{ route('orders.show', $order) }}', 'test');">
             <svg style="width: 15px;height: 15px">
                 <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-featured-playlist') }}"></use>
             </svg>
         </button>
         @if ($order->status_id != 5)
-            <form class="d-inline m-0" wire:submit.prevent="change_technician({{ $order->id }}, 'hold' , [])">
+            <form class="d-inline m-0" wire:submit.prevent="change_technician({{ $order->id }}, 'hold' , {{ $order->technician_id }}, [])">
                 <button type="submit" class=" btn btn-sm text-dark"
                     onclick="return confirm('{{ __('messages.hold_order_confirmation') }}')">
                     {{ __('messages.on_hold') }}
                 </button>
             </form>
         @endif
-        <form class="d-inline m-0" wire:submit.prevent="change_technician({{ $order->id }}, 'cancel' , [])">
+        <form class="d-inline m-0" wire:submit.prevent="change_technician({{ $order->id }}, 'cancel',{{ $order->technician_id }} , [])">
             <button type="submit" class=" btn btn-sm text-danger"
                 onclick="return confirm('{{ __('messages.cancel_order_confirmation') }}')">
                 <svg style="width: 15px;height: 15px">
@@ -65,7 +79,7 @@
             const x = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
             return window.open(url, windowName,
                 `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${y}, left=${x}`
-                );
+            );
         }
     </script>
 @endpush

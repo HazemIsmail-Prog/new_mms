@@ -168,7 +168,7 @@
                 loadDataFromDragulaJs();
             }
 
-            Pusher.logToConsole = true;
+            // Pusher.logToConsole = true;
             var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
                 cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
             });
@@ -210,14 +210,13 @@
                 });
                 drake.on('drop', function(order, boxTo, boxFrom) {
                     var order_id = order.id.replace('order', '');
-                    var tech_id = boxTo.id.replace('tech', '');
-                    // console.log(order_id,tech_id);
+                    var new_tech_id = boxTo.id.replace('tech', '');
+                    var old_tech_id = boxFrom.id.replace('tech', '');
                     var positions = [];
-                    $('#tech' + tech_id).children().each(function(index) {
+                    $('#tech' + new_tech_id).children().each(function(index) {
                         positions.push([$(this).attr('id').replace('order', ''), index]);
                     });
-                    // console.log(positions);
-                    @this.change_technician(order_id, tech_id, positions);
+                    @this.change_technician(order_id, new_tech_id,old_tech_id, positions);
                 });
             }
 
@@ -234,15 +233,15 @@
                         swapThreshold: 1,
                         onEnd: function( /**Event*/ evt) {
                             var order_id = evt.item.id.replace('order', '');
-                            var tech_id = evt.to.id.replace('tech', '');
+                            var new_tech_id = evt.to.id.replace('tech', '');
+                            var old_tech_id = evt.from.id.replace('tech', '');
                             var positions = [];
-                            $('#tech' + tech_id).children().each(function(index) {
+                            $('#tech' + new_tech_id).children().each(function(index) {
                                 positions.push([$(this).attr('id').replace('order', ''),
                                     index
                                 ]);
                             });
-                            // console.log(positions);
-                            @this.change_technician(order_id, tech_id, positions);
+                            @this.change_technician(order_id, new_tech_id, old_tech_id, positions);
                         },
                     });
                 });

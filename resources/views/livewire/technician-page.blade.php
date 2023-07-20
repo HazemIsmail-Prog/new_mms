@@ -116,7 +116,7 @@
 
 @push('scripts')
     <script>
-        // Pusher.logToConsole = true;
+        Pusher.logToConsole = true;
         var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
             cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
         });

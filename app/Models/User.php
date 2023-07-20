@@ -11,7 +11,7 @@ use Korridor\LaravelHasManyMerged\HasManyMergedRelation;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,SoftDeletes,HasManyMergedRelation;
+    use HasFactory, Notifiable, SoftDeletes, HasManyMergedRelation;
 
     /**
      * The attributes that are mass assignable.
@@ -69,20 +69,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->with('permissions');
     }
 
-     public function permissions()
-     {
-         $permissionList = [];
+    public function permissions()
+    {
+        $permissionList = [];
 
-         foreach ($this->roles as $role) {
-             foreach ($role->permissions as $permission) {
-                 if (! in_array($permission->id, $permissionList)) {
-                     $permissionList[] = $permission->id;
-                 }
-             }
-         }
+        foreach ($this->roles as $role) {
+            foreach ($role->permissions as $permission) {
+                if (!in_array($permission->id, $permissionList)) {
+                    $permissionList[] = $permission->id;
+                }
+            }
+        }
 
-         return $permissionList;
-     }
+        return $permissionList;
+    }
 
     public function hasPermission($permission)
     {
@@ -107,5 +107,14 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->hasManyMerged(Message::class, ['sender_user_id', 'receiver_user_id']);
+    }
+
+    public function getCurrentOrderForTechnicianAttribute()
+    {
+        return $this->orders_technician()
+            ->whereIn('status_id', [2, 3, 7])
+            ->orderBy('index')
+            ->with('invoices.payments')
+            ->first();
     }
 }
