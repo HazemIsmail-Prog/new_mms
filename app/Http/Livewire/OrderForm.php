@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\RefreshTechnicianPageEvent;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Order;
+use App\Models\User;
 use Livewire\Component;
 
 class OrderForm extends Component
@@ -14,6 +16,8 @@ class OrderForm extends Component
     public $address_id;
     public $department_id;
     public $departments;
+    public $technicians = [];
+    public $technician_id = '';
     public $estimated_start_date;
     public $order_description;
     public $orderNotes;
@@ -26,7 +30,7 @@ class OrderForm extends Component
         $this->customer = Customer::find($customer_id);
         $this->order = Order::find($order_id);
 
-        if (! $this->order_id) {
+        if (!$this->order_id) {
             //create
             $this->departments = Department::where('is_service', 1)->get();
             $this->phone_id = $this->customer->phones->count() == 1 ? $this->customer->phones()->first()->id : null;
@@ -35,12 +39,14 @@ class OrderForm extends Component
         } else {
             //edit
             $this->departments = $this->order->technician ? Department::whereId($this->order->department_id)->get() : Department::where('is_service', 1)->get();
+            $this->updated('department_id', $this->order->department_id);
             $this->department_id = $this->order->department_id;
+            $this->technician_id = $this->order->technician_id;
             $this->customer = $this->order->customer;
             $this->phone_id = $this->order->phone->id;
             $this->address_id = $this->order->address->id;
             $this->department_id = $this->order->department_id;
-            $this->estimated_start_date = $this->order-> estimated_start_date->format('Y-m-d');
+            $this->estimated_start_date = $this->order->estimated_start_date->format('Y-m-d');
             $this->order_description = $this->order->order_description;
             $this->orderNotes = $this->order->notes;
         }
@@ -66,26 +72,31 @@ class OrderForm extends Component
         ];
     }
 
-    public function updated($key)
+    public function updated($key, $val)
     {
+        if ($key == 'department_id') {
+            $this->technician_id = '';
+            $this->technicians = Department::find($val)->technicians;
+        }
+
         if (in_array($key, ['department_id', 'estimated_start_date', 'address_id'])) {
             $this->dup_orders_count = Order::query()
-            ->where([
-                'address_id' => $this->address_id,
-                'department_id' => $this->department_id,
-                'estimated_start_date' => $this->estimated_start_date,
-            ])
-            ->when($this->order, function ($q) {
-                $q->where('id', '!=', $this->order->id);
-            })
-            ->count();
+                ->where([
+                    'address_id' => $this->address_id,
+                    'department_id' => $this->department_id,
+                    'estimated_start_date' => $this->estimated_start_date,
+                ])
+                ->when($this->order, function ($q) {
+                    $q->where('id', '!=', $this->order->id);
+                })
+                ->count();
         }
     }
 
     public function saveOrder()
     {
         $this->validate();
-        if (! $this->order_id) {
+        if (!$this->order_id) {
             //create
             $data = [
                 'customer_id' => $this->customer->id,
@@ -101,6 +112,18 @@ class OrderForm extends Component
                 'order_description' => $this->order_description,
             ];
             $this->order = Order::create($data);
+
+            if ($this->technician_id) {
+                $this->order->update([
+                    'technician_id' => $this->technician_id,
+                    'status_id' => 2,
+                    'index' => 1000,
+                ]);
+                $technician = User::find($this->technician_id);
+                if($technician->current_order_for_technician->id == $this->order->id){
+                    event(new RefreshTechnicianPageEvent($this->technician_id));
+                }
+            }
             session()->flash('success', __('messages.added_successfully'));
 
             return redirect()->route('customers.index');

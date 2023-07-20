@@ -85,6 +85,32 @@
                     @enderror
                 </div>
 
+                @can('dispatching_menu')
+                    @if (!$order)
+                        @if (in_array(
+                                $department_id,
+                                auth()->user()->departments->pluck('id')->toArray()))
+                            <div class="form-group col-md-6">
+                                <label for="technician_id">@lang('messages.technician')</label>
+                                <select wire:model.lazy="technician_id"
+                                    class="form-control text-center @error('technician_id') is-invalid @enderror"
+                                    id="technician_id">
+                                    <option value="">---</option>
+                                    @foreach ($technicians as $technician)
+                                        <option value="{{ $technician->id }}">{{ $technician->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('technician_id')
+                                    <span class="small text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
+                    @endif
+                @endcan
+
+
+
+
                 <div class="form-group col-md-6">
                     <label for="estimated_start_date">@lang('messages.estimated_start_date')</label>
                     <input wire:model.lazy="estimated_start_date" autocomplete="off" type="date"
