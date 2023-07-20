@@ -70,8 +70,9 @@
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td class=" text-center"><input autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.customer_name" class="form-control form-control-sm"
+                                    <td class=" text-center"><input autocomplete="off" list="autocompleteOff"
+                                            type="text" wire:model="search.customer_name"
+                                            class="form-control form-control-sm"
                                             value="{{ request('customer_name') }}">
                                     </td>
                                     <td><input autocomplete="off" list="autocompleteOff" type="number"
@@ -100,12 +101,17 @@
                                 @forelse ($invoices as $invoice)
                                     <tr>
                                         <td class=" text-center">
-                                            <a target="_blank" class="btn" href="{{ route('invoice.detailed_pdf',$invoice) }}">{{ $invoice->id }}</a>
+                                            <a target="_blank" class="btn"
+                                                href="{{ route('invoice.detailed_pdf', $invoice) }}">{{ $invoice->id }}</a>
                                         </td>
                                         <td class=" text-center">
                                             <button class="btn" target="popup"
                                                 onclick="popupWindow('{{ route('orders.show', $invoice->order_id) }}', 'test');">
                                                 {{ $invoice->order_id }}
+                                                @if ($invoice->order->invoices_count > 1)
+                                                    <span
+                                                        class="badge badge-info">{{ $invoice->order->invoices_count }}</span>
+                                                @endif
                                             </button>
                                         </td>
                                         <td class=" text-center">{{ $invoice->created_at->format('d-m-Y') }}</td>
@@ -120,7 +126,7 @@
                                                 style="cursor: pointer">
                                                 {{ $invoice->order->technician->name }}
                                             </div>
-                                            
+
                                         </td>
                                         <td class=" text-center">{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
@@ -167,7 +173,7 @@
                     </div>
                     <div class=" d-flex justify-content-between align-items-center mt-2">
                         <div>{{ $invoices->links() }}</div>
-                        <select class=" form-control" style="width: fit-content;"  wire:model="pagination">
+                        <select class=" form-control" style="width: fit-content;" wire:model="pagination">
                             <option value="10">10</option>
                             <option value="50">50</option>
                             <option value="100">100</option>

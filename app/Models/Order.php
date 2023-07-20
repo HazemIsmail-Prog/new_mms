@@ -97,6 +97,11 @@ class Order extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function getInvoicesCountAttribute()
+    {
+        return $this->invoices()->count();
+    }
+
     public function scopeFilterWhenRequest($query, $filter)
     {
         return $query
