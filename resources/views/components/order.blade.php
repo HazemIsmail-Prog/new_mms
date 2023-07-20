@@ -1,6 +1,9 @@
-<div style=" border: 1px solid {{ $order->status_color }}"
-    class="order{{ in_array($order->status_id, [3, 7]) ? '-non-dragable' : '' }}" id="order{{ $order->id }}"
+<div style=" overflow:visible; border: 1px solid {{ $order->status_color }}"
+    class=" position-relative order{{ in_array($order->status_id, [3, 7]) ? '-non-dragable' : '' }}" id="order{{ $order->id }}"
     draggable='{{ in_array($order->status_id, [3, 7]) ? 'false' : 'true' }}'>
+    @if ($order->comments->where('is_read',false)->where('user_id','!=',auth()->id())->count()>0)
+    <span wire:click="mark_comments_as_read({{ $order }})" style="left: -15px;top: -15px;font-size: 0.9rem;padding: 9px 15px;" class=" position-absolute bg-danger text-white rounded-circle">{{ $order->comments->where('is_read',false)->where('user_id','!=',auth()->id())->count() }}</span>
+    @endif
     <div class=" p-2 text-white" style="background: {{ $order->status_color }}">
         <div class="d-flex justify-content-between">
             <div>{{ $order->customer_name }}</div>

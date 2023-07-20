@@ -70,6 +70,7 @@ class DistPanel extends Component
                 $q->select(['color']);
             }])
             ->with(['address'])
+            ->with(['comments'])
             ->whereNotIn('status_id', [4, 6])
             ->whereDate('estimated_start_date', '<=', today())
             ->when($this->date_filter, function ($q) {
@@ -81,6 +82,13 @@ class DistPanel extends Component
         foreach ($this->orders as $order) {
             $this->change_order_technician[$order->id]['technician_id'] = $order->technician_id ?? '';
         }
+    }
+
+    public function mark_comments_as_read($order)
+    {
+        // dd($order);
+        Order::find($order['id'])->comments()->update(['is_read'=>true]);
+        $this->refresh_data();
     }
 
     public function change_technician($order_id, $new_tech_id, $old_tech_id, $positions)

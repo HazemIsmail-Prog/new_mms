@@ -31,6 +31,7 @@ class OrderComments extends Component
         $this->order->comments()->create([
             'comment' => $this->comment,
             'user_id' => auth()->id(),
+            'is_read' => false,
         ]);
         $this->comment = '';
         $this->refresh();
