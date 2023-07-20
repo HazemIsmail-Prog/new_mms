@@ -113,7 +113,10 @@
     <table class="table">
         <thead>
             <tr>
-                <th colspan="5">{{ __('messages.service') }}</th>
+                <th colspan="2">{{ __('messages.service') }}</th>
+                <th>{{ __('messages.quantity') }}</th>
+                <th>{{ __('messages.unit_price') }}</th>
+                <th>{{ __('messages.total') }}</th>
             </tr>
         </thead>
 
@@ -125,7 +128,10 @@
                         <td rowspan="{{ $invoice->invoice_details->where('service.type', 'service')->count() }}">
                             {{ __('messages.services') }}</td>
                     @endif
-                    <td colspan="4">{{ $row->service->name }}</td>
+                    <td>{{ $row->service->name }}</td>
+                    <td class=" text-center">{{ $row->quantity }}</td>
+                    <td class="text-right">{{ number_format($row->price, 3) }}</td>
+                    <td class="text-right">{{ number_format($row->quantity * $row->price, 3) }}</td>
                 </tr>
             @endforeach
         @endif
@@ -138,7 +144,10 @@
                         <td rowspan="{{ $invoice->invoice_details->where('service.type', 'part')->count() }}">
                             {{ __('messages.parts') }}</td>
                     @endif
-                    <td colspan="4">{{ $row->service->name }}</td>
+                    <td>{{ $row->service->name }}</td>
+                    <td class=" text-center">{{ $row->quantity }}</td>
+                    <td class="text-right">{{ number_format($row->price, 3) }}</td>
+                    <td class="text-right">{{ number_format($row->quantity * $row->price, 3) }}</td>
                 </tr>
             @endforeach
         @endif

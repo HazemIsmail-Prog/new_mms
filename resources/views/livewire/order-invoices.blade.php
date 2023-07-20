@@ -10,21 +10,27 @@
                         <div class="card-header bg-light d-flex justify-content-between align-items-center"
                             style="color:black">
                             <div>{{ __('messages.invoice_number') }} : {{ $invoice->id }}</div>
-                            @if ($invoice->payments->count() == 0  && auth()->id() == 1)
-                                <div>
-                                    <form method="POST" class="w-100 m-0"
-                                        wire:submit.prevent="delete_invoice({{ $invoice->id }})">
-                                        <button type="submit" class=" m-0 btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('{{ __('messages.delete_invoice_confirmation') }}')">
-                                            <svg style="width: 15px;height: 15px">
-                                                <use
-                                                    xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash') }}">
-                                                </use>
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            @endif
+                            <div class=" d-flex mb-0">
+                                <a class="btn btn-sm btn-facebook" target="_blank"
+                                    href="{{ route('invoice.detailed_pdf', $invoice) }}">{{ __('messages.print_detailed_invoice') }}</a>
+                                <a class="btn btn-sm btn-facebook" target="_blank"
+                                    href="{{ route('invoice.pdf', $invoice) }}">{{ __('messages.print_invoice') }}</a>
+                                @if ($invoice->payments->count() == 0 && auth()->id() == 1)
+                                    <div>
+                                        <form method="POST" class="w-100 m-0"
+                                            wire:submit.prevent="delete_invoice({{ $invoice->id }})">
+                                            <button type="submit" class=" m-0 btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('{{ __('messages.delete_invoice_confirmation') }}')">
+                                                <svg style="width: 15px;height: 15px">
+                                                    <use
+                                                        xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash') }}">
+                                                    </use>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                         <div class="card-body">
                             <table class=" table table-borderless m-0 font-sm">

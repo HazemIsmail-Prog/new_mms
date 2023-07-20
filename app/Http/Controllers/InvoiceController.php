@@ -13,6 +13,18 @@ class InvoiceController extends Controller
         $invoice->load('invoice_details.service');
         $page_title = 'MD Invoice No.' . $invoice->id;
         $file_name = $page_title . '.pdf';
+        $mpdf = new \Mpdf\Mpdf();
+        $body = view('pages.invoices.pdf', compact('invoice', 'page_title'));
+        $footer = view('pages.invoices.footer');
+        $mpdf->SetHTMLFooter($footer);
+        $mpdf->WriteHTML($body); //should be before output directly
+        $mpdf->Output($file_name, 'I');
+    }
+    public function detailed_pdf(Invoice $invoice)
+    {
+        $invoice->load('invoice_details.service');
+        $page_title = 'MD Detailed Invoice No.' . $invoice->id;
+        $file_name = $page_title . '.pdf';
         $mpdf = new \Mpdf\Mpdf([
             // 'pagenumPrefix' => 'Page number ',
             // 'pagenumSuffix' => ' - ',
@@ -24,7 +36,7 @@ class InvoiceController extends Controller
 
         // $mpdf->showImageErrors = true;
 
-        $body = view('pages.invoices.pdf', compact('invoice', 'page_title'));
+        $body = view('pages.invoices.detailed_pdf', compact('invoice', 'page_title'));
         $footer = view('pages.invoices.footer');
         $mpdf->SetHTMLFooter($footer);
 
@@ -36,8 +48,6 @@ class InvoiceController extends Controller
         // 'I': serves in-line to the browser
         // 'S': returns the PDF document as a string
         // 'F': save as file $file_out
-
-
 
         // $ultramsg_token = "h0721ef250tbrafm"; // Ultramsg.com token
         // $instance_id = "instance54424"; // Ultramsg.com instance id

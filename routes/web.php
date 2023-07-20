@@ -71,6 +71,7 @@ Route::group([
             Route::get('/orders/{order}', OrderShow::class)->name('orders.show'); //livewire
             Route::get('/orders', OrdersIndex::class)->name('orders.index'); //livewire
             Route::get('/invoice/pdf/{invoice}', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
+            Route::get('/invoice/detailed_pdf/{invoice}', [InvoiceController::class, 'detailed_pdf'])->name('invoice.detailed_pdf');
             Route::get('/invoices', InvoiceIndex::class)->name('invoices.index'); //livewire
 
             //Dispaching

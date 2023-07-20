@@ -100,7 +100,7 @@
                                 @forelse ($invoices as $invoice)
                                     <tr>
                                         <td>
-                                            <a target="_blank" class=" text-decoration-none text-reset" href="{{ route('invoice.pdf',$invoice) }}">{{ $invoice->id }}</a>
+                                            <a target="_blank" class=" text-decoration-none text-reset" href="{{ route('invoice.detailed_pdf',$invoice) }}">{{ $invoice->id }}</a>
                                         </td>
                                         <td>
                                             <button class="btn btn-sm" target="popup"
