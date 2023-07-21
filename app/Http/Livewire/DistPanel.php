@@ -70,7 +70,7 @@ class DistPanel extends Component
                 $q->select(['color']);
             }])
             ->with(['address'])
-            ->with(['comments'])
+            // ->with(['comments'])
             ->whereNotIn('status_id', [4, 6])
             ->whereDate('estimated_start_date', '<=', today())
             ->when($this->date_filter, function ($q) {

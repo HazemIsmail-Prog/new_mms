@@ -82,7 +82,7 @@ class OrdersIndex extends Component
         $this->creators = User::whereHas('orders_creator')->get();
         $this->technicians = User::whereHas('orders_technician')->get();
         $this->departments = Department::whereHas('orders')->get();
-        $this->statuses = Status::all();
+        $this->statuses = Status::orderBy('index')->get();
         
         $this->getData();
         $orders = $this->orders->paginate($this->pagination);

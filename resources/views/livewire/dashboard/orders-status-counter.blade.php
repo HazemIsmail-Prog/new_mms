@@ -4,27 +4,18 @@
         <div class="d-flex">
             <div class=" form-group w-100">
                 <label for="month">{{ __('messages.month') }}</label>
-                <select id="month" wire:model="month" class=" form-control form-control-sm">
-                    <option value="01">1</option>
-                    <option value="02">2</option>
-                    <option value="03">3</option>
-                    <option value="04">4</option>
-                    <option value="05">5</option>
-                    <option value="06">6</option>
-                    <option value="07">7</option>
-                    <option value="08">8</option>
-                    <option value="09">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                <select id="month" wire:model="selected_month" class=" form-control form-control-sm">
+                    @foreach ($months as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class=" form-group w-100">
                 <label for="year">{{ __('messages.year') }}</label>
-                <select id="year" wire:model="year" class=" form-control form-control-sm">
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
+                <select id="year" wire:model="selected_year" class=" form-control form-control-sm">
+                    @foreach ($years as $year)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -40,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody wire:poll.30s="getCounters">
-                    @forelse ($counters->groupBy('date') as $row)
+                    @forelse ($orders->groupBy('date') as $row)
                         <tr>
                             <th nowrap class=" text-center bg-light">
                                 <div>{{ __('messages.' . date('l', strtotime($row[0]->date))) }}</div>
@@ -48,9 +39,11 @@
                             </th>
                             @foreach ($statuses as $status)
                                 <td class=" text-center">
-                                    {{ $row->where('status_id', $status->id)->pluck('count')->first() }}</td>
+                                    {{ $row->where('status_id', $status->id)->pluck('count')->first() > 0? number_format($row->where('status_id', $status->id)->pluck('count')->first()): '-' }}
+                                </td>
                             @endforeach
-                            <th class=" text-center bg-light">{{ $row->sum('count') }}</th>
+                            <th class=" text-center bg-light">
+                                {{ $row->sum('count') > 0 ? number_format($row->sum('count')) : '-' }}</th>
                         </tr>
                     @empty
                         <tr>
@@ -63,10 +56,11 @@
                         <th class=" text-center align-middle">{{ __('messages.total') }}</th>
                         @foreach ($statuses as $status)
                             <th class=" text-center align-middle">
-                                {{ $counters->where('status_id', $status->id)->sum('count') }}</th>
+                                {{ $orders->where('status_id', $status->id)->sum('count') > 0 ? number_format($orders->where('status_id', $status->id)->sum('count')) : '-' }}
+                            </th>
                         @endforeach
                         <th class=" text-center align-middle">
-                            {{ $counters->sum('count') }}</th>
+                            {{ $orders->sum('count') > 0 ? number_format($orders->sum('count')) : '-' }}</th>
                     </tr>
                 </tfoot>
             </table>

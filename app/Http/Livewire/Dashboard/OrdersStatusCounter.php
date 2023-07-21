@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
-use App\Models\OrderStatus;
+use App\Models\Order;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -10,36 +10,37 @@ use Livewire\Component;
 class OrdersStatusCounter extends Component
 {
     public $statuses;
-
-    public $counters;
-
-    public $month;
-
-    public $year;
+    public $orders;
+    public $months;
+    public $years;
+    public $selected_month;
+    public $selected_year;
 
     public function mount()
     {
-        $this->statuses = Status::all();
-        $this->month = now()->format('m');
-        $this->year = now()->format('Y');
+        $this->statuses = Status::orderBy('index')->get();
+        $this->months = Order::selectRaw('MONTH(created_at) as month')
+        ->groupBy('month')
+        ->orderBy('month', 'desc')
+        ->pluck('month');
+        $this->years = Order::selectRaw('YEAR(created_at) as year')
+        ->groupBy('year')
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+        $this->selected_month = now()->format('m');
+        $this->selected_year = now()->format('Y');
         $this->getCounters();
     }
 
     public function getCounters()
     {
-        $this->counters = OrderStatus::query()
-        ->withOut(['status', 'creator', 'technician'])
-            ->whereMonth('created_at', $this->month)
-            ->whereYear('created_at', $this->year)
-            ->selectRaw('DATE(created_at) as date, COUNT(*) as count, status_id')
-            ->whereIn('id', function ($query) {
-                $query->select(DB::raw('MAX(id)'))
-                ->from('order_statuses')
-                ->groupBy('order_id');
-            })
-            ->groupBy(DB::raw('DATE(created_at)'), 'status_id')
-            ->orderByDesc('date')
-            ->get();
+        $this->orders = Order::query()
+        ->whereMonth('created_at',$this->selected_month)
+        ->whereYear('created_at',$this->selected_year)
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count, status_id')
+        ->groupBy(DB::raw('DATE(created_at)'), 'status_id')
+        ->orderByDesc('date')
+        ->get();
     }
 
     public function updated()
