@@ -66,9 +66,10 @@
 
         </div>
     </div>
+</div>
 
-    @if (Route::is('reports.department_technician_statistics'))
-        @section('title')
-            <title>@lang('messages.department_technician_statistics')</title>
-        @endsection
-    @endif
+@if (Route::is('reports.department_technician_statistics'))
+    @section('title')
+        <title>@lang('messages.department_technician_statistics')</title>
+    @endsection
+@endif
