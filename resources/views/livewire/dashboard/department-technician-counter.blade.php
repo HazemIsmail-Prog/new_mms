@@ -35,20 +35,22 @@
                             <th colspan="2">
                                 <div>
                                     <div>{{ $department->name }}</div>
-                                    <div class="progress m-2 border shadow-sm" style="height: 20px;">
-                                        <div class="bg-success progress-bar"
-                                            style="width: {{ ($department->completed_orders_count / $department->total_orders_count) * 100 }}%;">
-                                            {{ $department->completed_orders_count }}
+                                    @if ($department->total_orders_count > 0)
+                                        <div class="progress m-2 border shadow-sm" style="height: 20px;">
+                                            <div class="bg-success progress-bar"
+                                                style="width: {{ ($department->completed_orders_count / $department->total_orders_count) * 100 }}%;">
+                                                {{ $department->completed_orders_count }}
+                                            </div>
+                                            <div class="bg-light text-dark progress-bar"
+                                                style="width:{{ 100 - ($department->completed_orders_count / $department->total_orders_count) * 100 }}%;">
+                                                {{ $department->total_orders_count - $department->completed_orders_count }}
+                                            </div>
                                         </div>
-                                        <div class="bg-light text-dark progress-bar"
-                                            style="width:{{ 100 - ($department->completed_orders_count / $department->total_orders_count) * 100 }}%;">
-                                            {{ $department->total_orders_count - $department->completed_orders_count }}
+                                        <div>{{ $department->completed_orders_count }} /
+                                            {{ $department->total_orders_count }}
+                                            ({{ number_format(($department->completed_orders_count / $department->total_orders_count) * 100, 2) }}%)
                                         </div>
-                                    </div>
-                                    <div>{{ $department->completed_orders_count }} /
-                                        {{ $department->total_orders_count }}
-                                        ({{ number_format(($department->completed_orders_count / $department->total_orders_count) * 100, 2) }}%)
-                                    </div>
+                                    @endif
                                 </div>
                             </th>
                         </tr>
