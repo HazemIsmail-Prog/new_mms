@@ -3,24 +3,31 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Department;
+use App\Models\Order;
 use App\Models\Status;
 use Livewire\Component;
 
 class DepartmentTechnicianCounter extends Component
 {
     public $statuses;
-
     public $departments;
-
-    public $month;
-
-    public $year;
+    public $months;
+    public $years;
+    public $selected_month;
+    public $selected_year;
 
     public function mount()
     {
-        $this->statuses = Status::all();
-        $this->month = now()->format('m');
-        $this->year = now()->format('Y');
+        $this->months = Order::selectRaw('MONTH(created_at) as month')
+        ->groupBy('month')
+        ->orderBy('month', 'desc')
+        ->pluck('month');
+        $this->years = Order::selectRaw('YEAR(created_at) as year')
+        ->groupBy('year')
+        ->orderBy('year', 'desc')
+        ->pluck('year');
+        $this->selected_month = now()->format('m');
+        $this->selected_year = now()->format('Y');
         $this->getCounters();
     }
 
@@ -31,14 +38,18 @@ class DepartmentTechnicianCounter extends Component
             ->with(['technicians' => function ($q) {
                 $q->withCount(['orders_technician as completed_orders_count' => function ($q) {
                     $q->whereNotNull('completed_at');
-                    $q->whereMonth('completed_at', $this->month);
-                    $q->whereYear('completed_at', $this->year);
+                    $q->whereMonth('created_at', $this->selected_month);
+                    $q->whereYear('created_at', $this->selected_year);
                 }]);
             }])
             ->withCount(['orders as completed_orders_count' => function ($q) {
                 $q->whereNotNull('completed_at');
-                $q->whereMonth('completed_at', $this->month);
-                $q->whereYear('completed_at', $this->year);
+                $q->whereMonth('created_at', $this->selected_month);
+                $q->whereYear('created_at', $this->selected_year);
+            }])
+            ->withCount(['orders as total_orders_count' => function ($q) {
+                $q->whereMonth('created_at', $this->selected_month);
+                $q->whereYear('created_at', $this->selected_year);
             }])
             ->get();
     }
