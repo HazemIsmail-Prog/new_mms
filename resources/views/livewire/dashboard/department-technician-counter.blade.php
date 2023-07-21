@@ -23,15 +23,9 @@
 
 
             @foreach ($departments as $department)
-                <table class=" table table-bordered mb-2">
-                    {{-- <thead>
-                        <tr class=" text-center">
-                            <th>{{ __('messages.department') }} / {{ __('messages.technician') }}</th>
-                            <th>{{ __('messages.completed') }}</th>
-                        </tr>
-                    </thead> --}}
-                    <tbody>
-                        <tr class=" text-center bg-light">
+                <table x-data={show:false} class=" table table-bordered mb-2">
+                    <thead>
+                        <tr class=" text-center bg-light" style="cursor: pointer;" @click="show=!show">
                             <th colspan="2">
                                 <div>
                                     <div>{{ $department->name }}</div>
@@ -54,6 +48,8 @@
                                 </div>
                             </th>
                         </tr>
+                    </thead>
+                    <tbody x-show="show">
                         @foreach ($department->technicians->sortByDesc('completed_orders_count') as $technician)
                             @if ($technician->completed_orders_count > 0)
                                 <tr class=" text-center">
