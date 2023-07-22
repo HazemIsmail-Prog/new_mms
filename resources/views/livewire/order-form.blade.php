@@ -142,7 +142,8 @@
 
     </div>
     <div class="card-footer text-center">
-        <button wire:click="saveOrder" class="btn btn-facebook" type="button">@lang('messages.save')</button>
+        <button wire:loading.attr="disabled" wire:click="saveOrder" class="btn btn-facebook"
+            type="button">@lang('messages.save')</button>
         @if (!$order)
             {{-- create --}}
             <a href="{{ route('customers.index') }}" class="btn btn-ghost-danger" type="button">@lang('messages.back')</a>

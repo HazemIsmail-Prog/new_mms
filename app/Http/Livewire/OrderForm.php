@@ -24,6 +24,7 @@ class OrderForm extends Component
     public $dup_orders_count;
     public $order;
     public $order_id;
+    // public $disable_save_button = false;
 
     public function mount($customer_id, $order_id = null)
     {
@@ -98,6 +99,7 @@ class OrderForm extends Component
     public function saveOrder()
     {
         $this->validate();
+        // $this->disable_save_button = true;
         if (!$this->order_id) {
             //create
             $data = [
@@ -115,6 +117,8 @@ class OrderForm extends Component
             ];
             $this->order = Order::create($data);
 
+            $this->department_id = null; // this line to avoid order duplication with the user click on save many times
+
             if ($this->technician_id) {
                 $this->order->update([
                     'technician_id' => $this->technician_id,
@@ -127,7 +131,6 @@ class OrderForm extends Component
                 }
             }
             session()->flash('success', __('messages.added_successfully'));
-
             return redirect()->route('customers.index');
         } else {
             //edit
@@ -143,7 +146,6 @@ class OrderForm extends Component
             ];
             $this->order->update($data);
             session()->flash('success', __('messages.updated_successfully'));
-
             return redirect()->route('orders.index');
         }
     }
