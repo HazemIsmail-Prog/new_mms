@@ -124,7 +124,7 @@ class DistPanel extends Component
             default: // dragged to technician box
                 $order->technician_id = $new_tech_id;
                 $order->status_id = 2;
-                $order->index = 1000;
+                $order->index = $new_technician->orders_technician->max('index') + 1;
         }
 
         $order->save();
@@ -157,35 +157,6 @@ class DistPanel extends Component
                 event(new RefreshTechnicianPageEvent($old_tech_id));
             }
         }
-
-
-
-
-
-
-
-        //     if ($order_id == $new_technician->current_order_for_technician->id) {
-        //         event(new RefreshTechnicianPageEvent($new_tech_id));
-        //     }
-        // }
-        // if (!in_array($old_tech_id, [0, 'hold', 'cancel'])) {
-        //     if ($new_tech_id != $old_tech_id) {
-        //         if (!$old_technician->current_order_for_technician) {
-        //             event(new RefreshTechnicianPageEvent($old_tech_id));
-        //         } else {
-        //             if ($original_current_order_id_for_old_technician != $old_technician->current_order_for_technician->id) {
-        //                 event(new RefreshTechnicianPageEvent($old_tech_id));
-        //             }
-        //         }
-        //     }else{
-        //         if($order->id != $original_current_order_id_for_new_technician){
-        //             event(new RefreshTechnicianPageEvent($new_tech_id));
-        //         }
-        //     }
-        // }
-
-
-
         $this->refresh_data();
     }
 

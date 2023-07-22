@@ -74,7 +74,7 @@
             </form>
         @endif
         <form class="d-inline m-0"
-            wire:submit.prevent="change_technician({{ $order->id }}, 'cancel',{{ $order->technician_id }} , [])">
+            wire:submit.prevent="change_technician({{ $order->id }}, 'cancel',null , [])">
             <button type="submit" class=" btn btn-sm text-danger"
                 onclick="return confirm('{{ __('messages.cancel_order_confirmation') }}')">
                 <svg style="width: 15px;height: 15px">
