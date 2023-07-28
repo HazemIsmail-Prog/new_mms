@@ -46,6 +46,10 @@ Route::group([
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/technician_page', TechnicianPage::class)->name('technician_page'); //livewire
 
+        // Invoices PDF
+        Route::get('/invoice/pdf/{invoice}', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
+        Route::get('/invoice/detailed_pdf/{invoice}', [InvoiceController::class, 'detailed_pdf'])->name('invoice.detailed_pdf');
+
         // Group for All Auth Users Excluding Technicians & Formen
         Route::group(['middleware' => 'no_technicians'], function () {
             Route::get('/', DashboardIndex::class)->name('home'); //livewire
@@ -70,8 +74,7 @@ Route::group([
             Route::get('/orders/{customer_id}/form/{order_id?}', OrderForm::class)->name('orders.form');
             Route::get('/orders/{order}', OrderShow::class)->name('orders.show'); //livewire
             Route::get('/orders', OrdersIndex::class)->name('orders.index'); //livewire
-            Route::get('/invoice/pdf/{invoice}', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
-            Route::get('/invoice/detailed_pdf/{invoice}', [InvoiceController::class, 'detailed_pdf'])->name('invoice.detailed_pdf');
+
             Route::get('/invoices', InvoiceIndex::class)->name('invoices.index'); //livewire
 
             //Dispaching
