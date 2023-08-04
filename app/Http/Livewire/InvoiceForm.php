@@ -79,7 +79,11 @@ class InvoiceForm extends Component
 
         $this->selected_services[$index]['service_total'] = 0;
         if ($field == 'service_id' && !$val == '') {
-            $this->selected_services[$index]['service_type'] = $this->services->where('id', $val)->first()->type;
+            $service= $this->services->where('id', $val)->first();
+            $this->selected_services[$index]['service_type'] = $service->type;
+            $this->selected_services[$index]['name'] = $service->name;
+            $this->selected_services[$index]['min_price'] = $service->min_price;
+            $this->selected_services[$index]['max_price'] = $service->max_price;
         }
 
         if ($field == 'service_id' && !$val) {
@@ -94,6 +98,11 @@ class InvoiceForm extends Component
         foreach ($this->selected_services as $row) {
             $this->grand_total += $row['service_total'];
         }
+    }
+
+    public function unset($index)
+    {
+        unset($this->selected_services[$index]);
     }
 
     public function check_before_submit()
@@ -150,6 +159,7 @@ class InvoiceForm extends Component
                 ]);
             }
             DB::commit();
+            $this->reset('selected_services');
             $this->emit('order_updated');
         } catch (\Exception $e) {
             DB::rollback();
