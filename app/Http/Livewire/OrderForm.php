@@ -77,7 +77,7 @@ class OrderForm extends Component
     {
         if ($key == 'department_id') {
             $this->technician_id = '';
-            if($val){
+            if ($val) {
                 $this->technicians = Department::find($val)->technicians;
             }
         }
@@ -87,8 +87,9 @@ class OrderForm extends Component
                 ->where([
                     'address_id' => $this->address_id,
                     'department_id' => $this->department_id,
-                    'estimated_start_date' => $this->estimated_start_date,
+                    // 'estimated_start_date' => $this->estimated_start_date,
                 ])
+                ->whereNotIn('status_id',[4,6])
                 ->when($this->order, function ($q) {
                     $q->where('id', '!=', $this->order->id);
                 })
@@ -126,7 +127,7 @@ class OrderForm extends Component
                     'index' => 1000,
                 ]);
                 $technician = User::find($this->technician_id);
-                if($technician->current_order_for_technician->id == $this->order->id){
+                if ($technician->current_order_for_technician->id == $this->order->id) {
                     event(new RefreshTechnicianPageEvent($this->technician_id));
                 }
             }
