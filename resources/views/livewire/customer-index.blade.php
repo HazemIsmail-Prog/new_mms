@@ -63,7 +63,10 @@
 
                                 @forelse($customers as $customer)
                                     <tr>
-                                        <td nowrap>{{ $customer->name }}</td>
+                                        <td nowrap>
+                                            <div>{{ $customer->name }}</div>
+                                            <div>{{ @$customer->notes }}</div>
+                                        </td>
                                         <td class="text-center">
                                             @foreach ($customer->phones as $phone)
                                                 <div>{{ $phone->number }}</div>

@@ -193,6 +193,7 @@
                                     <td nowrap>
                                         <div>{{ @$order->customer->name }}</div>
                                         <div>{{ $order->phone->number }}</div>
+                                        <div>{{ @$order->customer->notes }}</div>
                                         <a class="text-decoration-none text-dark" target="_blank"
                                             href="{{ $order->address->maps_search() }}">
                                             <svg style="width: 15px;height: 15px">
