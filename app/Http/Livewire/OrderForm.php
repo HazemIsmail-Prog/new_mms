@@ -21,6 +21,7 @@ class OrderForm extends Component
     public $estimated_start_date;
     public $order_description;
     public $orderNotes;
+    public $orderTag;
     public $dup_orders_count;
     public $order;
     public $order_id;
@@ -50,6 +51,7 @@ class OrderForm extends Component
             $this->estimated_start_date = $this->order->estimated_start_date->format('Y-m-d');
             $this->order_description = $this->order->order_description;
             $this->orderNotes = $this->order->notes;
+            $this->orderTag = $this->order->tag;
         }
     }
 
@@ -112,6 +114,7 @@ class OrderForm extends Component
                 'department_id' => $this->department_id,
                 'estimated_start_date' => $this->estimated_start_date,
                 'notes' => $this->orderNotes,
+                'tag' => $this->orderTag,
                 'technician_id' => null,
                 'status_id' => 1,
                 'order_description' => $this->order_description,
@@ -143,6 +146,7 @@ class OrderForm extends Component
                 'department_id' => $this->department_id,
                 'estimated_start_date' => $this->estimated_start_date,
                 'notes' => $this->orderNotes,
+                'tag' => $this->orderTag,
                 'order_description' => $this->order_description,
             ];
             $this->order->update($data);

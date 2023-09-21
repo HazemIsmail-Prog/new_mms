@@ -277,7 +277,7 @@ return [
     'back_to_invoice' => 'لا , اكمل النواقص',
     'print_detailed_invoice' => 'فاتورة تفصيلية',
     'print_invoice' => 'فاتورة',
-    '' => '',
+    'orderTag' => 'الوسم',
     '' => '',
     '' => '',
     '' => '',

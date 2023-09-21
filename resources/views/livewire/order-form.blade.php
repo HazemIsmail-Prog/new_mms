@@ -64,7 +64,9 @@
                         </div>
                     </div>
                 @endif
-                <div class="form-group col-md-6">
+
+
+                <div class="form-group col-md-5">
                     <label for="department_id">@lang('messages.service_type')</label>
                     <select wire:model.lazy="department_id"
                         class="form-control text-center @error('department_id') is-invalid @enderror"
@@ -85,12 +87,31 @@
                     @enderror
                 </div>
 
+                <div class="form-group col-md-5">
+                    <label for="estimated_start_date">@lang('messages.estimated_start_date')</label>
+                    <input wire:model.lazy="estimated_start_date" autocomplete="off" type="date"
+                        id="estimated_start_date"
+                        class="form-control text-center @error('estimated_start_date') is-invalid @enderror">
+                    @error('estimated_start_date')
+                        <span class="small text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="orderTag">@lang('messages.orderTag')</label>
+                    <input wire:model.lazy="orderTag" autocomplete="off" type="text" id="orderTag"
+                        class="form-control text-center @error('orderTag') is-invalid @enderror">
+                    @error('orderTag')
+                        <span class="small text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 @can('dispatching_menu')
                     @if (!$order)
                         @if (in_array(
                                 $department_id,
                                 auth()->user()->departments->pluck('id')->toArray()))
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-5">
                                 <label for="technician_id">@lang('messages.technician')</label>
                                 <select wire:model.lazy="technician_id"
                                     class="form-control text-center @error('technician_id') is-invalid @enderror"
@@ -108,19 +129,10 @@
                     @endif
                 @endcan
 
+            </div>
 
 
-
-                <div class="form-group col-md-6">
-                    <label for="estimated_start_date">@lang('messages.estimated_start_date')</label>
-                    <input wire:model.lazy="estimated_start_date" autocomplete="off" type="date"
-                        id="estimated_start_date"
-                        class="form-control text-center @error('estimated_start_date') is-invalid @enderror">
-                    @error('estimated_start_date')
-                        <span class="small text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
+            <div class="card-body row">
                 <div class="form-group col-md-6">
                     <label for="order_description">@lang('messages.order_description')</label>
                     <textarea wire:model.lazy="order_description" id="order_description"
@@ -129,7 +141,6 @@
                         <span class="small text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-
                 <div class="form-group col-md-6">
                     <label for="notes">@lang('messages.notes')</label>
                     <textarea wire:model.lazy="orderNotes" id="notes" class="form-control @error('orderNotes') is-invalid @enderror"></textarea>

@@ -146,6 +146,9 @@ class Order extends Model
             ->when($filter['statuses'], function ($q) use ($filter) {
                 $q->whereIn('status_id', $filter['statuses']);
             })
+            ->when($filter['tags'], function ($q) use ($filter) {
+                $q->whereIn('tag', $filter['tags']);
+            })
             ->when($filter['technicians'], function ($q) use ($filter) {
                 $q->whereIn('technician_id', $filter['technicians']);
             })

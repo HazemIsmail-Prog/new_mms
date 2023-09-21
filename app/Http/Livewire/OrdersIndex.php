@@ -26,6 +26,7 @@ class OrdersIndex extends Component
     public $creators = [];
     public $technicians = [];
     public $departments = [];
+    public $tags = [];
     public $statuses = [];
     public $filter = [];
 
@@ -47,6 +48,7 @@ class OrdersIndex extends Component
             'creators' => [],
             'statuses' => $request->status_id ?? [],
             'technicians' => $request->technician_id ?? [],
+            'tags' => [],
             'departments' => [],
         ];
         request()->query->remove('order_number');
@@ -55,6 +57,7 @@ class OrdersIndex extends Component
         request()->query->remove('end_completed_at');
         request()->query->remove('technician_id');
         request()->query->remove('status_id');
+        request()->query->remove('tag');
     }
     public function getData()
     {
@@ -83,6 +86,7 @@ class OrdersIndex extends Component
         $this->technicians = User::whereHas('orders_technician')->get();
         $this->departments = Department::whereHas('orders')->get();
         $this->statuses = Status::orderBy('index')->get();
+        $this->tags = Order::whereNotNull('tag')->groupBy('tag')->pluck('tag');
         
         $this->getData();
         $orders = $this->orders->paginate($this->pagination);

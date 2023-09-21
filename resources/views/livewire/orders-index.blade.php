@@ -118,6 +118,17 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div wire:ignore class="form-group w-100">
+                                        <label for="tags">{{ __('messages.orderTag') }}</label>
+                                        <select data-model="tags" class="form-control select2" multiple
+                                            style="width: 100%" id="tags">
+                                            <option disabled value="">---</option>
+                                            @foreach ($tags as $tag)
+                                                <option value="{{ $tag }}">{{ $tag }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="form-group w-100">
                                         <label for="start_created_at">{{ __('messages.created_at') }}</label>
                                         <input wire:ignore wire:model="filter.start_created_at" type="date"
