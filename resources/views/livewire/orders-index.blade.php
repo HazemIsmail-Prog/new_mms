@@ -38,8 +38,8 @@
                                     </div>
                                     <div class="form-group w-100">
                                         <label for="phone">{{ __('messages.customer_phone') }}</label>
-                                        <input wire:ignore wire:model.debounce.1000ms="filter.customer_phone" type="number"
-                                            id="phone" class="form-control">
+                                        <input wire:ignore wire:model.debounce.1000ms="filter.customer_phone"
+                                            type="number" id="phone" class="form-control">
                                     </div>
                                     <div wire:ignore class="form-group w-100">
                                         <label for="area_id">{{ __('messages.area') }}</label>
@@ -232,7 +232,9 @@
                                             </button>
                                         @endcan
 
-                                        @can('orders_edit')
+                                        @if (
+                                            $order->created_by == auth()->id() ||
+                                                auth()->user()->can('orders_edit'))
                                             <a class="text-info btn btn-sm"
                                                 href="{{ route('orders.form', [$order->customer_id, $order]) }}">
                                                 <svg style="width: 15px;height: 15px">
@@ -241,7 +243,7 @@
                                                     </use>
                                                 </svg>
                                             </a>
-                                        @endcan
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
