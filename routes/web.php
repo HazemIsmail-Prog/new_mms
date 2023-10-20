@@ -15,11 +15,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Livewire\CustomerForm;
 use App\Http\Livewire\CustomerIndex;
 use App\Http\Livewire\Dashboard\DepartmentTechnicianCounter;
+use App\Http\Livewire\Dashboard\MarketingCounter;
 use App\Http\Livewire\Dashboard\OrdersStatusCounter;
 use App\Http\Livewire\Dashboard\TechnicianTiming;
 use App\Http\Livewire\DashboardIndex;
 use App\Http\Livewire\DistPanel;
 use App\Http\Livewire\InvoiceIndex;
+use App\Http\Livewire\MarketingForm;
+use App\Http\Livewire\MarketingIndex;
 use App\Http\Livewire\OrderForm;
 use App\Http\Livewire\OrderShow;
 use App\Http\Livewire\OrdersIndex;
@@ -69,21 +72,25 @@ Route::group([
             Route::resource('/areas', AreaController::class);
 
             //Operations
-            Route::get('/customers/form/{customer_id?}', CustomerForm::class)->name('customers.form');
+            Route::get('/customers/form/{customer_id?}', CustomerForm::class)->name('customers.form'); //livewire
             Route::get('/customers', CustomerIndex::class)->name('customers.index'); //livewire
-            Route::get('/orders/{customer_id}/form/{order_id?}', OrderForm::class)->name('orders.form');
+            Route::get('/orders/{customer_id}/form/{order_id?}', OrderForm::class)->name('orders.form'); //livewire
             Route::get('/orders/{order}', OrderShow::class)->name('orders.show'); //livewire
             Route::get('/orders', OrdersIndex::class)->name('orders.index'); //livewire
+            
+            Route::get('/marketing/form/{marketing?}', MarketingForm::class)->name('marketing.form'); //livewire
+            Route::get('/marketing', MarketingIndex::class)->name('marketing.index'); //livewire
 
             Route::get('/invoices', InvoiceIndex::class)->name('invoices.index'); //livewire
 
             //Dispaching
-            Route::get('/dis_panel/{id}', DistPanel::class)->name('dist_panel.index');
+            Route::get('/dis_panel/{id}', DistPanel::class)->name('dist_panel.index'); //livewire
 
             //Reports
             Route::get('/reports/monthly_orders_statistics', OrdersStatusCounter::class)->name('reports.monthly_orders_statistics'); //livewire
             Route::get('/reports/department_technician_statistics', DepartmentTechnicianCounter::class)->name('reports.department_technician_statistics'); //livewire
             Route::get('/reports/technician_timing', TechnicianTiming::class)->name('reports.technician_timing'); //livewire
+            Route::get('/reports/marketing_counter', MarketingCounter::class)->name('reports.marketing_counter'); //livewire
         });
 
         // Super Admin Routes

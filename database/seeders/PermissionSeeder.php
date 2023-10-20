@@ -361,6 +361,37 @@ class PermissionSeeder extends Seeder
                 'desc_en' => 'Shifts Delete',
             ],
 
+            //marketing
+
+            [
+                'name' => 'marketing_menu',
+                'section_name_ar' => 'التسويق',
+                'section_name_en' => 'marketing',
+                'desc_ar' => 'عرض قائمة التسويق',
+                'desc_en' => 'Marketing Menu',
+            ],
+            [
+                'name' => 'marketing_create',
+                'section_name_ar' => 'التسويق',
+                'section_name_en' => 'marketing',
+                'desc_ar' => 'انشاء التسويق',
+                'desc_en' => 'Marketing Create',
+            ],
+            [
+                'name' => 'marketing_edit',
+                'section_name_ar' => 'التسويق',
+                'section_name_en' => 'marketing',
+                'desc_ar' => 'تعديل التسويق',
+                'desc_en' => 'Marketing Edit',
+            ],
+            [
+                'name' => 'marketing_delete',
+                'section_name_ar' => 'التسويق',
+                'section_name_en' => 'marketing',
+                'desc_ar' => 'حذف التسويق',
+                'desc_en' => 'Marketing Delete',
+            ],
+
         ];
 
         foreach ($permissions as $permission) {

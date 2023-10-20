@@ -109,6 +109,13 @@
                         'display_name'      => __('messages.orders'),
                     ],
                     [
+                        'permission_name'   => 'marketing_menu',
+                        'type'              => 'nav_menu_item',
+                        'route'             => route('marketing.index'),
+                        'icon'              => asset('vendors/@coreui/icons/svg/free.svg#cil-library'),
+                        'display_name'      => __('messages.marketing'),
+                    ],
+                    [
                         'permission_name'   => 'invoices_menu',
                         'type'              => 'nav_menu_item',
                         'route'             => route('invoices.index'),
@@ -156,6 +163,13 @@
                                 'route'             => route('reports.technician_timing'),
                                 'icon'              => '',
                                 'display_name'      => __('messages.technician_timing'),
+                            ],
+                            [
+                                'permission_name'   => 'reports_menu',
+                                'type'              => 'nav_menu_item',
+                                'route'             => route('reports.marketing_counter'),
+                                'icon'              => '',
+                                'display_name'      => __('messages.marketing_counter'),
                             ],
                         ],
                     ],

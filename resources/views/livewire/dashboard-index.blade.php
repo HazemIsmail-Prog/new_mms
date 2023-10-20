@@ -14,6 +14,7 @@
                     <div class="row">
                         <div class="col-md-9">
                             @livewire('dashboard.orders-status-counter')
+                            @livewire('dashboard.marketing-counter')
                         </div>
                         <div class="col-md-3">
                             @livewire('dashboard.department-technician-counter')
