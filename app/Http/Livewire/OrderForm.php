@@ -80,7 +80,7 @@ class OrderForm extends Component
         if ($key == 'department_id') {
             $this->technician_id = '';
             if ($val) {
-                $this->technicians = Department::find($val)->technicians;
+                $this->technicians = Department::find($val)->technicians->where('active',true);
             }
         }
 
