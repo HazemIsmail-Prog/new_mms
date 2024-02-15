@@ -153,27 +153,35 @@
         @endif
 
         {{-- Totals --}}
+        @if ($invoice->discount > 0)
+            <tr>
+                <th style="border: none; background:transparent" class="text-end" colspan="4">
+                    {{ __('messages.discount') }}</th>
+                <td class="text-right">{{ number_format($invoice->discount, 3) }}
+                </td>
+            </tr>
+        @endif
         <tr>
             <th style="border: none; background:transparent" class="text-end" colspan="4">
                 {{ __('messages.total') }}</th>
             <th class="text-right">{{ number_format($invoice->amount, 3) }}
             </th>
         </tr>
-        @if ($invoice->cash_amount>0)
-        <tr>
-            <th style="border: none; background:transparent" class="text-end" colspan="4">
-                {{ __('messages.cash') }}</th>
-            <td class="text-right">
-                {{ number_format($invoice->cash_amount, 3) }}</td>
-        </tr>
+        @if ($invoice->cash_amount > 0)
+            <tr>
+                <th style="border: none; background:transparent" class="text-end" colspan="4">
+                    {{ __('messages.cash') }}</th>
+                <td class="text-right">
+                    {{ number_format($invoice->cash_amount, 3) }}</td>
+            </tr>
         @endif
-        @if ($invoice->knet_amount>0)
-        <tr>
-            <th style="border: none; background:transparent" class="text-end" colspan="4">
-                {{ __('messages.knet') }}</th>
-            <td class="text-right">
-                {{ number_format($invoice->knet_amount, 3) }}</td>
-        </tr>
+        @if ($invoice->knet_amount > 0)
+            <tr>
+                <th style="border: none; background:transparent" class="text-end" colspan="4">
+                    {{ __('messages.knet') }}</th>
+                <td class="text-right">
+                    {{ number_format($invoice->knet_amount, 3) }}</td>
+            </tr>
         @endif
         <tr>
             <th style="border: none; background:transparent" class="text-end" colspan="4">

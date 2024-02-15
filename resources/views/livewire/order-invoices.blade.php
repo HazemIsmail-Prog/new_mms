@@ -72,6 +72,17 @@
                                         @endforeach
                                     @endif
                                     <tr class=" border-top">
+                                    </tr>
+                                    @if ($invoice->discount > 0)
+                                        <tr>
+                                            <th>{{ __('messages.discount') }}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th style="text-align: right;">{{ number_format($invoice->discount, 3) }}
+                                            </th>
+                                        </tr>
+                                    @endif
+                                    <tr>
                                         <th>{{ __('messages.total') }}</th>
                                         <th></th>
                                         <th></th>

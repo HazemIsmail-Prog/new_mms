@@ -39,7 +39,7 @@ class Invoice extends Model
     {
         return $this->invoice_details->sum(function ($detail) {
             return $detail->quantity * $detail->price;
-        });
+        }) - $this->discount;
     }
 
     public function getPaymentStatusAttribute()

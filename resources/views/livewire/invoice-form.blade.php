@@ -103,7 +103,8 @@
                             </td>
                             <td>{{ $service['service_total'] }}</td>
                             <td>
-                                <svg class=" text-danger" wire:click="unset({{ $index }})" style="width: 15px;height: 15px">
+                                <svg class=" text-danger" wire:click="unset({{ $index }})"
+                                    style="width: 15px;height: 15px">
                                     <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-trash') }}">
                                     </use>
                                 </svg>
@@ -112,9 +113,22 @@
                     @endforeach
                 </tbody>
                 <tfoot>
+                    @if (!in_array(auth()->user()->title_id, [10, 11]))
+                        <tr>
+                            <th colspan="1">{{ __('messages.discount') }}</th>
+                            <th colspan="4">
+                                <input wire:model="discount" type="number" min="0"
+                                    max="{{ number_format(collect($selected_services)->sum('service_total'), 3) }}"
+                                    step="0.001" placeholder="{{ __('messages.discount') }}"
+                                    class=" form-control form-control-sm @error('discount') is-invalid @enderror">
+                            </th>
+                        </tr>
+                    @endif
                     <tr>
-                        <th colspan="3">{{ __('messages.total') }}</th>
-                        <th colspan="2">{{ number_format(collect($selected_services)->sum('service_total'), 3) }}</th>
+                        <th colspan="1">{{ __('messages.total') }}</th>
+                        <th colspan="4">
+                            {{ number_format(collect($selected_services)->sum('service_total') - ($discount != '' ? $discount : 0), 3) }}
+                        </th>
                     </tr>
                 </tfoot>
             </table>

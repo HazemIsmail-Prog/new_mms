@@ -19,6 +19,7 @@ class InvoiceForm extends Component
     public $showWarning = false;
     public $services_count = 0;
     public $parts_count = 0;
+    public $discount = 0;
 
     public function mount()
     {
@@ -150,6 +151,7 @@ class InvoiceForm extends Component
                 'order_id' => $this->order_id,
                 'user_id' => auth()->id(),
                 'payment_status' => $this->grand_total > 0 ? 'pending' : 'free',
+                'discount' => $this->discount,
             ]);
             foreach ($this->selected_services as $row) {
                 $invoice->invoice_details()->create([

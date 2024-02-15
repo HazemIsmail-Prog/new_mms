@@ -33,6 +33,7 @@
                                     <th class=" text-center">{{ __('messages.technician') }}</th>
                                     <th class=" text-center">{{ __('messages.customer_name') }}</th>
                                     <th class=" text-center">{{ __('messages.customer_phone') }}</th>
+                                    <th>{{ __('messages.discount') }}</th>
                                     <th>{{ __('messages.amount') }}</th>
                                     <th>{{ __('messages.services') }}</th>
                                     <th>{{ __('messages.parts') }}</th>
@@ -85,6 +86,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <td>
                                         <select wire:model="search.payment_status"
                                             class=" form-control form-control-sm">
@@ -130,6 +132,7 @@
                                         </td>
                                         <td class=" text-center">{{ $invoice->order->customer->name }}</td>
                                         <td class=" text-center">{{ $invoice->order->phone->number }}</td>
+                                        <td>{{ $invoice->discount == 0 ? '' : number_format($invoice->discount, 3) }}</td>
                                         <td>{{ $invoice->amount == 0 ? '' : number_format($invoice->amount, 3) }}</td>
                                         <td>{{ $invoice->services_amount == 0 ? '' : number_format($invoice->services_amount, 3) }}
                                         </td>
@@ -147,7 +150,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class=" text-center" colspan="15">{{ __('messages.no_records_found') }}
+                                        <td class=" text-center" colspan="16">{{ __('messages.no_records_found') }}
                                         </td>
                                     </tr>
                                 @endforelse
@@ -157,6 +160,7 @@
                                     <th class=" text-center">{{ $invoices->count() }}</th>
                                     <th class=" text-center">{{ $invoices->groupBy('order_id')->count() }}</th>
                                     <th colspan="5" class=" text-center">{{ __('messages.total') }}</th>
+                                    <th>{{ number_format($invoices->sum('discount'), 3) }}</th>
                                     <th>{{ number_format($invoices->sum('amount'), 3) }}</th>
                                     <th>{{ number_format($invoices->sum('services_amount'), 3) }}</th>
                                     <th>{{ number_format($invoices->sum('parts_amount'), 3) }}</th>

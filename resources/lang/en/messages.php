@@ -284,7 +284,7 @@ return [
     'add_marketing' => 'Add Marketing',
     'information' => 'Information',
     'service_not_available' => 'Service Not Available',
-    '' => '',
+    'discount' => 'Discount',
     '' => '',
     '' => '',
     '' => '',

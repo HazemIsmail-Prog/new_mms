@@ -284,7 +284,7 @@ return [
     'add_marketing' => 'اضافة تسويق',
     'information' => 'استفسار',
     'service_not_available' => 'خدمة غير متوفرة',
-    '' => '',
+    'discount' => 'الخصم',
     '' => '',
     '' => '',
     '' => '',

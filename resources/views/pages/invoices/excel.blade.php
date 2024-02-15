@@ -52,6 +52,7 @@
             <th>{{ __('messages.technician') }}</th>
             <th>{{ __('messages.customer_name') }}</th>
             <th>{{ __('messages.customer_phone') }}</th>
+            <th>{{ __('messages.discount') }}</th>
             <th>{{ __('messages.amount') }}</th>
             <th>{{ __('messages.services') }}</th>
             <th>{{ __('messages.parts') }}</th>
@@ -72,6 +73,7 @@
                 <td>{{ $invoice->order->technician->name }}</td>
                 <td>{{ $invoice->order->customer->name }}</td>
                 <td>{{ $invoice->order->phone->number }}</td>
+                <td>{{ $invoice->discount == 0 ? '' : $invoice->discount }}</td>
                 <td>{{ $invoice->amount == 0 ? '' : $invoice->amount }}</td>
                 <td>{{ $invoice->services_amount == 0 ? '' : $invoice->services_amount }}</td>
                 <td>{{ $invoice->parts_amount == 0 ? '' : $invoice->parts_amount }}</td>
