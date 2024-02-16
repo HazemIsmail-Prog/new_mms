@@ -42,6 +42,7 @@ class InvoiceForm extends Component
     public function refresh()
     {
         $this->services = Service::query()
+            ->where('active', 1)
             ->where('department_id', $this->order->department_id)
             ->where(function ($q) {
                 $q->when($this->search, function ($q) {
@@ -80,7 +81,7 @@ class InvoiceForm extends Component
 
         $this->selected_services[$index]['service_total'] = 0;
         if ($field == 'service_id' && !$val == '') {
-            $service= $this->services->where('id', $val)->first();
+            $service = $this->services->where('id', $val)->first();
             $this->selected_services[$index]['service_type'] = $service->type;
             $this->selected_services[$index]['name'] = $service->name;
             $this->selected_services[$index]['min_price'] = $service->min_price;
