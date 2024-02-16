@@ -118,7 +118,7 @@
                             <th colspan="1">{{ __('messages.discount') }}</th>
                             <th colspan="4">
                                 <input wire:model="discount" type="number" min="0"
-                                    max="{{ number_format(collect($selected_services)->sum('service_total'), 3) }}"
+                                    max="{{ collect($selected_services)->where('service_type','service')->sum('service_total') }}"
                                     step="0.001" placeholder="{{ __('messages.discount') }}"
                                     class=" form-control form-control-sm @error('discount') is-invalid @enderror">
                             </th>
