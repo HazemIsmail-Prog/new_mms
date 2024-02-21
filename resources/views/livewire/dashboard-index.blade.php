@@ -12,6 +12,9 @@
                         </div>
                     @endif
                     <div class="row">
+                        <div class="col-md-12">
+                            @livewire('dashboard.orders-chart')
+                        </div>
                         <div class="col-md-9">
                             @livewire('dashboard.orders-status-counter')
                             @livewire('dashboard.marketing-counter')

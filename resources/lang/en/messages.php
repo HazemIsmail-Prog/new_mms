@@ -285,6 +285,8 @@ return [
     'information' => 'Information',
     'service_not_available' => 'Service Not Available',
     'discount' => 'Discount',
+    'orders_per_month' => 'Order No. per Month',
+
     '' => '',
     '' => '',
     '' => '',

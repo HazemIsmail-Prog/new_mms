@@ -285,7 +285,7 @@ return [
     'information' => 'استفسار',
     'service_not_available' => 'خدمة غير متوفرة',
     'discount' => 'الخصم',
-    '' => '',
+    'orders_per_month' => 'عدد الطلبات لكل شهر',
     '' => '',
     '' => '',
     '' => '',
