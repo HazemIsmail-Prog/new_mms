@@ -1,5 +1,5 @@
 <div>
-    <canvas id="orderChart" width="400" height="100"></canvas>
+    <canvas id="orderChart"></canvas>
 </div>
 
 {{-- @push('scripts') --}}
