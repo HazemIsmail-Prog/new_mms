@@ -116,7 +116,7 @@
                     <tr>
                         <th colspan="1">{{ __('messages.total') }}</th>
                         <th colspan="4">
-                            {{ number_format(collect($selected_services)->sum('service_total') - ($discount != '' ? $discount : 0), 3) }}
+                            {{ number_format(collect($selected_services)->sum('service_total'), 3) }}
                         </th>
                     </tr>
                 </tfoot>
