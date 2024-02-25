@@ -11,11 +11,11 @@ class InvoiceDetails extends Model
 
     protected $guarded = [];
 
-    // this function to prevent eager loading for get attributes
-    public function newQuery($excludeDeleted = true)
-    {
-        return parent::newQuery($excludeDeleted)->with('service');
-    }
+    // // this function to prevent eager loading for get attributes
+    // public function newQuery($excludeDeleted = true)
+    // {
+    //     return parent::newQuery($excludeDeleted)->with('service');
+    // }
 
     public function service()
     {
