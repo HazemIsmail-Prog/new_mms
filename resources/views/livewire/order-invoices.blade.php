@@ -105,6 +105,10 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            @if ($invoice->payments->count() == 0 && !in_array(auth()->user()->title_id, [10, 11]))
+                                <hr>
+                                @livewire('invoice-discount', ['invoice_id' => $invoice->id], key('invoice-discount-' . $invoice->id))
+                            @endif
                             <hr>
                             @livewire('invoice-payments', ['invoice_id' => $invoice->id], key('invoice-payments-' . $invoice->id))
                         </div>

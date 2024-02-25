@@ -113,17 +113,6 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    @if (!in_array(auth()->user()->title_id, [10, 11]))
-                        <tr>
-                            <th colspan="1">{{ __('messages.discount') }}</th>
-                            <th colspan="4">
-                                <input wire:model="discount" type="number" min="0"
-                                    max="{{ collect($selected_services)->where('service_type','service')->sum('service_total') }}"
-                                    step="0.001" placeholder="{{ __('messages.discount') }}"
-                                    class=" form-control form-control-sm @error('discount') is-invalid @enderror">
-                            </th>
-                        </tr>
-                    @endif
                     <tr>
                         <th colspan="1">{{ __('messages.total') }}</th>
                         <th colspan="4">

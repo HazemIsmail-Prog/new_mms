@@ -11,6 +11,7 @@ class OrderInvoices extends Component
     public $invoices = [];
     public $order_id;
     public $order;
+    public $discount;
     public $show_invoice_form;
     public $show_payment_form;
 
