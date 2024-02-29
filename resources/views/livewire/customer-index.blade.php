@@ -109,7 +109,7 @@
                                             @endforeach
                                         </td>
                                         <td class=" text-center">
-                                            {{ $customer->created_at->format('d-m-Y') }}
+                                            {{ $customer->created_at ? $customer->created_at->format('d-m-Y') : '-' }}
                                         </td>
                                         <td class="text-center">
                                             @if ($customer->orders_count > 0)
