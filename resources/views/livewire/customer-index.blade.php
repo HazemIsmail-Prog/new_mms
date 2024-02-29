@@ -27,6 +27,7 @@
                                     <th>@lang('messages.name')</th>
                                     <th class="text-center">{{ __('messages.tel') }}</th>
                                     <th class="text-center">{{ __('messages.address') }}</th>
+                                    <th class="text-center">{{ __('messages.created_at') }}</th>
                                     <th class="text-center">{{ __('messages.orders') }}</th>
                                     <th class="text-center">{{ __('messages.remaining_amount') }}</th>
                                     <th class="text-center">{{ __('messages.actions') }}</th>
@@ -34,27 +35,47 @@
                             </thead>
                             <tbody>
                                 <tr class="bg-light">
-                                    <td><input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
+                                    <td>
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
                                             wire:model="search.name" class="form-control"
-                                            value="{{ request('name') }}"></td>
-                                    <td><input wire:ignore autocomplete="off" list="autocompleteOff" type="number"
+                                            value="{{ request('name') }}">
+                                    </td>
+                                    <td>
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="number"
                                             wire:model.debounce.1000ms="search.phone" class="form-control"
-                                            value="{{ request('phone') }}"></td>
-                                    <td class="custom-control-inline">
-                                        <select class="form-control" wire:model="search.area_id" id="area_id">
-                                            <option selected value="">{{ __('messages.all_areas') }}
-                                            </option>
-                                            @foreach ($areas->sortBy->name as $area)
-                                                <option {{ request('area_id') == $area->id ? 'selected' : '' }}
-                                                    value="{{ $area->id }}">{{ $area->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.block" class="form-control mx-1"
-                                            value="{{ request('block') }}" placeholder="{{ __('messages.block') }}">
-                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
-                                            wire:model="search.street" class="form-control"
-                                            value="{{ request('street') }}" placeholder="{{ __('messages.street') }}">
+                                            value="{{ request('phone') }}">
+                                    </td>
+                                    <td>
+                                        <div class="custom-control-inline">
+
+                                            <select class="form-control" wire:model="search.area_id" id="area_id">
+                                                <option selected value="">{{ __('messages.all_areas') }}
+                                                </option>
+                                                @foreach ($areas->sortBy->name as $area)
+                                                    <option {{ request('area_id') == $area->id ? 'selected' : '' }}
+                                                        value="{{ $area->id }}">{{ $area->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
+                                                wire:model="search.block" class="form-control mx-1"
+                                                value="{{ request('block') }}"
+                                                placeholder="{{ __('messages.block') }}">
+                                            <input wire:ignore autocomplete="off" list="autocompleteOff" type="text"
+                                                wire:model="search.street" class="form-control"
+                                                value="{{ request('street') }}"
+                                                placeholder="{{ __('messages.street') }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="date"
+                                            wire:model="search.start_date" class="form-control mx-1"
+                                            value="{{ request('start_date') }}"
+                                            placeholder="{{ __('messages.start_date') }}">
+
+                                        <input wire:ignore autocomplete="off" list="autocompleteOff" type="date"
+                                            wire:model="search.end_date" class="form-control mx-1"
+                                            value="{{ request('end_date') }}"
+                                            placeholder="{{ __('messages.end_date') }}">
                                     </td>
                                     <td></td>
                                     <td></td>
@@ -86,6 +107,9 @@
                                                     <span>{{ $address->full_address() }}</span>
                                                 </div>
                                             @endforeach
+                                        </td>
+                                        <td class=" text-center">
+                                            {{ $customer->created_at->format('d-m-Y') }}
                                         </td>
                                         <td class="text-center">
                                             @if ($customer->orders_count > 0)

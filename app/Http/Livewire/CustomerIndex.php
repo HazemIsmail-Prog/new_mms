@@ -21,6 +21,8 @@ class CustomerIndex extends Component
         'area_id' => '',
         'block' => '',
         'street' => '',
+        'start_date' => null,
+        'end_date' => null,
     ];
 
     public $areas;
@@ -56,9 +58,16 @@ class CustomerIndex extends Component
             ->when($this->search['street'], function ($q) {
                 $q->whereRelation('addresses', 'street', '=', $this->search['street']);
             })
+            ->when($this->search['start_date'], function ($q) {
+                $q->whereDate('created_at', '>=', $this->search['start_date']);
+            })
+            ->when($this->search['end_date'], function ($q) {
+                $q->whereDate('created_at', '<=', $this->search['end_date']);
+            })
+
             //#####################################################################
 
-            ->with(['phones', 'addresses', 'invoices.invoice_details' , 'invoices.payments'])
+            ->with(['phones', 'addresses', 'invoices.invoice_details', 'invoices.payments'])
             ->withCount('orders')
             ->orderByDesc('id')
             ->paginate($this->pagination);
